@@ -15,5 +15,5 @@ export function uint(x: number): number {
  * Converts number to 8-bit unsigned integer.
  */
 export function byte(x: number): number {
-  return min(round(abs(x)), 0xFF);
+  return min(floor(abs(x)), 0xFF);
 }

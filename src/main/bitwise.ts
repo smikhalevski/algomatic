@@ -1,20 +1,20 @@
 import {pow, trunc} from './math';
 
-const HI = 0x80000000;
-const LO = 0x7fffffff;
+const HI = 0x80_00_00_00;
+const LO = 0x7F_FF_FF_FF;
 
 /**
- * Bitwise signed left shift operator.
+ * Bitwise left shift operator.
  */
 export function left(x: number, shift: number): number {
-  return trunc(x) * pow(2, shift);
+  return trunc(x || 0) * pow(2, shift || 0);
 }
 
 /**
- * Bitwise signed right shift operator.
+ * Bitwise right shift operator.
  */
 export function right(x: number, shift: number): number {
-  return trunc(x / pow(2, shift));
+  return trunc((x || 0) / pow(2, shift || 0));
 }
 
 /**
