@@ -34,6 +34,7 @@ export function clamp(x: number, a: number, b: number): number {
     b = a;
     a = c;
   }
+  x = +x;
   return x < a ? a : x > b ? b : x;
 }
 
@@ -43,6 +44,7 @@ export function clamp(x: number, a: number, b: number): number {
  * @see {@link clamp}
  */
 export function clamp01(x: number): number {
+  x = +x;
   return x < 0 ? 0 : x > 1 ? 1 : x;
 }
 
@@ -52,7 +54,7 @@ export function clamp01(x: number): number {
  * Ranges can be inverse.
  */
 export function flip(x: number, a1: number, b1: number, a2: number, b2: number): number {
-  return a2 + (b2 - a2) * (x - a1) / (b1 - a1);
+  return +a2 + (b2 - a2) * (x - a1) / (b1 - a1);
 }
 
 /**
@@ -73,6 +75,7 @@ export function cycle(x: number, a: number, b: number): number {
     b = a;
     a = c;
   }
+  x = +x;
   const d = b - a;
   return x > a ? x - ceil((x - b) / d) * d : x + ceil((a - x) / d) * d;
 }
@@ -103,7 +106,7 @@ export function deg(x: number): number {
  * @param b the offset the line on Y axis.
  */
 export function lerp(x: number, a: number, b: number): number {
-  return a + x * (b - a);
+  return +a + x * (b - a);
 }
 
 /**
@@ -140,6 +143,8 @@ export function snap(x: number, n: number): number {
  * @see {@link isEpsClose}
  */
 export function closest(x: number, arr: number[]): number {
+  x = +x;
+
   let r = x;
   let p = 1 / 0;
 

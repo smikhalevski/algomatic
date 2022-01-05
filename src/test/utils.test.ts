@@ -60,6 +60,11 @@ describe('clamp', () => {
   test('returns value', () => {
     expect(clamp(3, 2, 4)).toBe(3);
   });
+
+  test('handles non-numeric values', () => {
+    expect(clamp('a' as any, 2, 4)).toBeNaN();
+    expect(clamp('5' as any, 2, 4)).toBe(4);
+  });
 });
 
 describe('cycle', () => {
@@ -93,6 +98,15 @@ describe('flip', () => {
 
   test('flips value outside of initial range', () => {
     expect(flip(4, 1, 2, -100, 100)).toBe(500);
+  });
+
+  test('handles non-numeric values', () => {
+    expect(flip('a' as any, 1, 3, 0, 100)).toBeNaN();
+    expect(flip(1, 'a' as any, 3, 0, 100)).toBeNaN();
+    expect(flip(2, 1, 'a' as any, 0, 100)).toBeNaN();
+    expect(flip(2, 1, 3, 'a' as any, 100)).toBeNaN();
+    expect(flip(2, 1, 3, 0, 'a' as any)).toBeNaN();
+    expect(flip('2' as any, 1, 3, 0, 100)).toBe(50);
   });
 });
 
