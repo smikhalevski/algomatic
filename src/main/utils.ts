@@ -58,7 +58,7 @@ export function flip(x: number, a1: number, b1: number, a2: number, b2: number):
 }
 
 /**
- * Brings `x` to the rangeMap [`a`, `b`] by adding or subtracting the rangeMap size |`a` - `b`|.
+ * Brings `x` to the range [`a`, `b`] by adding or subtracting the range size |`a` - `b`|.
  *
  * Range can be inverse.
  *
