@@ -1,4 +1,102 @@
-import {clamp, closest, cycle, deg, flip, logx, rad, snap} from '../main';
+import {
+  and,
+  byte,
+  clamp,
+  clamp1,
+  closest,
+  cycle,
+  deg,
+  flip,
+  isNumeric,
+  left,
+  logx,
+  or,
+  rad,
+  right,
+  snap,
+  uint,
+  xor,
+} from '../main';
+
+describe('left', () => {
+
+  test('shifts left', () => {
+    expect(left(0xAB_CD_EF_AB_CD, 24)).toBe(0xAB_CD_EF_AB_CD_00_00_00);
+  });
+
+  test('handles NaN as native operator', () => {
+    expect(left(NaN, 8)).toBe(0);
+    expect(left(0xAB_CD, NaN)).toBe(0xAB_CD);
+  });
+});
+
+describe('right', () => {
+
+  test('shifts right', () => {
+    expect(right(0xAB_CD_EF_AB_CD_EF_AB, 24)).toBe(0xAB_CD_EF_AB);
+  });
+
+  test('handles NaN as native operator', () => {
+    expect(right(NaN, 8)).toBe(0);
+    expect(right(0xAB_CD, NaN)).toBe(0xAB_CD);
+  });
+});
+
+describe('xor', () => {
+
+  test('applies XOR operator', () => {
+    expect(xor(0x10_00_00_00_00, 0x10_10_10_10_10)).toBe(0x10_10_10_10);
+  });
+
+  test('handles NaN as native operator', () => {
+    expect(xor(NaN, 0xAB_CD)).toBe(0xAB_CD);
+    expect(xor(0xAB_CD, NaN)).toBe(0xAB_CD);
+  });
+});
+
+describe('or', () => {
+
+  test('applies OR operator', () => {
+    expect(or(0xAB_CD_EF_AB_CD, 0x11_22_33_44_55)).toBe(0xBB_EF_FF_EF_DD);
+  });
+
+  test('handles NaN as native operator', () => {
+    expect(or(NaN, 0xAB_CD)).toBe(0xAB_CD);
+    expect(or(0xAB_CD, NaN)).toBe(0xAB_CD);
+  });
+});
+
+describe('and', () => {
+
+  test('applies AND operator', () => {
+    expect(and(0xAB_CD_EF_AB_CD, 0x11_22_33_44_55)).toBe(0x1_00_23_00_45);
+  });
+
+  test('handles NaN as native operator', () => {
+    expect(and(NaN, 0xAB_CD)).toBe(0);
+    expect(and(0xAB_CD, NaN)).toBe(0);
+  });
+});
+
+describe('uint', () => {
+
+  test('returns unsigned int', () => {
+    expect(uint(-123123123.123)).toBe(123123123);
+    expect(uint(123123123.123)).toBe(123123123);
+    expect(uint(NaN)).toBe(0);
+  });
+});
+
+describe('byte', () => {
+
+  test('returns unsigned byte', () => {
+    expect(byte(-105.666)).toBe(105);
+    expect(byte(105.666)).toBe(105);
+    expect(byte(-123123123.123)).toBe(0xFF);
+    expect(byte(123123123.123)).toBe(0xFF);
+    expect(byte(NaN)).toBe(0);
+  });
+});
 
 describe('logx', () => {
 
@@ -67,6 +165,26 @@ describe('clamp', () => {
   });
 });
 
+describe('clamp1', () => {
+
+  test('returns minimum', () => {
+    expect(clamp1(-2)).toBe(0);
+  });
+
+  test('returns maximum', () => {
+    expect(clamp1(2)).toBe(1);
+  });
+
+  test('returns value', () => {
+    expect(clamp1(.2)).toBe(.2);
+  });
+
+  test('handles non-numeric values', () => {
+    expect(clamp1('a' as any)).toBeNaN();
+    expect(clamp1('5' as any)).toBe(1);
+  });
+});
+
 describe('cycle', () => {
 
   test('returns boundary values', () => {
@@ -128,5 +246,15 @@ describe('snap', () => {
     expect(snap(-11, 3)).toBe(-12);
     expect(snap(10, 3)).toBe(9);
     expect(snap(11, 3)).toBe(12);
+  });
+});
+
+describe('isNumeric', () => {
+
+  test('returns true for number-like values', () => {
+    expect(isNumeric(1)).toBe(true);
+    expect(isNumeric('1')).toBe(true);
+    expect(isNumeric('1a')).toBe(false);
+    expect(isNumeric(null)).toBe(false);
   });
 });
