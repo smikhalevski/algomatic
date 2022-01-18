@@ -43,7 +43,7 @@ export function clamp(x: number, a: number, b: number): number {
  *
  * @see {@link clamp}
  */
-export function clamp01(x: number): number {
+export function clamp1(x: number): number {
   x = +x;
   return x < 0 ? 0 : x > 1 ? 1 : x;
 }
