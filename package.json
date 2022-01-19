@@ -1,6 +1,6 @@
 {
   "name": "numeric-wrench",
-  "version": "2.0.0-next.0",
+  "version": "2.0.0",
   "description": "Number manipulation and math functions.",
   "main": "./lib/index-cjs.js",
   "module": "./lib/index.js",
