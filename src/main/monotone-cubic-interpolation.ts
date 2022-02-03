@@ -1,4 +1,5 @@
 import {MutableArrayLike} from './shared-types';
+import {binarySearch} from './math';
 
 export function createMonotoneCubicInterpolant(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
   if (n === 0) {
@@ -27,28 +28,13 @@ export function interpolateMonotoneCubic(xs: ArrayLike<number>, ys: ArrayLike<nu
     return ys[n - 1];
   }
 
-  // Search for the interval x is in, returning the corresponding y if x is one of the original xs
-  let a = 0;
-  let b = n;
-  let i;
+  const t = binarySearch(x, xs, n);
 
-  while (a <= b) {
-    i = a + b >> 1;
-
-    const xi = xs[i];
-
-    if (xi < x) {
-      a = i + 1;
-    } else if (xi > x) {
-      b = i - 1;
-    } else {
-      return ys[i];
-    }
+  if (t >= 0) {
+    return ys[t];
   }
 
-  i = b < 0 ? 0 : b;
-
-  // Interpolate
+  const i = ~t - 1;
   const s = i * L;
   const dx = x - xs[i];
   const dx2 = dx * dx;

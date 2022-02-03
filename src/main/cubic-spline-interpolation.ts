@@ -1,4 +1,5 @@
 import {MutableArrayLike} from './shared-types';
+import {binarySearch} from './math';
 
 /**
  * Returns a cubic spline interpolation function for given pivot points.
@@ -55,31 +56,24 @@ export function interpolateCubicSpline(xs: ArrayLike<number>, ys: ArrayLike<numb
   const C = 2;
   const L = 3; // Spline tuple length
 
-  let p: number;
+  let i;
 
   if (x <= xs[0]) {
-    p = 0;
+    i = 0;
   } else if (x >= xs[n - 1]) {
-    p = n - 1;
+    i = n - 1;
   } else {
-    let i = 0;
-    let j = n - 1;
+    const t = binarySearch(x, xs, n);
 
-    while (i + 1 < j) {
-      const k = i + (j - i) / 2;
-
-      if (x <= xs[k]) {
-        j = k;
-      } else {
-        i = k;
-      }
+    if (t >= 0) {
+      return ys[t];
     }
-    p = j;
+    i = ~t;
   }
 
-  const s = p * L;
-  const dx = x - xs[p];
-  return ys[p] + (splines[s + B] + (splines[s + C] / 2 + splines[s + D] * dx / 6) * dx) * dx;
+  const s = i * L;
+  const dx = x - xs[i];
+  return ys[i] + (splines[s + B] + (splines[s + C] / 2 + splines[s + D] * dx / 6) * dx) * dx;
 }
 
 /**

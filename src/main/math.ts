@@ -258,6 +258,25 @@ export function closest(x: number, xs: ArrayLike<number>): number {
   return t;
 }
 
+export function binarySearch(x: number, xs: ArrayLike<number>, n = xs.length): number {
+  let m = 0;
+  --n;
+
+  while (m <= n) {
+    const i = n + m >> 1;
+    const xi = xs[i];
+
+    if (xi < x) {
+      m = i + 1;
+    } else if (xi > x) {
+      n = i - 1;
+    } else {
+      return i;
+    }
+  }
+  return -m - 1;
+}
+
 /**
  * Returns `true` if `x` is in the `eps` neighbourhood of `a`.
  *
