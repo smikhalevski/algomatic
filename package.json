@@ -29,7 +29,11 @@
     "uint",
     "byte",
     "number",
-    "math"
+    "math",
+    "spline",
+    "interpolation",
+    "cspline",
+    "binary-search"
   ],
   "author": "Savva Mikhalevski <smikhalevski@gmail.com>",
   "license": "MIT",
