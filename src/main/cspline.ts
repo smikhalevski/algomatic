@@ -36,12 +36,12 @@ export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.len
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const y = interpolateCSpline(xs, ys, x, createCSplines(xs, ys));
+ * const y = interpolateCSpline(xs, ys, x, xs.length, createCSplines(xs, ys, xs.length));
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
- * @param x X coordinate of interpolated points.
+ * @param x The X coordinate of interpolated point.
  * @param n The number of pivot points, usually equals `xs.length`.
  * @param splines The array of spline components. Length must be `n * 3`.
  * @returns Interpolated Y coordinate.

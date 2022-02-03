@@ -2,7 +2,7 @@ import {MutableArrayLike} from './shared-types';
 import {binarySearch} from './math';
 
 /**
- * Returns a monotonous cubic spline interpolation function for given pivot points,  that prevent overshoot of
+ * Returns a monotonous cubic spline interpolation function for given pivot points, that prevent overshoot of
  * interpolated values.
  *
  * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read
@@ -40,12 +40,12 @@ export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>, n = x
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const y = interpolateCSplineMonot(xs, ys, x, createCSplinesMonot(xs, ys));
+ * const y = interpolateCSplineMonot(xs, ys, x, xs.length, createCSplinesMonot(xs, ys, xs.length));
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
- * @param x X coordinate of interpolated points.
+ * @param x The X coordinate of interpolated point.
  * @param n The number of pivot points, usually equals `xs.length`.
  * @param splines The array of spline components. Length must be `(n - 1) * 3 + 1`.
  * @returns Interpolated Y coordinate.
