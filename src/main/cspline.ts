@@ -8,7 +8,7 @@ import {binarySearch} from './math';
  * interpolation.
  *
  * ```ts
- * const f = createCubicSplineInterpolant(xs, ys);
+ * const f = cspline(xs, ys);
  * const y = f(x);
  * ```
  *
@@ -17,7 +17,7 @@ import {binarySearch} from './math';
  * @param [n = xs.length] The number of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
-export function createCubicSplineInterpolant(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
+export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
   if (n === 0) {
     return () => NaN;
   }
@@ -26,8 +26,8 @@ export function createCubicSplineInterpolant(xs: ArrayLike<number>, ys: ArrayLik
     return () => y0;
   }
 
-  const splines = populateCubicSplines(xs, ys, n);
-  return (x) => interpolateCubicSpline(xs, ys, x, n, splines);
+  const splines = createCSplines(xs, ys, n);
+  return (x) => interpolateCSpline(xs, ys, x, n, splines);
 }
 
 /**
@@ -36,19 +36,19 @@ export function createCubicSplineInterpolant(xs: ArrayLike<number>, ys: ArrayLik
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const y = interpolateCubicSpline(xs, ys, x, populateCubicSplines(xs, ys));
+ * const y = interpolateCSpline(xs, ys, x, createCSplines(xs, ys));
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param x X coordinate of interpolated points.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines The `Float64Array` of spline components. Length must be `n * 3`.
+ * @param splines The array of spline components. Length must be `n * 3`.
  * @returns Interpolated Y coordinate.
  *
  * @see {@link https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines Algorithm for computing natural cubic splines}
  */
-export function interpolateCubicSpline(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, splines: MutableArrayLike<number>): number {
+export function interpolateCSpline(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, splines: MutableArrayLike<number>): number {
 
   // Coefficient offsets in splines array
   const B = 0;
@@ -82,30 +82,25 @@ export function interpolateCubicSpline(xs: ArrayLike<number>, ys: ArrayLike<numb
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const splines = new Float64Array(xs.length * 3);
- *
- * populateCubicSplines(xs, ys, xs.length, splines);
+ * const splines = createCSplines(xs, ys, xs.length);
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines Mutable `Float64Array` that would be populated with spline components. Length must be `n * 3`.
+ * @param splines Mutable array that would be populated with spline components. Length must be `n * 3`.
  * @returns The `splines` array.
- * @see {@link https://v8.dev/blog/elements-kinds#avoid-elements-kind-transitions V8 avoid elements kind transitions}
  */
-export function populateCubicSplines(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, splines?: MutableArrayLike<number>): MutableArrayLike<number> {
+export function createCSplines(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, splines?: MutableArrayLike<number>): MutableArrayLike<number> {
 
   // Coefficient offsets in splines array
   const B = 0;
   const D = 1;
   const C = 2;
   const L = 3; // Spline tuple length
-
-  splines ||= new Float64Array(n * L);
-
   const l = n - 1;
 
+  splines ||= new Float64Array(n * L);
   splines[B] = splines[C] = splines[D] = splines[l * L + C] = 0;
 
   for (let i = 1; i < l; ++i) {

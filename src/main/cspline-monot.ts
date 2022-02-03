@@ -2,13 +2,14 @@ import {MutableArrayLike} from './shared-types';
 import {binarySearch} from './math';
 
 /**
- * Returns a cubic polynomial interpolation function for given pivot points.
+ * Returns a monotonous cubic spline interpolation function for given pivot points,  that prevent overshoot of
+ * interpolated values.
  *
- * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
- * interpolation.
+ * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read
+ * during interpolation.
  *
  * ```ts
- * const f = createMonotoneCubicInterpolant(xs, ys);
+ * const f = csplineMonot(xs, ys);
  * const y = f(x);
  * ```
  *
@@ -16,8 +17,10 @@ import {binarySearch} from './math';
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param [n = xs.length] The number of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
+ *
+ * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  */
-export function createMonotoneCubicInterpolant(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
+export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
   if (n === 0) {
     return () => NaN;
   }
@@ -26,29 +29,30 @@ export function createMonotoneCubicInterpolant(xs: ArrayLike<number>, ys: ArrayL
     return () => y0;
   }
 
-  const splines = populateMonotoneCubicCoeffs(xs, ys, n);
-  return (x) => interpolateMonotoneCubic(xs, ys, x, n, splines);
+  const splines = createCSplinesMonot(xs, ys, n);
+  return (x) => interpolateCSplineMonot(xs, ys, x, n, splines);
 }
 
 /**
- * Computes `y` at `x` for a set of pivot points (`xs` and `ys`) using cubic polynomial interpolation.
+ * Computes `y` at `x` for a set of pivot points (`xs` and `ys`) using monotonous cubic spline interpolation that
+ * prevents overshoot of interpolated values.
  *
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const y = interpolateMonotoneCubic(xs, ys, x, populateMonotoneCubicCoeffs(xs, ys));
+ * const y = interpolateCSplineMonot(xs, ys, x, createCSplinesMonot(xs, ys));
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param x X coordinate of interpolated points.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param coeffs The `Float64Array` of polynomial coefficients. Length must be `n * 3 + 1`.
+ * @param splines The array of spline components. Length must be `(n - 1) * 3 + 1`.
  * @returns Interpolated Y coordinate.
  *
  * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  */
-export function interpolateMonotoneCubic(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, coeffs: MutableArrayLike<number>): number {
+export function interpolateCSplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, splines: MutableArrayLike<number>): number {
 
   const S1 = 0;
   const S2 = 1;
@@ -73,37 +77,36 @@ export function interpolateMonotoneCubic(xs: ArrayLike<number>, ys: ArrayLike<nu
   const dx = x - xs[i];
   const dx2 = dx * dx;
 
-  return ys[i] + coeffs[s + S1] * dx + coeffs[s + S2] * dx2 + coeffs[s + S3] * dx * dx2;
+  return ys[i] + splines[s + S1] * dx + splines[s + S2] * dx2 + splines[s + S3] * dx * dx2;
 }
 
 /**
- * Computes cubic curve coefficients for `xs` and `ys`.
+ * Computes monotonous splines for `xs` and `ys` that prevents overshoot of interpolated values.
  *
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const coeffs = new Float64Array(xs.length * 3 + 1);
- *
- * populateMonotoneCubicCoeffs(xs, ys, xs.length, coeffs);
+ * const splines = createCSplinesMonot(xs, ys, xs.length);
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param coeffs Mutable `Float64Array` that would be populated with curve coefficients. Length must be `n * 3 + 1`.
- * @returns The `coeffs` array.
+ * @param splines Mutable array that would be populated with spline components. Length must be `(n - 1) * 3 + 1`.
+ * @returns The `splines` array.
+ *
+ * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  */
-export function populateMonotoneCubicCoeffs(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, coeffs?: MutableArrayLike<number>): MutableArrayLike<number> {
+export function createCSplinesMonot(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, splines?: MutableArrayLike<number>): MutableArrayLike<number> {
 
   // Degree coefficient offsets
   const D1 = 0;
   const D2 = 1;
   const D3 = 2;
   const L = 3; // Coefficient tuple length
-
-  coeffs ||= new Float64Array(n * L + 1);
-
   const l = n - 1;
+
+  splines ||= new Float64Array(l * L + 1);
 
   // Degree-1 coefficients
   const dx0 = xs[1] - xs[0];
@@ -112,8 +115,8 @@ export function populateMonotoneCubicCoeffs(xs: ArrayLike<number>, ys: ArrayLike
   const dxl = xs[l] - xs[l - 1];
   const dyl = ys[l] - ys[l - 1];
 
-  coeffs[0 * L + D1] = dy0 / dx0;
-  coeffs[l * L + D1] = dyl / dxl;
+  splines[0 * L + D1] = dy0 / dx0;
+  splines[l * L + D1] = dyl / dxl;
 
   for (let i = 1; i < l; ++i) {
     const xi = xs[i];
@@ -128,10 +131,10 @@ export function populateMonotoneCubicCoeffs(xs: ArrayLike<number>, ys: ArrayLike
     const mj = dyj / dxj;
 
     if (mi * mj <= 0) {
-      coeffs[i * L + D1] = 0;
+      splines[i * L + D1] = 0;
     } else {
       const t = dxi + dxj;
-      coeffs[i * L + D1] = 3 * t / ((t + dxj) / mi + (t + dxi) / mj);
+      splines[i * L + D1] = 3 * t / ((t + dxj) / mi + (t + dxi) / mj);
     }
   }
 
@@ -142,14 +145,14 @@ export function populateMonotoneCubicCoeffs(xs: ArrayLike<number>, ys: ArrayLike
     const dx = xs[i + 1] - xs[i];
     const dy = ys[i + 1] - ys[i];
 
-    const c1 = coeffs[s + D1];
+    const c1 = splines[s + D1];
     const m = dy / dx;
     const q = 1 / dx;
-    const t = c1 + coeffs[s + L + D1] - m - m;
+    const t = c1 + splines[s + L + D1] - m - m;
 
-    coeffs[s + D2] = (m - c1 - t) * q;
-    coeffs[s + D3] = t * q * q;
+    splines[s + D2] = (m - c1 - t) * q;
+    splines[s + D3] = t * q * q;
   }
 
-  return coeffs;
+  return splines;
 }

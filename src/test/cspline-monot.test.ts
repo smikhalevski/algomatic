@@ -1,9 +1,9 @@
-import {createMonotoneCubicInterpolant} from '../main';
+import {csplineMonot} from '../main';
 
-describe('createMonotoneCubicInterpolant', () => {
+describe('csplineMonot', () => {
 
   it('creates spline', () => {
-    const f = createMonotoneCubicInterpolant([0, 1, 2], [0, 1, 0]);
+    const f = csplineMonot([0, 1, 2], [0, 1, 0]);
 
     expect(f(-1)).toBeCloseTo(0);
     expect(f(0)).toBeCloseTo(0);

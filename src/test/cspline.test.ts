@@ -1,9 +1,9 @@
-import {createCubicSplineInterpolant} from '../main';
+import {cspline} from '../main';
 
-describe('createCubicSplineInterpolant', () => {
+describe('cspline', () => {
 
   it('creates spline', () => {
-    const f = createCubicSplineInterpolant([0, 1, 2], [0, 1, 0]);
+    const f = cspline([0, 1, 2], [0, 1, 0]);
 
     expect(f(0)).toBeCloseTo(0);
     expect(f(0.5)).toBeCloseTo(0.6875);
