@@ -1,12 +1,3 @@
-const enum Shift {
-  A = 0,
-  B = 1,
-  C = 2,
-  D = 3,
-  X = 4,
-  L = 5,
-}
-
 const tempAs: number[] = [];
 const tempBs: number[] = [];
 const tempSplines: number[] = [];
@@ -20,31 +11,31 @@ const tempSplines: number[] = [];
  * @returns The splines array.
  */
 export function populateSplines(xs: readonly number[], ys: readonly number[], splines = tempSplines): number[] {
+
+  const B = 0;
+  const C = 1;
+  const D = 2;
+  const L = 3;
+
   const n = xs.length;
   const as = tempAs;
   const bs = tempBs;
 
-  for (let i = 0; i < n * Shift.L; ++i) {
+  for (let i = splines.length; i < n * L; ++i) {
     splines[i] = 0;
   }
-  for (let i = 0; i < n - 1; ++i) {
-    as[i] = bs[i] = 0;
-  }
-  for (let i = 0; i < n; ++i) {
-    splines[i * Shift.L + Shift.X] = xs[i];
-    splines[i * Shift.L + Shift.A] = ys[i];
-  }
+  as[0] = bs[0] = 0;
 
-  splines[Shift.C] = splines[(n - 1) * Shift.L + Shift.C] = 0;
+  splines[C] = splines[(n - 1) * L + C] = 0;
 
   for (let i = 1; i < n - 1; ++i) {
-    const xsi = xs[i];
-    const ysi = ys[i];
+    const xi = xs[i];
+    const yi = ys[i];
 
-    const a = xsi - xs[i - 1];
-    const b = xs[i + 1] - xsi;
+    const a = xi - xs[i - 1];
+    const b = xs[i + 1] - xi;
     const c = 2 * (a + b);
-    const f = 6 * ((ys[i + 1] - ysi) / b - (ysi - ys[i - 1]) / a);
+    const f = 6 * ((ys[i + 1] - yi) / b - (yi - ys[i - 1]) / a);
     const z = (a * as[i - 1] + c);
 
     as[i] = -b / z;
@@ -52,16 +43,16 @@ export function populateSplines(xs: readonly number[], ys: readonly number[], sp
   }
 
   for (let i = n - 2; i > 0; --i) {
-    splines[i * Shift.L + Shift.C] = as[i] * splines[(i + 1) * Shift.L + Shift.C] + bs[i];
+    splines[i * L + C] = as[i] * splines[(i + 1) * L + C] + bs[i];
   }
 
   for (let i = n - 1; i > 0; --i) {
     const dx = xs[i] - xs[i - 1];
-    const sc1 = splines[(i - 1) * Shift.L + Shift.C];
-    const sc2 = splines[i * Shift.L + Shift.C];
+    const ci = splines[i * L + C];
+    const cj = splines[(i - 1) * L + C];
 
-    splines[i * Shift.L + Shift.D] = (sc2 - sc1) / dx;
-    splines[i * Shift.L + Shift.B] = dx * (2 * sc2 + sc1) / 6 + (ys[i] - ys[i - 1]) / dx;
+    splines[i * L + D] = (ci - cj) / dx;
+    splines[i * L + B] = dx * (2 * ci + cj) / 6 + (ys[i] - ys[i - 1]) / dx;
   }
 
   return splines;
@@ -79,29 +70,35 @@ export function populateSplines(xs: readonly number[], ys: readonly number[], sp
  * @see {@link https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines Algorithm for computing natural cubic splines}
  */
 export function spline(xs: readonly number[], ys: readonly number[], x: number, splines: readonly number[] = populateSplines(xs, ys)): number {
+
+  const B = 0;
+  const C = 1;
+  const D = 2;
+  const L = 3;
+
   const n = xs.length;
 
   let s: number;
 
-  if (x <= splines[Shift.X]) {
+  if (x <= xs[0]) {
     s = 0;
-  } else if (x >= splines[(n - 1) * Shift.L + Shift.X]) {
-    s = (n - 1) * Shift.L;
+  } else if (x >= xs[n - 1]) {
+    s = (n - 1) * L;
   } else {
     let i = 0;
     let j = n - 1;
 
     while (i + 1 < j) {
       const k = i + (j - i) / 2;
-      if (x <= splines[k * Shift.L + Shift.X]) {
+      if (x <= xs[k]) {
         j = k;
       } else {
         i = k;
       }
     }
-    s = j * Shift.L;
+    s = j * L;
   }
 
-  const dx = x - splines[s + Shift.X];
-  return splines[s + Shift.A] + (splines[s + Shift.B] + (splines[s + Shift.C] / 2 + splines[s + Shift.D] * dx / 6) * dx) * dx;
+  const dx = x - xs[s / L];
+  return ys[s / L] + (splines[s + B] + (splines[s + C] / 2 + splines[s + D] * dx / 6) * dx) * dx;
 }
