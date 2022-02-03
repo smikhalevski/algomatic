@@ -1,2 +1,2 @@
 export * from './math';
-export * from './cubicSpline';
+export * from './cubic-spline';
