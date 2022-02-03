@@ -1,6 +1,11 @@
 /**
  * Returns a cubic spline interpolation function for given pivot points.
  *
+ * ```ts
+ * const f = createCubicSplineInterpolant(xs, ys);
+ * const y = f(x);
+ * ```
+ *
  * **Note:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
  * interpolation.
  *
@@ -9,12 +14,16 @@
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
 export function createCubicSplineInterpolant(xs: readonly number[], ys: readonly number[]): (x: number) => number {
-  const splines = populateCubicSplines(xs, ys);
+  const splines = populateCubicSplines(xs, ys, [-0]);
   return (x) => cubicSpline(xs, ys, x, splines);
 }
 
 /**
  * Computes `y` at `x` for a set of pivot points (`xs` and `ys`) using cubic spline interpolation.
+ *
+ * ```ts
+ * const y = cubicSpline(xs, ys, x, populateCubicSplines(xs, ys, []));
+ * ```
  *
  * @param xs X coordinates of pivot points.
  * @param ys Y coordinates of pivot points.
@@ -24,7 +33,7 @@ export function createCubicSplineInterpolant(xs: readonly number[], ys: readonly
  *
  * @see {@link https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines Algorithm for computing natural cubic splines}
  */
-export function cubicSpline(xs: readonly number[], ys: readonly number[], x: number, splines: readonly number[] = populateCubicSplines(xs, ys)): number {
+export function cubicSpline(xs: readonly number[], ys: readonly number[], x: number, splines: readonly number[]): number {
 
   // Coefficient offsets in splines array
   const B = 0;
@@ -64,12 +73,18 @@ export function cubicSpline(xs: readonly number[], ys: readonly number[], x: num
 /**
  * Computes splines for `xs` and `ys`.
  *
+ * ```ts
+ * const splines = populateCubicSplines(xs, ys, []);
+ * ```
+ *
  * @param xs X coordinates of pivot points.
  * @param ys Y coordinates of pivot points.
- * @param [splines = []] Mutable array that would be populated with spline components.
+ * @param [splines = []] Mutable array that would be populated with spline components. For better performance, this
+ *     must be an array of PACKED_DOUBLE_ELEMENTS type, such as `[-0]`
  * @returns The `splines` array.
+ * @see {@link https://v8.dev/blog/elements-kinds#avoid-elements-kind-transitions V8 avoid elements kind transitions}
  */
-export function populateCubicSplines(xs: readonly number[], ys: readonly number[], splines: number[] = [-0]): number[] {
+export function populateCubicSplines(xs: readonly number[], ys: readonly number[], splines: number[]): number[] {
 
   // Coefficient offsets in splines array
   const B = 0;
@@ -80,7 +95,6 @@ export function populateCubicSplines(xs: readonly number[], ys: readonly number[
   const n = xs.length;
 
   // Prefill splines and preserve PACKED_DOUBLE_ELEMENTS type
-  // https://v8.dev/blog/elements-kinds#avoid-elements-kind-transitions
   for (let i = splines.length; i < n * L; ++i) {
     splines.push(-0);
   }
