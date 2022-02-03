@@ -1,6 +1,22 @@
 import {MutableArrayLike} from './shared-types';
 import {binarySearch} from './math';
 
+/**
+ * Returns a cubic polynomial interpolation function for given pivot points.
+ *
+ * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
+ * interpolation.
+ *
+ * ```ts
+ * const f = createMonotoneCubicInterpolant(xs, ys);
+ * const y = f(x);
+ * ```
+ *
+ * @param xs The array of X coordinates of pivot points in ascending order.
+ * @param ys The array of corresponding Y coordinates of pivot points.
+ * @param [n = xs.length] The number of pivot points.
+ * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
+ */
 export function createMonotoneCubicInterpolant(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
   if (n === 0) {
     return () => NaN;
@@ -14,6 +30,24 @@ export function createMonotoneCubicInterpolant(xs: ArrayLike<number>, ys: ArrayL
   return (x) => interpolateMonotoneCubic(xs, ys, x, n, splines);
 }
 
+/**
+ * Computes `y` at `x` for a set of pivot points (`xs` and `ys`) using cubic polynomial interpolation.
+ *
+ * **Note:** This function doesn't do any checks of arguments for performance reasons.
+ *
+ * ```ts
+ * const y = interpolateMonotoneCubic(xs, ys, x, populateMonotoneCubicCoeffs(xs, ys));
+ * ```
+ *
+ * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
+ * @param ys The array of corresponding Y coordinates of pivot points.
+ * @param x X coordinate of interpolated points.
+ * @param n The number of pivot points, usually equals `xs.length`.
+ * @param coeffs The `Float64Array` of polynomial coefficients. Length must be `n * 3 + 1`.
+ * @returns Interpolated Y coordinate.
+ *
+ * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
+ */
 export function interpolateMonotoneCubic(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, coeffs: MutableArrayLike<number>): number {
 
   const S1 = 0;

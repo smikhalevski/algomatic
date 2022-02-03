@@ -36,7 +36,7 @@ export function createCubicSplineInterpolant(xs: ArrayLike<number>, ys: ArrayLik
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const y = interpolateCubicSpline(xs, ys, x, populateCubicSplines(xs, ys, []));
+ * const y = interpolateCubicSpline(xs, ys, x, populateCubicSplines(xs, ys));
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
