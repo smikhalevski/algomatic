@@ -238,21 +238,24 @@ export function snap(x: number, n: number): number {
  *
  * @see {@link isEpsClose}
  */
-export function closest(x: number, arr: number[]): number {
+export function closest(x: number, xs: ArrayLike<number>): number {
   x = +x;
 
-  let r = x;
-  let p = 1 / 0;
+  let t = x;
+  let dx = 1 / 0;
 
-  for (const n of arr) {
-    const q = abs(n - x);
+  const n = xs.length;
 
-    if (q < p) {
-      r = n;
-      p = q;
+  for (let i = 0; i < n; ++i) {
+    const xi = xs[i];
+    const dxi = abs(xi - x);
+
+    if (dxi < dx) {
+      t = xi;
+      dx = dxi;
     }
   }
-  return r;
+  return t;
 }
 
 /**

@@ -1,19 +1,29 @@
-export function createMonotoneCubicInterpolant(xs: number[], ys: number[]): (x: number) => number {
-  const coeffs = populateMonotoneCubicCoeffs(xs, ys, [-0]);
-  return (x) => interpolateMonotoneCubic(xs, ys, x, coeffs);
+import {MutableArrayLike} from './shared-types';
+
+export function createMonotoneCubicInterpolant(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
+  if (n === 0) {
+    return () => NaN;
+  }
+  if (n === 1) {
+    const y0 = ys[0];
+    return () => y0;
+  }
+
+  const splines = populateMonotoneCubicCoeffs(xs, ys, n);
+  return (x) => interpolateMonotoneCubic(xs, ys, x, n, splines);
 }
 
-export function interpolateMonotoneCubic(xs: readonly number[], ys: readonly number[], x: number, coeffs: readonly number[]): number {
+export function interpolateMonotoneCubic(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, coeffs: MutableArrayLike<number>): number {
 
   const S1 = 0;
   const S2 = 1;
   const S3 = 2;
   const L = 3;
 
-  const n = xs.length;
-
-  // The rightmost point in the dataset should give an exact result
-  if (x === xs[n - 1]) {
+  if (x <= xs[0]) {
+    return ys[0];
+  }
+  if (x >= xs[n - 1]) {
     return ys[n - 1];
   }
 
@@ -46,21 +56,46 @@ export function interpolateMonotoneCubic(xs: readonly number[], ys: readonly num
   return ys[i] + coeffs[s + S1] * dx + coeffs[s + S2] * dx2 + coeffs[s + S3] * dx * dx2;
 }
 
-export function populateMonotoneCubicCoeffs(xs: readonly number[], ys: readonly number[], coeffs: number[]): number[] {
+/**
+ * Computes cubic curve coefficients for `xs` and `ys`.
+ *
+ * **Note:** This function doesn't do any checks of arguments for performance reasons.
+ *
+ * ```ts
+ * const coeffs = new Float64Array(xs.length * 3 + 1);
+ *
+ * populateMonotoneCubicCoeffs(xs, ys, xs.length, coeffs);
+ * ```
+ *
+ * @param xs The array of X coordinates of pivot points in ascending order. Length must be at least 2.
+ * @param ys The array of corresponding Y coordinates of pivot points.
+ * @param n The number of pivot points, usually equals `xs.length`.
+ * @param coeffs Mutable `Float64Array` that would be populated with curve coefficients. Length must be `n * 3 + 1`.
+ * @returns The `coeffs` array.
+ */
+export function populateMonotoneCubicCoeffs(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, coeffs?: MutableArrayLike<number>): MutableArrayLike<number> {
 
-  const S1 = 0;
-  const S2 = 1;
-  const S3 = 2;
-  const L = 3;
+  // Degree coefficient offsets
+  const D1 = 0;
+  const D2 = 1;
+  const D3 = 2;
+  const L = 3; // Coefficient tuple length
 
-  const n = xs.length;
+  coeffs ||= new Float64Array(n * L + 1);
+
+  const l = n - 1;
 
   // Degree-1 coefficients
+  const dx0 = xs[1] - xs[0];
+  const dy0 = ys[1] - ys[0];
 
-  coeffs[0] = (ys[1] - ys[0]) / (xs[1] - xs[0]);
-  coeffs[(n - 1) * L + S1] = (ys[n - 1] - ys[n - 2]) / (xs[n - 1] - xs[n - 2]);
+  const dxl = xs[l] - xs[l - 1];
+  const dyl = ys[l] - ys[l - 1];
 
-  for (let i = 1; i < n - 1; ++i) {
+  coeffs[0 * L + D1] = dy0 / dx0;
+  coeffs[l * L + D1] = dyl / dxl;
+
+  for (let i = 1; i < l; ++i) {
     const xi = xs[i];
     const yi = ys[i];
 
@@ -73,28 +108,27 @@ export function populateMonotoneCubicCoeffs(xs: readonly number[], ys: readonly 
     const mj = dyj / dxj;
 
     if (mi * mj <= 0) {
-      coeffs[i * L + S1] = 0;
+      coeffs[i * L + D1] = 0;
     } else {
       const t = dxi + dxj;
-
-      coeffs[i * L + S1] = 3 * t / ((t + dxj) / mi + (t + dxi) / mj);
+      coeffs[i * L + D1] = 3 * t / ((t + dxj) / mi + (t + dxi) / mj);
     }
   }
 
   // Degree-2 and degree-3 coefficients
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < l; ++i) {
     const s = i * L;
 
     const dx = xs[i + 1] - xs[i];
     const dy = ys[i + 1] - ys[i];
 
-    const s1 = coeffs[s + S1];
+    const c1 = coeffs[s + D1];
     const m = dy / dx;
     const q = 1 / dx;
-    const t = s1 + coeffs[s + L + S1] - m - m;
+    const t = c1 + coeffs[s + L + D1] - m - m;
 
-    coeffs[s + S2] = (m - s1 - t) * q;
-    coeffs[s + S3] = t * q * q;
+    coeffs[s + D2] = (m - c1 - t) * q;
+    coeffs[s + D3] = t * q * q;
   }
 
   return coeffs;

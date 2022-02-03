@@ -1,9 +1,9 @@
+import {MutableArrayLike} from './shared-types';
+
 /**
  * Returns a cubic spline interpolation function for given pivot points.
  *
- * **Notes:**
- * - This function doesn't do any checks of the input parameters for performance reasons.
- * - Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
+ * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
  * interpolation.
  *
  * ```ts
@@ -11,41 +11,49 @@
  * const y = f(x);
  * ```
  *
- * @param xs The non-empty array of X coordinates of pivot points in ascending order.
- * @param ys The array of corresponding Y coordinates of pivot points that has the same length as `xs`.
+ * @param xs The array of X coordinates of pivot points in ascending order.
+ * @param ys The array of corresponding Y coordinates of pivot points.
+ * @param [n = xs.length] The number of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
-export function createCubicSplineInterpolant(xs: readonly number[], ys: readonly number[]): (x: number) => number {
-  const splines = populateCubicSplines(xs, ys, [-0]);
-  return (x) => interpolateCubicSpline(xs, ys, x, splines);
+export function createCubicSplineInterpolant(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
+  if (n === 0) {
+    return () => NaN;
+  }
+  if (n === 1) {
+    const y0 = ys[0];
+    return () => y0;
+  }
+
+  const splines = populateCubicSplines(xs, ys, n);
+  return (x) => interpolateCubicSpline(xs, ys, x, n, splines);
 }
 
 /**
  * Computes `y` at `x` for a set of pivot points (`xs` and `ys`) using cubic spline interpolation.
  *
- * **Note:** This function doesn't do any checks of the input parameters for performance reasons.
+ * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
  * const y = interpolateCubicSpline(xs, ys, x, populateCubicSplines(xs, ys, []));
  * ```
  *
- * @param xs The non-empty array of X coordinates of pivot points in ascending order.
- * @param ys The array of corresponding Y coordinates of pivot points that has the same length as `xs`.
+ * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
+ * @param ys The array of corresponding Y coordinates of pivot points.
  * @param x X coordinate of interpolated points.
- * @param splines Optional pre-computed splines. If omitted then splines are computed from `xs` and `ys` on the fly.
+ * @param n The number of pivot points, usually equals `xs.length`.
+ * @param splines The `Float64Array` of spline components. Length must be `n * 3`.
  * @returns Interpolated Y coordinate.
  *
  * @see {@link https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines Algorithm for computing natural cubic splines}
  */
-export function interpolateCubicSpline(xs: readonly number[], ys: readonly number[], x: number, splines: readonly number[]): number {
+export function interpolateCubicSpline(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, splines: MutableArrayLike<number>): number {
 
   // Coefficient offsets in splines array
   const B = 0;
   const D = 1;
   const C = 2;
-  const L = 3;
-
-  const n = xs.length;
+  const L = 3; // Spline tuple length
 
   let p: number;
 
@@ -77,37 +85,36 @@ export function interpolateCubicSpline(xs: readonly number[], ys: readonly numbe
 /**
  * Computes splines for `xs` and `ys`.
  *
- * **Note:** This function doesn't do any checks of the input parameters for performance reasons.
+ * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
  * ```ts
- * const splines = populateCubicSplines(xs, ys, []);
+ * const splines = new Float64Array(xs.length * 3);
+ *
+ * populateCubicSplines(xs, ys, xs.length, splines);
  * ```
  *
- * @param xs The non-empty array of X coordinates of pivot points in ascending order.
- * @param ys The array of corresponding Y coordinates of pivot points that has the same length as `xs`.
- * @param splines Mutable array that would be populated with spline components. For better performance, this must be an
- *     array of PACKED_DOUBLE_ELEMENTS type, such as `[-0]`.
+ * @param xs The array of X coordinates of pivot points in ascending order. Length must be at least 2.
+ * @param ys The array of corresponding Y coordinates of pivot points.
+ * @param n The number of pivot points, usually equals `xs.length`.
+ * @param splines Mutable `Float64Array` that would be populated with spline components. Length must be `n * 3`.
  * @returns The `splines` array.
  * @see {@link https://v8.dev/blog/elements-kinds#avoid-elements-kind-transitions V8 avoid elements kind transitions}
  */
-export function populateCubicSplines(xs: readonly number[], ys: readonly number[], splines: number[]): number[] {
+export function populateCubicSplines(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, splines?: MutableArrayLike<number>): MutableArrayLike<number> {
 
   // Coefficient offsets in splines array
   const B = 0;
   const D = 1;
   const C = 2;
-  const L = 3;
+  const L = 3; // Spline tuple length
 
-  const n = xs.length;
+  splines ||= new Float64Array(n * L);
 
-  // Prefill splines and preserve PACKED_DOUBLE_ELEMENTS type
-  for (let i = splines.length; i < n * L; ++i) {
-    splines.push(-0);
-  }
+  const l = n - 1;
 
-  splines[B] = splines[C] = splines[D] = splines[(n - 1) * L + C] = 0;
+  splines[B] = splines[C] = splines[D] = splines[l * L + C] = 0;
 
-  for (let i = 1; i < n - 1; ++i) {
+  for (let i = 1; i < l; ++i) {
     // Spline offset
     const s = i * L;
 
