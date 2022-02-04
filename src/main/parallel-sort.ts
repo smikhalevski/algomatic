@@ -1,6 +1,14 @@
 import {MutableArrayLike} from './shared-types';
 
-export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: number) => void, comparator?: (a: T, b: T) => number) {
+/**
+ * Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
+ *
+ * @param arr The mutable array that is sorted in-place.
+ * @param swap The callback that is invoked with indices that were swapped.
+ * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
+ *     comparison operators.
+ */
+export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: number) => void, comparator?: (a: T, b: T) => number): void {
   const n = arr.length;
   const stack = new Uint32Array(Math.min(n, 256)); // Max 1 KB
 
@@ -68,6 +76,4 @@ export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: n
     stack[i++] = x + 1;
     stack[i++] = r;
   }
-
-  return arr;
 }

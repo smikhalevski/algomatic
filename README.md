@@ -43,12 +43,30 @@ const y = f(x);
 Or interpolate using more fine-grained approach:
 
 ```ts
-const y = interpolateCSplineMonot(xs, ys, x, createCSplinesMonot(xs, ys, xs.length));
+const y = interpolateCSplineMonot(xs, ys, x, xs.length, createCSplinesMonot(xs, ys, xs.length));
 ```
 
 The plot below shows that `cspline` interpolation overshoots pivot points while `csplineMonot` provides monotonous results.
 
-<img src="./images/cspline.svg"/>
+<img alt="cspline and csplineMonot comparison" src="./images/cspline.svg"/>
+
+### `parallelSort`
+
+Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
+
+```ts
+parallelSort(
+    arr, // Mutable array that would be sorted
+    (i, j) => {
+      // Called when i and j elements of arr were swapped
+      // Use this to swap elements in any other array
+    },
+    (a, b) => {
+      // Compare a and b elements of arr
+      return asc(a, b);
+    },
+);
+```
 
 ### `left` / `right` / `xor` / `or` / `and`
 
