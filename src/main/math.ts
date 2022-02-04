@@ -111,13 +111,6 @@ export function logx(x: number, n: number): number {
 }
 
 /**
- * Returns -1 if `a` < `b`, 1 if `a` > `b` and 0 otherwise.
- */
-export function asc(a: number, b: number): number {
-  return sign(a - b);
-}
-
-/**
  * Clamps `x` to range [`a`, `b`].
  *
  * Range can be inverse.
