@@ -46,11 +46,9 @@ Or interpolate using more fine-grained approach:
 const y = interpolateCSplineMonot(xs, ys, x, createCSplinesMonot(xs, ys, xs.length));
 ```
 
-`cspline` and `csplineMonot` interpolation comparison:
+The plot below shows that `cspline` interpolation overshoots pivot points while `csplineMonot` provides monotonous results.
 
-<a href="https://en.wikipedia.org/wiki/Monotone_cubic_interpolation">
-  <img width="400" src="./images/cspline.png"/>
-</a>
+<img src="./images/cspline.svg"/>
 
 ### `left` / `right` / `xor` / `or` / `and`
 

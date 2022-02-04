@@ -1,8 +1,17 @@
 import {MutableArrayLike} from './shared-types';
 import {binarySearch} from './binary-search';
 
+const enum T {
+  A = 0,
+  B = 1,
+  C = 2,
+
+  // The size of a single spline tuple
+  SIZE = 3,
+}
+
 /**
- * Returns a cubic spline interpolation function for given pivot points.
+ * Returns a natural cubic spline interpolation function for given pivot points.
  *
  * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
  * interpolation.
@@ -12,12 +21,13 @@ import {binarySearch} from './binary-search';
  * const y = f(x);
  * ```
  *
- * @param xs The array of X coordinates of pivot points in ascending order.
+ * @param xs The array of X coordinates of pivot points in ascending order, length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
- * @param [n = xs.length] The number of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
-export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.length): (x: number) => number {
+export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: number) => number {
+  const n = Math.min(xs.length, ys.length);
+
   if (n === 0) {
     return () => NaN;
   }
@@ -25,13 +35,12 @@ export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.len
     const y0 = ys[0];
     return () => y0;
   }
-
   const splines = createCSplines(xs, ys, n);
   return (x) => interpolateCSpline(xs, ys, x, n, splines);
 }
 
 /**
- * Computes `y` at `x` for a set of pivot points (`xs` and `ys`) using cubic spline interpolation.
+ * Interpolates `y` at `x` using a natural cubic spline algorithm for a set of pivot points.
  *
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
@@ -39,45 +48,37 @@ export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>, n = xs.len
  * const y = interpolateCSpline(xs, ys, x, xs.length, createCSplines(xs, ys, xs.length));
  * ```
  *
- * @param xs The array of X coordinates of pivot points in ascending order. Length must be al least 2.
+ * @param xs The array of X coordinates of pivot points in ascending order, length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param x The X coordinate of interpolated point.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines The array of spline components. Length must be `n * 3`.
+ * @param splines The array of spline components, length must be `3 * n`.
  * @returns Interpolated Y coordinate.
  *
+ * @see {@link createCSplines}
  * @see {@link https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines Algorithm for computing natural cubic splines}
  */
 export function interpolateCSpline(xs: ArrayLike<number>, ys: ArrayLike<number>, x: number, n: number, splines: MutableArrayLike<number>): number {
-
-  // Coefficient offsets in splines array
-  const B = 0;
-  const D = 1;
-  const C = 2;
-  const L = 3; // Spline tuple length
-
-  let i;
-
   if (x <= xs[0]) {
-    i = 0;
-  } else if (x >= xs[n - 1]) {
-    i = n - 1;
-  } else {
-    const t = binarySearch(x, xs, n);
-
-    if (t >= 0) {
-      return ys[t];
-    }
-    i = ~t;
+    return ys[0];
   }
+  if (x >= xs[n - 1]) {
+    return ys[n - 1];
+  }
+  let i = binarySearch(x, xs, n);
+  if (i >= 0) {
+    return ys[i];
+  }
+  i = ~i;
 
-  const s = i * L;
+  const t = i * T.SIZE;
   const dx = x - xs[i];
-  return ys[i] + (splines[s + B] + (splines[s + C] / 2 + splines[s + D] * dx / 6) * dx) * dx;
+
+  return ys[i] + (splines[T.C + t] + (splines[T.A + t] / 2 + splines[T.B + t] * dx / 6) * dx) * dx;
 }
 
 /**
- * Computes splines for `xs` and `ys`.
+ * Computes cubic splines for given pivot points.
  *
  * **Note:** This function doesn't do any checks of arguments for performance reasons.
  *
@@ -85,27 +86,19 @@ export function interpolateCSpline(xs: ArrayLike<number>, ys: ArrayLike<number>,
  * const splines = createCSplines(xs, ys, xs.length);
  * ```
  *
- * @param xs The array of X coordinates of pivot points in ascending order. Length must be at least 2.
+ * @param xs The array of X coordinates of pivot points in ascending order, length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines Mutable array that would be populated with spline components. Length must be `n * 3`.
+ * @param splines Mutable array that would be populated with spline components, length must be at least `3 * n`.
  * @returns The `splines` array.
  */
 export function createCSplines(xs: ArrayLike<number>, ys: ArrayLike<number>, n: number, splines?: MutableArrayLike<number>): MutableArrayLike<number> {
+  splines ||= new Float32Array(n * T.SIZE);
 
-  // Coefficient offsets in splines array
-  const B = 0;
-  const D = 1;
-  const C = 2;
-  const L = 3; // Spline tuple length
-  const l = n - 1;
+  splines[T.A] = splines[T.B] = splines[T.C] = splines[T.A + (n - 1) * T.SIZE] = 0;
 
-  splines ||= new Float64Array(n * L);
-  splines[B] = splines[C] = splines[D] = splines[l * L + C] = 0;
-
-  for (let i = 1; i < l; ++i) {
-    // Spline offset
-    const s = i * L;
+  for (let i = 1; i < n - 1; ++i) {
+    const t = i * T.SIZE; // Tuple offset
 
     const xi = xs[i];
     const yi = ys[i];
@@ -114,27 +107,28 @@ export function createCSplines(xs: ArrayLike<number>, ys: ArrayLike<number>, n: 
     const b = xs[i + 1] - xi;
     const c = 2 * (a + b);
     const f = 6 * ((ys[i + 1] - yi) / b - (yi - ys[i - 1]) / a);
-    const z = a * splines[s - L + D] + c;
+    const z = a * splines[T.B - T.SIZE + t] + c;
 
-    // D and B offsets are temporary used to store a and b coefficients
-    splines[s + D] = -b / z;
-    splines[s + B] = (f - a * splines[s - L + B]) / z;
+    // Temporary store to avoid excessive allocations
+    splines[T.B + t] = -b / z;
+    splines[T.C + t] = (f - a * splines[T.C - T.SIZE + t]) / z;
   }
 
   for (let i = n - 2; i > 0; --i) {
-    const s = i * L;
-    splines[s + C] = splines[s + D] * splines[s + L + C] + splines[s + B];
+    const t = i * T.SIZE; // Tuple offset
+
+    splines[T.A + t] = splines[T.B + t] * splines[T.A + T.SIZE + t] + splines[T.C + t];
   }
 
   for (let i = n - 1; i > 0; --i) {
-    const s = i * L;
+    const t = i * T.SIZE; // Tuple offset
 
     const dx = xs[i] - xs[i - 1];
-    const ci = splines[s + C];
-    const cj = splines[s - L + C];
+    const c1i = splines[T.A + t];
+    const c1j = splines[T.A - T.SIZE + t];
 
-    splines[s + D] = (ci - cj) / dx;
-    splines[s + B] = dx * (2 * ci + cj) / 6 + (ys[i] - ys[i - 1]) / dx;
+    splines[T.B + t] = (c1i - c1j) / dx;
+    splines[T.C + t] = dx * (2 * c1i + c1j) / 6 + (ys[i] - ys[i - 1]) / dx;
   }
 
   return splines;
