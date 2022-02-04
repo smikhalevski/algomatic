@@ -1,5 +1,5 @@
 import {MutableArrayLike} from './shared-types';
-import {binarySearch} from './math';
+import {binarySearch} from './binary-search';
 
 /**
  * Returns a cubic spline interpolation function for given pivot points.
