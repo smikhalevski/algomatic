@@ -51,3 +51,15 @@ const y = interpolateCSplineMonot(xs, ys, x, createCSplinesMonot(xs, ys, xs.leng
 <a href="https://en.wikipedia.org/wiki/Monotone_cubic_interpolation">
   <img width="400" src="./images/cspline.png"/>
 </a>
+
+### `left` / `right` / `xor` / `or` / `and`
+
+Bitwise operations for integers that exceed numbers 32-bit range:
+
+```ts
+left(0xAB, 8); // Same as 0xAB << 8
+// → 0xAB_00 
+
+left(0xAB_CD_EF_AB_CD, 24)
+// → 0xAB_CD_EF_AB_CD_00_00_00
+```
