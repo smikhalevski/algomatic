@@ -12,18 +12,21 @@ npm install --save-prod numeric-wrench
 
 This library contains a multiple helper functions:
 
-- For arrays
+- Comparators
   [`asc`](https://smikhalevski.github.io/numeric-wrench/modules.html#asc)
   [`desc`](https://smikhalevski.github.io/numeric-wrench/modules.html#desc)
+  
+- Arrays
   [`swap`](https://smikhalevski.github.io/numeric-wrench/modules.html#swap)
+  [`range`](https://smikhalevski.github.io/numeric-wrench/modules.html#range)
 
-- For size-of casting
+- Size-of casting
   [`int`](https://smikhalevski.github.io/numeric-wrench/modules.html#int)
   [`byte`](https://smikhalevski.github.io/numeric-wrench/modules.html#byte)
   [`uint`](https://smikhalevski.github.io/numeric-wrench/modules.html#uint)
   [`unNaN`](https://smikhalevski.github.io/numeric-wrench/modules.html#unNaN)
 
-- For number clamping
+- Number clamping
   [`clamp`](https://smikhalevski.github.io/numeric-wrench/modules.html#clamp)
   [`clamp1`](https://smikhalevski.github.io/numeric-wrench/modules.html#clamp1)
   [`closest`](https://smikhalevski.github.io/numeric-wrench/modules.html#closest)
@@ -102,8 +105,8 @@ const y = interpolateCSpline(xs, ys, x, xs.length, splines);
 
 ### `csplineMonot`
 
-To prevent [overshooting](https://en.wikipedia.org/wiki/Overshoot_(signal)), use `csplineMonot` that creates
-[a monotone cubic interpolator](https://en.wikipedia.org/wiki/Monotone_cubic_interpolation):
+Creates
+[a monotone cubic interpolator](https://en.wikipedia.org/wiki/Monotone_cubic_interpolation) for given pivot points:
 
 ```ts
 const f = csplineMonot(xs, ys);
