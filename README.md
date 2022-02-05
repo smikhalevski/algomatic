@@ -15,7 +15,7 @@ This library contains a multiple helper functions:
 - Comparators
   [`asc`](https://smikhalevski.github.io/numeric-wrench/modules.html#asc)
   [`desc`](https://smikhalevski.github.io/numeric-wrench/modules.html#desc)
-  
+
 - Arrays
   [`swap`](https://smikhalevski.github.io/numeric-wrench/modules.html#swap)
   [`range`](https://smikhalevski.github.io/numeric-wrench/modules.html#range)
@@ -124,16 +124,23 @@ results.
 
 <img alt="cspline and csplineMonot comparison" src="./images/cspline.svg"/>
 
-## Parallel sort
+## Sort
 
-Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
+Non-recursive sorting implementation. In contrast to
+[`Array#sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method, this
+function doesn't convert array elements to strings before comparison and uses `>` and `<` operators. Or provide an
+element comparator to change the sorting order.
+
+Provide a swap callback that is invoked when elements are swapped during sorting, this simplifies sorting multiple
+arrays in parallel.
 
 ```ts
-parallelSort(
+sort(
     arr, // Mutable array that would be sorted
     (i, j) => {
       // Called when i and j elements of arr were swapped
     },
+    (a, b) => 0, // Comparator that works the same way as in Array#sort
 );
 ```
 

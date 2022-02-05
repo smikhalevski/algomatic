@@ -1,6 +1,6 @@
 import {MutableArrayLike} from './shared-types';
 
-let sharedStack: Uint32Array | undefined;
+let sharedStack: Int32Array | undefined;
 
 /**
  * Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
@@ -10,55 +10,55 @@ let sharedStack: Uint32Array | undefined;
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  *     comparison operators.
  */
-export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: number) => void, comparator?: (a: T, b: T) => number): void {
+export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) => void, comparator?: (a: T, b: T) => number) {
   const n = arr.length;
 
   if (n < 2) {
-    return;
+    return arr;
   }
   if (n === 2) {
     const a0 = arr[0];
     const a1 = arr[1];
 
-    if (comparator ? comparator(a0, a1) > 0 : a0 > a1)  {
+    if (comparator ? comparator(a0, a1) > 0 : a0 > a1) {
       arr[0] = a1;
       arr[1] = a0;
-      swap(0, 1);
+      swap?.(0, 1);
     }
-    return;
+    return arr;
   }
 
-  const stack = sharedStack || new Uint32Array(256);
+  let i = 2;
+
+  const stack = sharedStack || new Int32Array(256);
 
   sharedStack = undefined;
 
   stack[0] = 0;
   stack[1] = n - 1;
 
-  let i = 2; // Stack index
-
   while (i > 1) {
-
     let r = stack[--i];
     let l = stack[--i];
 
     if (l >= r) {
-      break;
+      continue;
     }
 
     let x = l;
     let y = r - 1;
 
-    const pivot = arr[l];
-    arr[l] = arr[r];
-    swap(l, r);
+    const pivot = l;
+    const pivotValue = arr[pivot];
+    arr[pivot] = arr[r];
+    swap?.(l, r);
 
     if (comparator) {
       while (true) {
-        while (x <= y && comparator(arr[x], pivot) < 0) {
+        while (x <= y && comparator(arr[x], pivotValue) < 0) {
           x++;
         }
-        while (x <= y && comparator(arr[y], pivot) >= 0) {
+        while (x <= y && comparator(arr[y], pivotValue) >= 0) {
           y--;
         }
         if (x > y) {
@@ -67,14 +67,14 @@ export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: n
         const t = arr[x];
         arr[x] = arr[y];
         arr[y] = t;
-        swap(x, y);
+        swap?.(x, y);
       }
     } else {
       while (true) {
-        while (x <= y && arr[x] < pivot) {
+        while (x <= y && arr[x] < pivotValue) {
           x++;
         }
-        while (x <= y && arr[y] >= pivot) {
+        while (x <= y && arr[y] >= pivotValue) {
           y--;
         }
         if (x > y) {
@@ -83,13 +83,13 @@ export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: n
         const t = arr[x];
         arr[x] = arr[y];
         arr[y] = t;
-        swap(x, y);
+        swap?.(x, y);
       }
     }
 
     arr[r] = arr[x];
-    arr[x] = pivot;
-    swap(r, x);
+    arr[x] = pivotValue;
+    swap?.(r, x);
 
     stack[i++] = l;
     stack[i++] = x - 1;
@@ -98,4 +98,6 @@ export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: n
   }
 
   sharedStack = stack;
+
+  return arr;
 }
