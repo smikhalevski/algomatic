@@ -1,7 +1,4 @@
-const {ceil, floor, pow, min, abs, PI, log10} = Math;
-
-const HI = 0x80_00_00_00;
-const LO = 0x7F_FF_FF_FF;
+import {abs, ceil, floor, log10, min, PI, sqrt} from './math-utils';
 
 /**
  * Returns the integer part of a number by removing any fractional digits.
@@ -16,51 +13,9 @@ export const trunc = Math.trunc || ((x) => x < 0 ? ceil(x) : floor(x));
 export const sign = Math.sign || ((x) => abs(x) / x);
 
 /**
- * Bitwise left shift operator for large unsigned integers.
- *
- * ```ts
- * left(0xAB, 8); // → 0xAB_00
- * // or
- * 0xAB << 8;
- * ```
+ * Returns the square root of the sum of squares of its arguments.
  */
-export function left(x: number, shift: number): number {
-  return int(x) * pow(2, int(shift));
-}
-
-/**
- * Bitwise right shift operator for large unsigned integers.
- *
- * ```ts
- * right(0xAB_CD, 8); // → 0xAB
- * // or
- * 0xAB_CD >> 8;
- * ```
- */
-export function right(x: number, shift: number): number {
-  return int(x / pow(2, int(shift)));
-}
-
-/**
- * Bitwise XOR operator for large unsigned integers.
- */
-export function xor(a: number, b: number): number {
-  return ((a / HI) ^ (b / HI)) * HI + ((a & LO) ^ (b & LO));
-}
-
-/**
- * Bitwise OR operator for large unsigned integers.
- */
-export function or(a: number, b: number): number {
-  return ((a / HI) | (b / HI)) * HI + ((a & LO) | (b & LO));
-}
-
-/**
- * Bitwise AND operator for large unsigned integers.
- */
-export function and(a: number, b: number): number {
-  return ((a / HI) & (b / HI)) * HI + ((a & LO) & (b & LO));
-}
+export const hypot: (x: number, y: number) => number = Math.hypot || ((x, y) => sqrt(x * x + y + y));
 
 /**
  * Returns `x` as is or `n` if `x` is `NaN`.
@@ -108,13 +63,6 @@ export function byte(x: number): number {
  */
 export function logx(x: number, n: number): number {
   return +x && log10(abs(x)) / log10(n);
-}
-
-/**
- * Returns -1 if `a` < `b`, 1 if `a` > `b` and 0 otherwise.
- */
-export function asc(a: number, b: number): number {
-  return sign(a - b);
 }
 
 /**
@@ -195,17 +143,6 @@ export function deg(x: number): number {
 }
 
 /**
- * Linear interpolation.
- *
- * @param x the value to interpolate.
- * @param a the slope of the line (angle between line an X axis).
- * @param b the offset the line on Y axis.
- */
-export function lerp(x: number, a: number, b: number): number {
-  return +a + x * (b - a);
-}
-
-/**
  * Semantic shortcut for `n` \*\* 2.
  */
 export function sq(n: number): number {
@@ -238,21 +175,24 @@ export function snap(x: number, n: number): number {
  *
  * @see {@link isEpsClose}
  */
-export function closest(x: number, arr: number[]): number {
+export function closest(x: number, xs: ArrayLike<number>): number {
   x = +x;
 
-  let r = x;
-  let p = 1 / 0;
+  let t = x;
+  let dx = 1 / 0;
 
-  for (const n of arr) {
-    const q = abs(n - x);
+  const n = xs.length;
 
-    if (q < p) {
-      r = n;
-      p = q;
+  for (let i = 0; i < n; ++i) {
+    const xi = xs[i];
+    const dxi = abs(xi - x);
+
+    if (dxi < dx) {
+      t = xi;
+      dx = dxi;
     }
   }
-  return r;
+  return t;
 }
 
 /**
