@@ -10,7 +10,7 @@ npm install --save-prod numeric-wrench
 
 # Usage
 
-This library contains a multiple helper functions:
+This library contains multiple helper functions:
 
 - Comparators
   [`asc`](https://smikhalevski.github.io/numeric-wrench/modules.html#asc)
@@ -74,6 +74,9 @@ const f = lerp(xs, ys);
 const y = f(x);
 ```
 
+Here `xs` is the array of X coordinates of pivot points in ascending order, and `ys` is the array of corresponding Y
+coordinates of pivot points.
+
 ### `cspline`
 
 Creates
@@ -85,19 +88,15 @@ const f = cspline(xs, ys);
 const y = f(x);
 ```
 
-Here `xs` is the array of X coordinates of pivot points in ascending order, and `ys` is the array of corresponding Y
-coordinates of pivot points.
-
 More control over spline caching and computation:
 
 ```ts
 // Pre-allocate an array of spline components that can be later reused
-// to avoid excessive memory allocation
-const splines = new Float32Array(n * 3);
+// to avoid excessive memory allocations
+const splines = new Float32Array(xs.length * 3);
 
-createCSplines(xs, ys, n, splines); // → splines
-
-// or just create a new array
+createCSplines(xs, ys, xs.length, splines); // → splines
+// or
 // const splines = createCSplines(xs, ys, xs.length); // → Float32Array
 
 const y = interpolateCSpline(xs, ys, x, xs.length, splines);
@@ -127,9 +126,9 @@ results.
 ## Sort
 
 Non-recursive sorting implementation. In contrast to
-[`Array#sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method, this
-function doesn't convert array elements to strings before comparison and uses `>` and `<` operators. Or provide an
-element comparator to change the sorting order.
+[`Array.sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), this
+function doesn't convert array elements to strings before comparison and uses `>` and `<` operators directly. So numeric
+arrays are sorted in natural order. You can provide an element comparator to change the sorting order.
 
 Provide a swap callback that is invoked when elements are swapped during sorting, this simplifies sorting multiple
 arrays in parallel.
@@ -140,7 +139,7 @@ sort(
     (i, j) => {
       // Called when i and j elements of arr were swapped
     },
-    (a, b) => 0, // Comparator that works the same way as in Array#sort
+    (a, b) => 0, // Comparator works the same way as in Array.sort
 );
 ```
 
@@ -163,7 +162,7 @@ binarySearch([10, 20, 30, 40], 25); // → -3
 
 ## Bitwise operations
 
-Bitwise operations `left`, `right`, `and`, `or` and `xor` for integers that exceed numbers 32-bit range:
+Bitwise operations `left`, `right`, `and`, `or` and `xor` for _unsigned_ integers that exceed 32-bit range:
 
 ```ts
 left(0xAB, 8); // Same as 0xAB << 8
