@@ -3,6 +3,7 @@ export * from './binary-search';
 export * from './bitwise';
 export * from './cspline';
 export * from './cspline-monot';
+export * from './easing';
 export * from './lerp';
 export * from './math';
 export * from './parallel-sort';

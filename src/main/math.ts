@@ -1,4 +1,4 @@
-const {ceil, floor, min, abs, PI, log10} = Math;
+import {abs, ceil, floor, log10, min, PI} from './math-utils';
 
 /**
  * Returns the integer part of a number by removing any fractional digits.

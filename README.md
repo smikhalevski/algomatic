@@ -44,6 +44,22 @@ This library contains a multiple helper functions:
   [`isEpsClose`](https://smikhalevski.github.io/numeric-wrench/modules.html#isEpsClose)
   [`isNumeric`](https://smikhalevski.github.io/numeric-wrench/modules.html#isNumeric)
 
+- Easing functions
+  [`easeExp`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeExp)
+  [`easeLog`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeLog)
+  [`easeInQuad`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInQuad)
+  [`easeOutQuad`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeOutQuad)
+  [`easeInOutQuad`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInOutQuad)
+  [`easeInCubic`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInCubic)
+  [`easeOutCubic`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeOutCubic)
+  [`easeInOutCubic`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInOutCubic)
+  [`easeInQuart`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInQuart)
+  [`easeOutQuart`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeOutQuart)
+  [`easeInOutQuart`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInOutQuart)
+  [`easeInQuint`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInQuint)
+  [`easeOutQuint`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeOutQuint)
+  [`easeInOutQuint`](https://smikhalevski.github.io/numeric-wrench/modules.html#easeInOutQuint)
+
 ## Interpolation
 
 ### `lerp`

@@ -1,15 +1,6 @@
 import {MutableArrayLike} from './shared-types';
 import {binarySearch} from './binary-search';
 
-const enum T {
-  A = 0,
-  B = 1,
-  C = 2,
-
-  // The size of a single spline tuple
-  SIZE = 3,
-}
-
 /**
  * Returns a natural cubic spline interpolation function for given pivot points.
  *
@@ -37,6 +28,15 @@ export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: numbe
   }
   const splines = createCSplines(xs, ys, n);
   return (x) => interpolateCSpline(xs, ys, x, n, splines);
+}
+
+const enum T {
+  A = 0,
+  B = 1,
+  C = 2,
+
+  // The size of a single spline tuple
+  SIZE = 3,
 }
 
 /**

@@ -1,6 +1,5 @@
 import {int} from './math';
-
-const {pow} = Math;
+import {pow} from './math-utils';
 
 const HI = 0x80_00_00_00;
 const LO = 0x7F_FF_FF_FF;

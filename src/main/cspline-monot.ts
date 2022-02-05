@@ -1,15 +1,6 @@
 import {MutableArrayLike} from './shared-types';
 import {binarySearch} from './binary-search';
 
-const enum T {
-  A = 0,
-  B = 1,
-  C = 2,
-
-  // The size of a single spline tuple
-  SIZE = 3,
-}
-
 /**
  * Returns a monotonous cubic spline interpolation function for given pivot points, that prevent overshoot of
  * interpolated values.
@@ -40,6 +31,15 @@ export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: 
   }
   const splines = createCSplinesMonot(xs, ys, n);
   return (x) => interpolateCSplineMonot(xs, ys, x, n, splines);
+}
+
+const enum T {
+  A = 0,
+  B = 1,
+  C = 2,
+
+  // The size of a single spline tuple
+  SIZE = 3,
 }
 
 /**
