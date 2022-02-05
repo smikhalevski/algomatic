@@ -4,10 +4,13 @@ describe('parallelSort', () => {
 
   test('sorts an array of 2', () => {
     const arr = [1, 0];
+    const swapMock = jest.fn();
 
-    parallelSort(arr, () => undefined);
+    parallelSort(arr, swapMock);
 
     expect(arr).toEqual([0, 1]);
+    expect(swapMock).toHaveBeenCalledTimes(1);
+    expect(swapMock).toHaveBeenCalledWith(0, 1);
   });
 
   test('sorts an array of 3', () => {

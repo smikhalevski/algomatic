@@ -12,6 +12,22 @@ let sharedStack: Uint32Array | undefined;
  */
 export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: number) => void, comparator?: (a: T, b: T) => number): void {
   const n = arr.length;
+
+  if (n < 2) {
+    return;
+  }
+  if (n === 2) {
+    const a0 = arr[0];
+    const a1 = arr[1];
+
+    if (comparator ? comparator(a0, a1) > 0 : a0 > a1)  {
+      arr[0] = a1;
+      arr[1] = a0;
+      swap(0, 1);
+    }
+    return;
+  }
+
   const stack = sharedStack || new Uint32Array(256);
 
   sharedStack = undefined;
