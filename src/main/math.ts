@@ -1,4 +1,4 @@
-import {abs, ceil, floor, log10, min, PI} from './math-utils';
+import {abs, ceil, floor, log10, min, PI, sqrt} from './math-utils';
 
 /**
  * Returns the integer part of a number by removing any fractional digits.
@@ -11,6 +11,11 @@ export const trunc = Math.trunc || ((x) => x < 0 ? ceil(x) : floor(x));
  * returned.
  */
 export const sign = Math.sign || ((x) => abs(x) / x);
+
+/**
+ * Returns the square root of the sum of squares of its arguments.
+ */
+export const hypot: (x: number, y: number) => number = Math.hypot || ((x, y) => sqrt(x * x + y + y));
 
 /**
  * Returns `x` as is or `n` if `x` is `NaN`.

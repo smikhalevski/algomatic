@@ -6,5 +6,5 @@ export * from './cspline-monot';
 export * from './easing';
 export * from './lerp';
 export * from './math';
-export * from './sort';
 export * from './shared-types';
+export * from './sort';
