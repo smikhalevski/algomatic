@@ -1,5 +1,7 @@
 import {MutableArrayLike} from './shared-types';
 
+let sharedStack: Uint32Array | undefined;
+
 /**
  * Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
  *
@@ -10,7 +12,9 @@ import {MutableArrayLike} from './shared-types';
  */
 export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: number) => void, comparator?: (a: T, b: T) => number): void {
   const n = arr.length;
-  const stack = new Uint32Array(Math.min(n, 256)); // Max 1 KB
+  const stack = sharedStack || new Uint32Array(256);
+
+  sharedStack = undefined;
 
   stack[0] = 0;
   stack[1] = n - 1;
@@ -76,4 +80,6 @@ export function parallelSort<T>(arr: MutableArrayLike<T>, swap: (i: number, j: n
     stack[i++] = x + 1;
     stack[i++] = r;
   }
+
+  sharedStack = stack;
 }
