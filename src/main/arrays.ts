@@ -1,5 +1,8 @@
 import {MutableArrayLike} from './shared-types';
 
+/**
+ * Swaps `i` and `j` elements of the array `arr`.
+ */
 export function swap(arr: MutableArrayLike<unknown>, i: number, j: number): void {
   const t = arr[i];
   arr[i] = arr[j];

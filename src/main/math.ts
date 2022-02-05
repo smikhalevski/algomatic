@@ -1,7 +1,4 @@
-const {ceil, floor, pow, min, abs, PI, log10} = Math;
-
-const HI = 0x80_00_00_00;
-const LO = 0x7F_FF_FF_FF;
+const {ceil, floor, min, abs, PI, log10} = Math;
 
 /**
  * Returns the integer part of a number by removing any fractional digits.
@@ -14,53 +11,6 @@ export const trunc = Math.trunc || ((x) => x < 0 ? ceil(x) : floor(x));
  * returned.
  */
 export const sign = Math.sign || ((x) => abs(x) / x);
-
-/**
- * Bitwise left shift operator for large unsigned integers.
- *
- * ```ts
- * left(0xAB, 8); // → 0xAB_00
- * // or
- * 0xAB << 8;
- * ```
- */
-export function left(x: number, shift: number): number {
-  return int(x) * pow(2, int(shift));
-}
-
-/**
- * Bitwise right shift operator for large unsigned integers.
- *
- * ```ts
- * right(0xAB_CD, 8); // → 0xAB
- * // or
- * 0xAB_CD >> 8;
- * ```
- */
-export function right(x: number, shift: number): number {
-  return int(x / pow(2, int(shift)));
-}
-
-/**
- * Bitwise XOR operator for large unsigned integers.
- */
-export function xor(a: number, b: number): number {
-  return ((a / HI) ^ (b / HI)) * HI + ((a & LO) ^ (b & LO));
-}
-
-/**
- * Bitwise OR operator for large unsigned integers.
- */
-export function or(a: number, b: number): number {
-  return ((a / HI) | (b / HI)) * HI + ((a & LO) | (b & LO));
-}
-
-/**
- * Bitwise AND operator for large unsigned integers.
- */
-export function and(a: number, b: number): number {
-  return ((a / HI) & (b / HI)) * HI + ((a & LO) & (b & LO));
-}
 
 /**
  * Returns `x` as is or `n` if `x` is `NaN`.
@@ -185,17 +135,6 @@ export function rad(x: number): number {
  */
 export function deg(x: number): number {
   return x / PI * 180;
-}
-
-/**
- * Linear interpolation.
- *
- * @param x the value to interpolate.
- * @param a the slope of the line (angle between line an X axis).
- * @param b the offset the line on Y axis.
- */
-export function lerp(x: number, a: number, b: number): number {
-  return +a + x * (b - a);
 }
 
 /**

@@ -8,10 +8,11 @@
  * @param [n = xs.length] The maximum index in `xs` that is searched (exclusive).
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  *     comparison operators.
- * @returns The index of the search key, if it is contained in the array; otherwise, `(-(insertion point) - 1)`. The
- *     insertion point is defined as the point at which the key would be inserted into the array: the index of the
- *     first element greater than the `x`, or `xs.length` if all elements in the array are less than the specified key.
- *     Note that this guarantees that the return value will be >= 0 if and only if the key is found.
+ * @returns The index of the searched value, if it is contained in the array; otherwise, `-insertionPoint - 1`. The
+ *     insertion point is defined as the point at which the searched value would be inserted into the array: the index
+ *     of the first element greater than the searched value, or array length if all elements in the array are less than
+ *     the specified key. Note that this guarantees that the return value will be ≥ 0 if and only if the searched value
+ *     is found.
  */
 export function binarySearch<T>(xs: ArrayLike<T>, x: T, n = xs.length, comparator?: (a: T, b: T) => number): number {
   let m = 0;

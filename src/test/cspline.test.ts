@@ -2,7 +2,7 @@ import {cspline} from '../main';
 
 describe('cspline', () => {
 
-  it('creates spline', () => {
+  it('creates a cubic spline interpolator', () => {
     const f = cspline([0, 1, 2], [0, 1, 0]);
 
     expect(f(0)).toBeCloseTo(0);

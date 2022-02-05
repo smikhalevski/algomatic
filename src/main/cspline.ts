@@ -21,7 +21,7 @@ const enum T {
  * const y = f(x);
  * ```
  *
- * @param xs The array of X coordinates of pivot points in ascending order, length must be at least 2.
+ * @param xs The array of X coordinates of pivot points in ascending order.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
@@ -65,7 +65,7 @@ export function interpolateCSpline(xs: ArrayLike<number>, ys: ArrayLike<number>,
   if (x >= xs[n - 1]) {
     return ys[n - 1];
   }
-  let i = binarySearch(x, xs, n);
+  let i = binarySearch(xs, x, n);
   if (i >= 0) {
     return ys[i];
   }

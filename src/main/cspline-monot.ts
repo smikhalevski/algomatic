@@ -56,7 +56,7 @@ export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: 
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param x The X coordinate of interpolated point.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines The array of spline components, length must be `(n - 1) * 3 + 1`.
+ * @param splines The array of spline components, length must be `3 * n - 2`.
  * @returns Interpolated Y coordinate.
  *
  * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
@@ -68,7 +68,7 @@ export function interpolateCSplineMonot(xs: ArrayLike<number>, ys: ArrayLike<num
   if (x >= xs[n - 1]) {
     return ys[n - 1];
   }
-  let i = binarySearch(x, xs, n);
+  let i = binarySearch(xs, x, n);
   if (i >= 0) {
     return ys[i];
   }
