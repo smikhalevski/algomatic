@@ -46,8 +46,12 @@ export function range<T extends MutableArrayLike<number>>(n: number, a: number, 
 
 export function range(n: number, a = 0, b = 1, arr?: MutableArrayLike<number>) {
   arr ||= [];
-  for (let i = 0; i < n; ++i) {
-    arr[i] = a + i / (n - 1) * (b - a);
+  if (n === 1) {
+    arr[0] = a;
+  } else {
+    for (let i = 0; i < n; ++i) {
+      arr[i] = a + i / (n - 1) * (b - a);
+    }
   }
   return arr;
 }
