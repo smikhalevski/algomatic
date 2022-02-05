@@ -26,12 +26,21 @@ export function lerp(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: number) 
     return () => y0;
   }
   return (x) => {
+    if (x <= xs[0]) {
+      return ys[0];
+    }
+    if (x >= xs[n - 1]) {
+      return ys[n - 1];
+    }
     let i = binarySearch(xs, x, n);
     if (i >= 0) {
       return ys[i];
     }
     i = ~i;
+
+    const xj = xs[i - 1];
     const yj = ys[i - 1];
-    return yj + x * (ys[i] - yj);
+
+    return yj + (x - xj) / (xs[i] - xj) * (ys[i] - yj);
   };
 }
