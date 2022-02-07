@@ -1,4 +1,4 @@
-import {MutableArrayLike} from './shared-types';
+import {Interpolator, MutableArrayLike} from './shared-types';
 import {binarySearch} from './binary-search';
 
 /**
@@ -19,18 +19,34 @@ import {binarySearch} from './binary-search';
  *
  * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  */
-export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: number) => number {
-  const n = Math.min(xs.length, ys.length);
+export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): Interpolator {
+  let n = -1;
+  let splines: MutableArrayLike<number>;
 
-  if (n === 0) {
-    return () => NaN;
-  }
-  if (n === 1) {
-    const y0 = ys[0];
-    return () => y0;
-  }
-  const splines = createCSplinesMonot(xs, ys, n);
-  return (x) => interpolateCSplineMonot(xs, ys, x, n, splines);
+  const interp: Interpolator = (x) => {
+    if (n === 0) {
+      return NaN;
+    }
+    if (n === 1) {
+      return ys[0];
+    }
+    return interpolateCSplineMonot(xs, ys, x, n, splines);
+  };
+
+  interp.update = (nextXs, nextYs) => {
+    const nextN = Math.min(nextXs.length, nextYs.length);
+    xs = nextXs;
+    ys = nextYs;
+
+    if (nextN > 1) {
+      splines = createCSplinesMonot(xs, ys, nextN, n >= nextN ? splines : undefined);
+    }
+    n = nextN;
+  };
+
+  interp.update(xs, ys);
+
+  return interp;
 }
 
 const enum T {

@@ -1,4 +1,4 @@
-import {MutableArrayLike} from './shared-types';
+import {Interpolator, MutableArrayLike} from './shared-types';
 import {binarySearch} from './binary-search';
 
 /**
@@ -16,18 +16,34 @@ import {binarySearch} from './binary-search';
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
-export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: number) => number {
-  const n = Math.min(xs.length, ys.length);
+export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>): Interpolator {
+  let n = -1;
+  let splines: MutableArrayLike<number>;
 
-  if (n === 0) {
-    return () => NaN;
-  }
-  if (n === 1) {
-    const y0 = ys[0];
-    return () => y0;
-  }
-  const splines = createCSplines(xs, ys, n);
-  return (x) => interpolateCSpline(xs, ys, x, n, splines);
+  const interp: Interpolator = (x) => {
+    if (n === 0) {
+      return NaN;
+    }
+    if (n === 1) {
+      return ys[0];
+    }
+    return interpolateCSpline(xs, ys, x, n, splines);
+  };
+
+  interp.update = (nextXs, nextYs) => {
+    const nextN = Math.min(nextXs.length, nextYs.length);
+    xs = nextXs;
+    ys = nextYs;
+
+    if (nextN > 1) {
+      splines = createCSplines(xs, ys, nextN, n >= nextN ? splines : undefined);
+    }
+    n = nextN;
+  };
+
+  interp.update(xs, ys);
+
+  return interp;
 }
 
 const enum T {
