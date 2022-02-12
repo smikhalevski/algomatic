@@ -1,7 +1,7 @@
 {
-  "name": "numeric-wrench",
+  "name": "algomatic",
   "version": "3.0.0",
-  "description": "Number manipulation and math functions.",
+  "description": "Various algorithms and math utilities.",
   "main": "./lib/index-cjs.js",
   "module": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smikhalevski/numeric-wrench.git"
+    "url": "git+https://github.com/smikhalevski/algomatic.git"
   },
   "keywords": [
     "javascript",
@@ -30,17 +30,23 @@
     "byte",
     "number",
     "math",
+    "bitwise",
+    "lerp",
     "spline",
-    "interpolation",
     "cspline",
-    "binary-search"
+    "cubic-spline",
+    "interpolation",
+    "binary-search",
+    "sort",
+    "parallel-sort",
+    "easing"
   ],
   "author": "Savva Mikhalevski <smikhalevski@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/smikhalevski/numeric-wrench/issues"
+    "url": "https://github.com/smikhalevski/algomatic/issues"
   },
-  "homepage": "https://github.com/smikhalevski/numeric-wrench#readme",
+  "homepage": "https://github.com/smikhalevski/algomatic#readme",
   "jest": {
     "preset": "ts-jest",
     "globals": {
