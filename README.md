@@ -1,4 +1,8 @@
-# numeric-wrench 🔧 [![build](https://github.com/smikhalevski/numeric-wrench/actions/workflows/master.yml/badge.svg?branch=master&event=push)](https://github.com/smikhalevski/numeric-wrench/actions/workflows/master.yml)
+# Algomatic [![build](https://github.com/smikhalevski/numeric-wrench/actions/workflows/master.yml/badge.svg?branch=master&event=push)](https://github.com/smikhalevski/numeric-wrench/actions/workflows/master.yml)
+
+<a href="#readme">
+  <img alt="Robots" src="https://github.com/smikhalevski/numeric-wrench/raw/rebranding/robots.png"/>
+</a>
 
 Number manipulation and math functions.
 
