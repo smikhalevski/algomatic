@@ -3,8 +3,8 @@ import {exp, log} from './math-utils';
 /**
  * Maps `t` ∈ [0, 1] exponentially to [0, 1].
  *
- * @param t the value to map.
- * @param q greater values produce more bent curve, `f(t, 0) = t`.
+ * @param t The value to map.
+ * @param q Greater values produce more bent curve, `f(t, 0) = t`.
  */
 export function easeExp(t: number, q = 1): number {
   return q === 0 ? t : (exp(q * t) - 1) / (exp(q) - 1);
@@ -13,11 +13,11 @@ export function easeExp(t: number, q = 1): number {
 /**
  * Maps `t` ∈ [0, 1] logarithmically to [0, 1].
  *
- * @param x the value to map.
- * @param q greater values produce more bent curve, `f(t, 0) = t`.
+ * @param t The value to map.
+ * @param q Greater values produce more bent curve, `f(t, 0) = t`.
  */
-export function easeLog(x: number, q = 1): number {
-  return q === 0 ? x : log(x * (exp(q) - 1) + 1) / q;
+export function easeLog(t: number, q = 1): number {
+  return q === 0 ? t : log(t * (exp(q) - 1) + 1) / q;
 }
 
 export function easeInQuad(t: number): number {

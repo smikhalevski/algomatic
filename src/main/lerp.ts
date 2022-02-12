@@ -1,4 +1,5 @@
 import {binarySearch} from './binary-search';
+import {Interpolator} from './shared-types';
 
 /**
  * Returns a linear interpolation function for given pivot points.
@@ -15,17 +16,13 @@ import {binarySearch} from './binary-search';
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  */
-export function lerp(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: number) => number {
-  const n = Math.min(xs.length, ys.length);
+export function lerp(xs: ArrayLike<number>, ys: ArrayLike<number>): Interpolator {
+  let n = -1;
 
-  if (n === 0) {
-    return () => NaN;
-  }
-  if (n === 1) {
-    const y0 = ys[0];
-    return () => y0;
-  }
-  return (x) => {
+  const interp: Interpolator = (x) => {
+    if (n === 0) {
+      return NaN;
+    }
     if (x <= xs[0]) {
       return ys[0];
     }
@@ -43,4 +40,14 @@ export function lerp(xs: ArrayLike<number>, ys: ArrayLike<number>): (x: number) 
 
     return yj + (x - xj) / (xs[i] - xj) * (ys[i] - yj);
   };
+
+  interp.update = (nextXs, nextYs) => {
+    n = Math.min(nextXs.length, nextYs.length);
+    xs = nextXs;
+    ys = nextYs;
+  };
+
+  interp.update(xs, ys);
+
+  return interp;
 }
