@@ -16,6 +16,7 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
   if (n < 2) {
     return arr;
   }
+
   if (n === 2) {
     const a0 = arr[0];
     const a1 = arr[1];
@@ -30,8 +31,8 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
 
   let i = 2;
 
-  const stack = sharedStack || new Int32Array(256);
-
+  // Nested sort call creates a new stack, otherwise previously allocated stack is reused
+  const stack = sharedStack || new Int32Array(256); // 1 KB
   sharedStack = undefined;
 
   stack[0] = 0;
@@ -48,48 +49,58 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
     let x = l;
     let y = r - 1;
 
-    const pivot = l;
-    const pivotValue = arr[pivot];
-    arr[pivot] = arr[r];
-    swap?.(l, r);
+    // swap?.(l, r);
+    const pivotValue = arr[l];
+    arr[l] = arr[r];
+    arr[r] = pivotValue;
 
-    if (comparator) {
-      while (true) {
+    let q = false;
+
+    while (true) {
+      if (comparator) {
         while (x <= y && comparator(arr[x], pivotValue) < 0) {
           x++;
         }
         while (x <= y && comparator(arr[y], pivotValue) >= 0) {
           y--;
         }
-        if (x > y) {
-          break;
-        }
-        const t = arr[x];
-        arr[x] = arr[y];
-        arr[y] = t;
-        swap?.(x, y);
-      }
-    } else {
-      while (true) {
+      } else {
         while (x <= y && arr[x] < pivotValue) {
           x++;
         }
         while (x <= y && arr[y] >= pivotValue) {
           y--;
         }
-        if (x > y) {
-          break;
-        }
-        const t = arr[x];
-        arr[x] = arr[y];
-        arr[y] = t;
-        swap?.(x, y);
       }
+      if (x >= y) {
+        break;
+      }
+      if (!q) {
+        //   arr[l] = pivotValue;
+        swap?.(l, r);
+        //   arr[l] = arr[r];
+        //   arr[r] = pivotValue;
+        q = true;
+      }
+      swap?.(x, y);
+      const t = arr[x];
+      arr[x] = arr[y];
+      arr[y] = t;
     }
 
-    arr[r] = arr[x];
-    arr[x] = pivotValue;
-    swap?.(r, x);
+    if (r !== x) {
+      if (l !== x) {
+        if (!q) {
+          swap?.(l, r);
+        }
+        swap?.(r, x);
+      }
+      const t = arr[r];
+      arr[r] = arr[x];
+      arr[x] = t;
+    } else if (!q) {
+      swap?.(l, r);
+    }
 
     stack[i++] = l;
     stack[i++] = x - 1;
