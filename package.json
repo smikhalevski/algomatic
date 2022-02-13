@@ -15,6 +15,7 @@
     "terser": "for file in $(find ./lib -name '*.js'); do terser --compress --mangle --output $file -- $file; done || exit 1",
     "clean": "rimraf ./lib ./docs",
     "test": "jest --detectOpenHandles",
+    "perf": "node --expose-gc --max-old-space-size=4096 ./src/test/perf.js",
     "docs": "typedoc ./src/main/index.ts",
     "publish-docs": "[ -d ./docs ] && [[ ! $(git status --porcelain) ]] && branch=$(git rev-parse --abbrev-ref HEAD) && sha=$(git rev-parse --short HEAD) && t=$(mktemp -d) && cp -R ./docs/ $t && git checkout ghpages && ls -A | grep -wv .git | xargs rm -rf && cp -R $t/ . && git add . && git commit -m \"Updated docs ($sha)\" && git push && git checkout $branch",
     "release-docs": "npm run clean && npm run docs && npm run publish-docs"
@@ -61,7 +62,9 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.1.3",
+    "@smikhalevski/perf-test": "^1.0.0",
     "@types/jest": "^27.4.0",
+    "chalk": "^4.1.2",
     "jest": "^27.4.7",
     "rimraf": "^3.0.2",
     "rollup": "^2.67.0",
