@@ -10,7 +10,7 @@ let sharedStack: Int32Array | undefined;
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  *     comparison operators.
  */
-export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) => void, comparator?: (a: T, b: T) => number) {
+export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr: A, swap?: (i: number, j: number) => void, comparator?: (a: T, b: T) => number): A {
   const n = arr.length;
 
   if (n < 2) {
@@ -49,12 +49,10 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
     let x = l;
     let y = r - 1;
 
-    // swap?.(l, r);
     const pivotValue = arr[l];
     arr[l] = arr[r];
-    arr[r] = pivotValue;
 
-    let q = false;
+    let q = true;
 
     while (true) {
       if (comparator) {
@@ -75,32 +73,43 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
       if (x >= y) {
         break;
       }
-      if (!q) {
-        //   arr[l] = pivotValue;
-        swap?.(l, r);
-        //   arr[l] = arr[r];
-        //   arr[r] = pivotValue;
-        q = true;
+      if (swap) {
+        if (q) {
+          arr[l] = pivotValue;
+          swap(l, r);
+          arr[l] = arr[r];
+          arr[r] = pivotValue;
+          q = false;
+        }
+        swap(x, y);
       }
-      swap?.(x, y);
       const t = arr[x];
       arr[x] = arr[y];
       arr[y] = t;
     }
 
-    if (r !== x) {
-      if (l !== x) {
-        if (!q) {
-          swap?.(l, r);
+    if (swap) {
+      if (r !== x) {
+        if (l !== x) {
+          if (q) {
+            arr[l] = pivotValue;
+            swap(l, r);
+            arr[l] = arr[r];
+            arr[r] = pivotValue;
+          }
+          swap(r, x);
         }
-        swap?.(r, x);
+        arr[r] = arr[x];
+      } else if (q) {
+        arr[l] = pivotValue;
+        swap(l, r);
+        arr[l] = arr[r];
       }
-      const t = arr[r];
+    } else if (r !== x) {
       arr[r] = arr[x];
-      arr[x] = t;
-    } else if (!q) {
-      swap?.(l, r);
     }
+
+    arr[x] = pivotValue;
 
     stack[i++] = l;
     stack[i++] = x - 1;
