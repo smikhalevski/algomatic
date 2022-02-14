@@ -52,7 +52,8 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
     const pivotValue = arr[l];
     arr[l] = arr[r];
 
-    let q = true;
+    // true if no swaps were made
+    let pristine = true;
 
     while (true) {
       if (comparator) {
@@ -74,12 +75,13 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
         break;
       }
       if (swap) {
-        if (q) {
+        if (pristine) {
+          // Rollback to prevent inconsistency if swap throws
           arr[l] = pivotValue;
           swap(l, r);
           arr[l] = arr[r];
           arr[r] = pivotValue;
-          q = false;
+          pristine = false;
         }
         swap(x, y);
       }
@@ -91,7 +93,7 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
     if (swap) {
       if (r !== x) {
         if (l !== x) {
-          if (q) {
+          if (pristine) {
             arr[l] = pivotValue;
             swap(l, r);
             arr[l] = arr[r];
@@ -100,7 +102,7 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
           swap(r, x);
         }
         arr[r] = arr[x];
-      } else if (q) {
+      } else if (pristine) {
         arr[l] = pivotValue;
         swap(l, r);
         arr[l] = arr[r];
