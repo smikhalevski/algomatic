@@ -1,14 +1,18 @@
 import {ArrayElement, MutableArrayLike} from './shared-types';
 
-let sharedStack: Int32Array | undefined;
+// The stack is an array indices of partitions used by quicksort
+let sharedStack: Uint32Array | undefined;
 
 /**
- * Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
+ * Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.
  *
- * @param arr The mutable array that is sorted in-place.
+ * `swap` or `comparator` callbacks are guaranteed to be called after the elements of `arr` are swapped.
+ *
+ * @param arr The mutable array-like data structure that is sorted in-place.
  * @param swap The callback that is invoked with indices that were swapped.
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  *     comparison operators.
+ * @returns The `arr` array.
  */
 export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number, j: number) => void, comparator?: (a: ArrayElement<T>, b: ArrayElement<T>) => number): T {
   const n = arr.length;
@@ -32,7 +36,7 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
   let i = 2;
 
   // Nested sort call creates a new stack, otherwise previously allocated stack is reused
-  const stack = sharedStack || new Int32Array(256); // 1 KB
+  const stack = sharedStack || new Uint32Array(256);
   sharedStack = undefined;
 
   stack[0] = 0;
@@ -56,7 +60,7 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
     let ax = ar;
     let ay = arr[y];
 
-    // true if no swaps were made during loop
+    // true if no swaps were made during the loop
     let pristine = true;
 
     while (true) {
@@ -105,12 +109,12 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
         arr[x] = pivotValue;
         swap?.(x, r);
       }
+      stack[i++] = l; // l
+      stack[i++] = x - 1; // r
     }
 
-    stack[i++] = l;
-    stack[i++] = x - 1;
-    stack[i++] = x + 1;
-    stack[i++] = r;
+    stack[i++] = x + 1; // l
+    stack[i++] = r; // r
   }
 
   sharedStack = stack;
