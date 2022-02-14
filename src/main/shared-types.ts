@@ -9,3 +9,5 @@ export interface MutableArrayLike<T> {
 
   [n: number]: T;
 }
+
+export type ArrayElement<T extends ArrayLike<unknown>> = T extends ArrayLike<infer E> ? E : never;

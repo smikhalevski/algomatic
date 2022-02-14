@@ -1,7 +1,7 @@
 # Algomatic [![build](https://github.com/smikhalevski/algomatic/actions/workflows/master.yml/badge.svg?branch=master&event=push)](https://github.com/smikhalevski/algomatic/actions/workflows/master.yml)
 
 <a href="#readme">
-  <img alt="Robots" width="600" src="https://github.com/smikhalevski/algomatic/raw/master/robots.png"/>
+  <img alt="Robots" src="https://github.com/smikhalevski/algomatic/raw/master/robots.png"/>
 </a>
 
 Various algorithms and math utilities.
@@ -129,23 +129,39 @@ results.
 
 ## Sort
 
-Non-recursive sorting implementation. In contrast to
-[`Array.sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), this
-function doesn't convert array elements to strings before comparison and uses `>` and `<` operators directly. So numeric
-arrays are sorted in natural order. You can provide an element comparator to change the sorting order.
-
-Provide a swap callback that is invoked when elements are swapped during sorting, this simplifies sorting multiple
-arrays in parallel.
+Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.
 
 ```ts
 sort(
     arr, // Mutable array that would be sorted
     (i, j) => {
       // Called when i and j elements of arr were swapped
+      // Use this to sort multiple arrays in parallel
     },
     (a, b) => 0, // Comparator works the same way as in Array.sort
 );
 ```
+
+`sort` uses a non-recursive [Quicksort](https://en.wikipedia.org/wiki/Quicksort) algorithm. In contrast to
+[`Array.sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), `sort`
+doesn't convert array elements to strings before comparison and uses comparison operators directly. So numeric arrays
+are sorted in natural order with `sort(arr)`. You can provide an element comparator to change the sorting order.
+
+### Sort performance
+
+`sort` is 10 &times; faster than native `Array.sort` on both small and big arrays. The plot below uses a log scale and
+shows the dependency of number of operations per second from the input array length.
+
+<img alt="sort vs Array.sort performance comparison" src="./images/sort-perf.svg"/>
+
+|  | 2 | 4 | 8 | 10 | 100 | 1 000 | 10 000 | 100 000 |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `Array.sort()` | 4 M | 3 M | 2 M | 1 M | 51 k | 2 k | 118 | 5.70 |
+| `Array.sort(comp)` | 5 M | 3 M | 2 M | 2 M | 78 k | 5 k | 347 | 19.81 |
+| `sort(arr)` | 16 M | 12 M | 7 M | 5 M | 557 k | 20 k | 1 393 | 112.06 |
+| `sort(arr, swap)` | 16 M | 8 M | 5 M | 5 M | 355 k | 19 k | 1 236 | 97.85 |
+| `sort(arr, undefined, comp)` | 17 M | 6 M | 6 M | 5 M | 387 k | 15 k | 1 158 | 96.53 |
+| `sort(arr, swap, comp)` | 15 M | 7 M | 5 M | 4 M | 388 k | 14 k | 1 044 | 84.05 |
 
 ## Binary search
 

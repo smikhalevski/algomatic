@@ -1,21 +1,26 @@
-import {MutableArrayLike} from './shared-types';
+import {ArrayElement, MutableArrayLike} from './shared-types';
 
-let sharedStack: Int32Array | undefined;
+// The stack is an array indices of partitions used by quicksort
+let sharedStack: Uint32Array | undefined;
 
 /**
- * Non-recursive quicksort algorithm implementation aimed for sorting multiple arrays in parallel.
+ * Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.
  *
- * @param arr The mutable array that is sorted in-place.
+ * `swap` or `comparator` callbacks are guaranteed to be called after the elements of `arr` are swapped.
+ *
+ * @param arr The mutable array-like data structure that is sorted in-place.
  * @param swap The callback that is invoked with indices that were swapped.
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  *     comparison operators.
+ * @returns The `arr` array.
  */
-export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) => void, comparator?: (a: T, b: T) => number) {
+export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number, j: number) => void, comparator?: (a: ArrayElement<T>, b: ArrayElement<T>) => number): T {
   const n = arr.length;
 
   if (n < 2) {
     return arr;
   }
+
   if (n === 2) {
     const a0 = arr[0];
     const a1 = arr[1];
@@ -30,8 +35,8 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
 
   let i = 2;
 
-  const stack = sharedStack || new Int32Array(256);
-
+  // Nested sort call creates a new stack, otherwise previously allocated stack is reused
+  const stack = sharedStack || new Uint32Array(256);
   sharedStack = undefined;
 
   stack[0] = 0;
@@ -48,53 +53,78 @@ export function sort<T>(arr: MutableArrayLike<T>, swap?: (i: number, j: number) 
     let x = l;
     let y = r - 1;
 
-    const pivot = l;
-    const pivotValue = arr[pivot];
-    arr[pivot] = arr[r];
-    swap?.(l, r);
+    const pivotValue = arr[x];
 
-    if (comparator) {
-      while (true) {
-        while (x <= y && comparator(arr[x], pivotValue) < 0) {
-          x++;
+    const ar = arr[r];
+
+    let ax = ar;
+    let ay = arr[y];
+
+    // true if no swaps were made during the loop
+    let pristine = true;
+
+    while (true) {
+
+      if (comparator) {
+        while (x <= y && comparator(ax, pivotValue) < 0) {
+          ax = arr[++x];
         }
-        while (x <= y && comparator(arr[y], pivotValue) >= 0) {
-          y--;
+        while (x < y && comparator(ay, pivotValue) >= 0) {
+          ay = arr[--y];
         }
-        if (x > y) {
-          break;
+      } else {
+        while (x <= y && ax < pivotValue) {
+          ax = arr[++x];
         }
-        const t = arr[x];
-        arr[x] = arr[y];
-        arr[y] = t;
-        swap?.(x, y);
+        while (x < y && ay >= pivotValue) {
+          ay = arr[--y];
+        }
       }
-    } else {
-      while (true) {
-        while (x <= y && arr[x] < pivotValue) {
-          x++;
-        }
-        while (x <= y && arr[y] >= pivotValue) {
-          y--;
-        }
-        if (x > y) {
-          break;
-        }
-        const t = arr[x];
-        arr[x] = arr[y];
-        arr[y] = t;
-        swap?.(x, y);
+
+      if (x >= y) {
+        break;
       }
+
+      if (pristine) {
+        pristine = false;
+        arr[l] = ar;
+        arr[r] = pivotValue;
+        swap?.(l, r);
+      }
+
+      const t = ax;
+      ax = arr[x] = ay;
+      ay = arr[y] = t;
+      swap?.(x, y);
     }
 
-    arr[r] = arr[x];
-    arr[x] = pivotValue;
-    swap?.(r, x);
-
-    stack[i++] = l;
-    stack[i++] = x - 1;
     stack[i++] = x + 1;
     stack[i++] = r;
+
+    if (x !== l) {
+      if (pristine) {
+        arr[l] = ar;
+        arr[r] = pivotValue;
+        swap?.(l, r);
+      }
+      if (x !== r) {
+        arr[r] = ax;
+        arr[x] = pivotValue;
+        swap?.(x, r);
+      }
+
+      // Smaller partition is sorted first to ensure log(n) stack depth
+      if (x - l > r - x) {
+        stack[i - 2] = l;
+        stack[i - 1] = x - 1;
+
+        stack[i++] = x + 1;
+        stack[i++] = r;
+      } else {
+        stack[i++] = l;
+        stack[i++] = x - 1;
+      }
+    }
   }
 
   sharedStack = stack;
