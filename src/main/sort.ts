@@ -1,4 +1,4 @@
-import {MutableArrayLike} from './shared-types';
+import {ArrayElement, MutableArrayLike} from './shared-types';
 
 let sharedStack: Int32Array | undefined;
 
@@ -10,7 +10,7 @@ let sharedStack: Int32Array | undefined;
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  *     comparison operators.
  */
-export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr: A, swap?: (i: number, j: number) => void, comparator?: (a: T, b: T) => number): A {
+export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number, j: number) => void, comparator?: (a: ArrayElement<T>, b: ArrayElement<T>) => number): T {
   const n = arr.length;
 
   if (n < 2) {
@@ -94,20 +94,15 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
       swap?.(x, y);
     }
 
-    if (pristine) {
-      arr[l] = ar;
-      arr[r] = pivotValue;
-
-      if (x !== l) {
+    if (x !== l) {
+      if (pristine) {
+        arr[l] = ar;
+        arr[r] = pivotValue;
         swap?.(l, r);
       }
-    }
-
-    if (x !== r) {
-      arr[r] = ax;
-      arr[x] = pivotValue;
-
-      if (x !== l) {
+      if (x !== r) {
+        arr[r] = ax;
+        arr[x] = pivotValue;
         swap?.(x, r);
       }
     }
