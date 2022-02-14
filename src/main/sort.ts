@@ -98,6 +98,9 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
       swap?.(x, y);
     }
 
+    stack[i++] = x + 1;
+    stack[i++] = r;
+
     if (x !== l) {
       if (pristine) {
         arr[l] = ar;
@@ -109,12 +112,19 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
         arr[x] = pivotValue;
         swap?.(x, r);
       }
-      stack[i++] = l; // l
-      stack[i++] = x - 1; // r
-    }
 
-    stack[i++] = x + 1; // l
-    stack[i++] = r; // r
+      // Smaller partition is sorted first to ensure log(n) stack depth
+      if (x - l > r - x) {
+        stack[i - 2] = l;
+        stack[i - 1] = x - 1;
+
+        stack[i++] = x + 1;
+        stack[i++] = r;
+      } else {
+        stack[i++] = l;
+        stack[i++] = x - 1;
+      }
+    }
   }
 
   sharedStack = stack;

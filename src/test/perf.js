@@ -4,7 +4,7 @@ const {sort} = require('../../lib/index-cjs.js');
 
 const arr0 = [];
 const arr1 = [];
-for (let i = 0; i < 6; ++i) {
+for (let i = 0; i < 10_000; ++i) {
   arr0.push(Math.random());
   arr1.push(Math.random());
 }
