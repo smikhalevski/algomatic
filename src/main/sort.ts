@@ -51,55 +51,65 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
 
     const pivotValue = arr[x];
 
-    let ax = arr[r];
+    const ar = arr[r];
+
+    let ax = ar;
     let ay = arr[y];
 
-    arr[x] = arr[r];
-    arr[r] = pivotValue;
-
-    // true if no swaps were made during while loop
+    // true if no swaps were made during loop
     let pristine = true;
 
     while (true) {
 
-      while (x <= y && ax < pivotValue) {
-        ax = arr[++x];
-      }
-      while (x < y && ay >= pivotValue) {
-        ay = arr[--y];
+      if (comparator) {
+        while (x <= y && comparator(ax, pivotValue) < 0) {
+          ax = arr[++x];
+        }
+        while (x < y && comparator(ay, pivotValue) >= 0) {
+          ay = arr[--y];
+        }
+      } else {
+        while (x <= y && ax < pivotValue) {
+          ax = arr[++x];
+        }
+        while (x < y && ay >= pivotValue) {
+          ay = arr[--y];
+        }
       }
 
       if (x >= y) {
         break;
       }
 
+      if (pristine) {
+        pristine = false;
+        arr[l] = ar;
+        arr[r] = pivotValue;
+        swap?.(l, r);
+      }
+
       const t = ax;
       ax = arr[x] = ay;
       ay = arr[y] = t;
+      swap?.(x, y);
+    }
 
-      if (swap) {
-        if (pristine) {
-          pristine = false;
-          swap(l, r);
-        }
-        swap(x, y);
+    if (pristine) {
+      arr[l] = ar;
+      arr[r] = pivotValue;
+
+      if (x !== l) {
+        swap?.(l, r);
       }
     }
 
     if (x !== r) {
-      arr[r] = arr[x];
+      arr[r] = ax;
       arr[x] = pivotValue;
 
-      if (swap && x !== l) {
-        if (pristine) {
-          swap(l, r);
-        }
-        swap(r, x);
+      if (x !== l) {
+        swap?.(x, r);
       }
-    }
-
-    if (swap && pristine && x === r) {
-      swap(l, r);
     }
 
     stack[i++] = l;
