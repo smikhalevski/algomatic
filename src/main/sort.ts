@@ -49,36 +49,33 @@ export function sort<T, A extends MutableArrayLike<T> = MutableArrayLike<T>>(arr
     let x = l;
     let y = r - 1;
 
-    const pivotValue = arr[l];
-    arr[l] = arr[r];
+    const pivotValue = arr[x];
+
+    let ax = arr[r];
+    let ay = arr[y];
+
+    arr[x] = arr[r];
     arr[r] = pivotValue;
 
     // true if no swaps were made during while loop
     let pristine = true;
 
     while (true) {
-      if (comparator) {
-        while (x <= y && comparator(arr[x], pivotValue) < 0) {
-          x++;
-        }
-        while (x <= y && comparator(arr[y], pivotValue) >= 0) {
-          y--;
-        }
-      } else {
-        while (x <= y && arr[x] < pivotValue) {
-          x++;
-        }
-        while (x <= y && arr[y] >= pivotValue) {
-          y--;
-        }
+
+      while (x <= y && ax < pivotValue) {
+        ax = arr[++x];
       }
+      while (x < y && ay >= pivotValue) {
+        ay = arr[--y];
+      }
+
       if (x >= y) {
         break;
       }
 
-      const t = arr[x];
-      arr[x] = arr[y];
-      arr[y] = t;
+      const t = ax;
+      ax = arr[x] = ay;
+      ay = arr[y] = t;
 
       if (swap) {
         if (pristine) {
