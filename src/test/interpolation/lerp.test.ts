@@ -1,4 +1,4 @@
-import {lerp} from '../main';
+import {lerp} from '../../main';
 
 describe('lerp', () => {
 

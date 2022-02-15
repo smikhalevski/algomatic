@@ -1,4 +1,4 @@
-import {cspline} from '../main';
+import {cspline} from '../../main';
 
 describe('cspline', () => {
 

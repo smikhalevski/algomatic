@@ -1,4 +1,4 @@
-import {binarySearch} from '../main';
+import {binarySearch} from '../../main';
 
 describe('binarySearch', () => {
 

@@ -1,5 +1,5 @@
-import {int} from './math';
-import {pow} from './math-utils';
+import {int} from './math-utils';
+import {pow} from './native-math';
 
 const HI = 0x80_00_00_00;
 const LO = 0x7F_FF_FF_FF;

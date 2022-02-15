@@ -1,4 +1,4 @@
-import {csplineMonot} from '../main';
+import {csplineMonot} from '../../main';
 
 describe('csplineMonot', () => {
 

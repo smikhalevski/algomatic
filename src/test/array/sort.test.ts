@@ -1,4 +1,4 @@
-import {sort} from '../main';
+import {sort} from '../../main';
 
 describe('sort', () => {
 
@@ -189,5 +189,25 @@ describe('sort', () => {
     const arr2: Int32Array = sort(arr, undefined, (a, b) => b - a);
 
     expect(arr2).toEqual(Int32Array.of(4, 3, 2, 1));
+  });
+
+  test('sorts arrays with undefined elements without comparator', () => {
+    expect(sort([undefined, 2, 1])).toEqual([1, 2, undefined]);
+  });
+
+  test('does not sort an array where all elements are equal according to a comparator', () => {
+    const arr = [0, 1, 2, 3];
+    const swapMock = jest.fn();
+
+    expect(sort(arr, swapMock, () => 0)).toEqual([0, 1, 2, 3]);
+    expect(swapMock.mock.calls).toEqual([]);
+  });
+
+  test('sort an array where any element is less than another element', () => {
+    expect(sort([0, 1, 2, 3], undefined, () => -1)).toEqual([1, 2, 3, 0]);
+  });
+
+  test('sort an array where any element is greater than another element', () => {
+    expect(sort([0, 1, 2, 3], undefined, () => 1)).toEqual([0, 1, 2, 3]);
   });
 });

@@ -1,4 +1,4 @@
-import {exp, log} from './math-utils';
+import {exp, log} from './native-math';
 
 /**
  * Maps `t` ∈ [0, 1] exponentially to [0, 1].

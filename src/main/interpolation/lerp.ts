@@ -1,5 +1,5 @@
-import {binarySearch} from './binary-search';
-import {Interpolator} from './shared-types';
+import {Interpolator} from '../shared-types';
+import {binarySearch} from '../array';
 
 /**
  * Returns a linear interpolation function for given pivot points.

@@ -1,4 +1,4 @@
-import {ArrayElement, MutableArrayLike} from './shared-types';
+import {ArrayElement, Comparator, MutableArrayLike} from '../shared-types';
 
 // The stack is an array indices of partitions used by quicksort
 let sharedStack: Uint32Array | undefined;
@@ -14,7 +14,7 @@ let sharedStack: Uint32Array | undefined;
  *     comparison operators.
  * @returns The `arr` array.
  */
-export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number, j: number) => void, comparator?: (a: ArrayElement<T>, b: ArrayElement<T>) => number): T {
+export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number, j: number) => void, comparator?: Comparator<ArrayElement<T>>): T {
   const n = arr.length;
 
   if (n < 2) {
@@ -66,14 +66,14 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
     while (true) {
 
       if (comparator) {
-        while (x <= y && comparator(ax, pivotValue) < 0) {
+        while (x <= y && !(comparator(ax, pivotValue) >= 0)) {
           ax = arr[++x];
         }
         while (x < y && comparator(ay, pivotValue) >= 0) {
           ay = arr[--y];
         }
       } else {
-        while (x <= y && ax < pivotValue) {
+        while (x <= y && !(ax >= pivotValue)) {
           ax = arr[++x];
         }
         while (x < y && ay >= pivotValue) {

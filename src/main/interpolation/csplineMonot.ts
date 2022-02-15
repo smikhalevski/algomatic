@@ -1,5 +1,5 @@
-import {Interpolator, MutableArrayLike} from './shared-types';
-import {binarySearch} from './binary-search';
+import {Interpolator, MutableArrayLike} from '../shared-types';
+import {binarySearch} from '../array';
 
 /**
  * Returns a monotonous cubic spline interpolation function for given pivot points, that prevent overshoot of

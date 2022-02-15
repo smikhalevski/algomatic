@@ -1,4 +1,4 @@
-import {range} from '../main';
+import {range} from '../../main';
 
 describe('range', () => {
 
@@ -12,7 +12,7 @@ describe('range', () => {
   test('fills an existing array', () => {
     const a: number[] = [];
 
-    expect(range(5, -10, 10, a)).toBe(a);
+    expect(range(a, 5, -10, 10)).toBe(a);
     expect(a).toEqual([-10, -5, 0, 5, 10]);
   });
 });
