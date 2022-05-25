@@ -2,14 +2,10 @@
 <a href="#algomatic-" id="algomatic-" style="color: inherit; text-decoration: none;">
   <h1>Algomatic <a href="https://github.com/smikhalevski/algomatic/actions/workflows/master.yml"><img src="https://github.com/smikhalevski/algomatic/actions/workflows/master.yml/badge.svg?branch=master&event=push" alt="build"></a></h1>
 </a>
-<a href="#readme">
-  <img alt="Robots" src="https://github.com/smikhalevski/algomatic/raw/master/images/robots.png"/>
-</a>
-
 <p>Various algorithms and utilities.</p>
 <pre><code class="language-shell"><span class="hl-1">npm install --save-prod algomatic</span>
 </code></pre>
-<p>🤖 <a href="https://smikhalevski.github.io/algomatic/">API documentation is available here.</a></p>
+<p>🔢 <a href="https://smikhalevski.github.io/algomatic/">API documentation is available here.</a></p>
 
 <a href="#arrays" id="arrays" style="color: inherit; text-decoration: none;">
   <h1>Arrays</h1>
@@ -44,7 +40,7 @@ key. Note that this guarantees that the return value will be ≥ 0 if and only i
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"><code>Array.sort</code></a>, <code>sort</code>
 doesn&#39;t convert array elements to strings before comparison and uses comparison operators directly. So numeric arrays
 are sorted in natural order with <code>sort(arr)</code>. You can provide an element comparator to change the sorting order.</p>
-<p><code>sort</code> is 6&times; faster than <code>Array.sort</code> on average on both small and big arrays. The plot below uses a log scale and
+<p><code>sort</code> is order of magnitude faster than <code>Array.sort</code> on both small and big arrays. The plot below uses a log scale and
 shows the dependency of number of operations per second from the input array length.</p>
 <img alt="sort vs Array.sort performance comparison" src="https://github.com/smikhalevski/algomatic/raw/master/images/sort-perf.svg"/>
 
