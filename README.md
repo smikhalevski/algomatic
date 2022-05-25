@@ -1,16 +1,79 @@
 # Algomatic [![build](https://github.com/smikhalevski/algomatic/actions/workflows/master.yml/badge.svg?branch=master&event=push)](https://github.com/smikhalevski/algomatic/actions/workflows/master.yml)
 
-<a href="#readme">
-  <img alt="Robots" src="https://github.com/smikhalevski/algomatic/raw/master/images/robots.png"/>
-</a>
-
 Various algorithms and utilities.
+
+- Highly performant: in-out arguments and no heap allocations;
+- Tree-shakeable;
+- Thoroughly tested.
+
+Algorithms from this library are used in [Paint Bucket](https://github.com/smikhalevski/paint-bucket#readme) color
+manipulation library, check out [its performance](https://github.com/smikhalevski/paint-bucket#performance).
+
+🔢 [API documentation is available here.](https://smikhalevski.github.io/algomatic/)
 
 ```shell
 npm install --save-prod algomatic
 ```
 
-🤖 [API documentation is available here.](https://smikhalevski.github.io/algomatic/)
+- [Arrays](#arrays)<br>
+  [`binarySearch`](#binarysearch)
+  [`sort`](#sort)
+
+- [Interpolation](#interpolation)<br>
+  [`lerp`](#lerp)
+  [`cspline`](#cspline)
+  [`csplineMonot`](#csplinemonot)
+
+- [Bitwise](#bitwise)<br>
+  [`int`](#bitwise)
+  [`byte`](#bitwise)
+  [`uint`](#bitwise)
+  [`left`](#bitwise)
+  [`right`](#bitwise)
+  [`and`](#bitwise)
+  [`or`](#bitwise)
+  [`xor`](#bitwise)
+
+- Numbers<br>
+  [`unNaN`](https://smikhalevski.github.io/algomatic/modules.html#unNaN)
+  [`clamp`](https://smikhalevski.github.io/algomatic/modules.html#clamp)
+  [`clamp1`](https://smikhalevski.github.io/algomatic/modules.html#clamp1)
+  [`closest`](https://smikhalevski.github.io/algomatic/modules.html#closest)
+  [`cycle`](https://smikhalevski.github.io/algomatic/modules.html#cycle)
+  [`snap`](https://smikhalevski.github.io/algomatic/modules.html#snap)
+  [`flip`](https://smikhalevski.github.io/algomatic/modules.html#flip)
+
+- Math<br>
+  [`logx`](https://smikhalevski.github.io/algomatic/modules.html#logx)
+  [`deg`](https://smikhalevski.github.io/algomatic/modules.html#deg)
+  [`rad`](https://smikhalevski.github.io/algomatic/modules.html#rad)
+  [`sq`](https://smikhalevski.github.io/algomatic/modules.html#sq)
+  [`sign`](https://smikhalevski.github.io/algomatic/modules.html#sign)
+  [`trunc`](https://smikhalevski.github.io/algomatic/modules.html#trunc)
+
+- Checks<br>
+  [`isBetween`](https://smikhalevski.github.io/algomatic/modules.html#isBetween)
+  [`isEpsClose`](https://smikhalevski.github.io/algomatic/modules.html#isEpsClose)
+  [`isNumeric`](https://smikhalevski.github.io/algomatic/modules.html#isNumeric)
+
+- Functions<br>
+  [`callOrGet`](https://smikhalevski.github.io/algomatic/modules.html#callOrGet)
+
+- Easing<br>
+  [`easeExp`](https://smikhalevski.github.io/algomatic/modules.html#easeExp)
+  [`easeLog`](https://smikhalevski.github.io/algomatic/modules.html#easeLog)
+  [`easeInQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuad)
+  [`easeOutQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuad)
+  [`easeInOutQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuad)
+  [`easeInCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeInCubic)
+  [`easeOutCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeOutCubic)
+  [`easeInOutCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutCubic)
+  [`easeInQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuart)
+  [`easeOutQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuart)
+  [`easeInOutQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuart)
+  [`easeInQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuint)
+  [`easeOutQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuint)
+  [`easeInOutQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuint)
 
 # Arrays
 
@@ -146,48 +209,3 @@ left(0xAB_CD_EF_AB_CD, 24)
 right(0xAB_CD, 8); // Same as 0xAB_CD >> 8
 // → 0xAB
 ```
-
-# Other
-
-This library contains multiple helper functions:
-
-- Numbers
-  [`unNaN`](https://smikhalevski.github.io/algomatic/modules.html#unNaN)
-  [`clamp`](https://smikhalevski.github.io/algomatic/modules.html#clamp)
-  [`clamp1`](https://smikhalevski.github.io/algomatic/modules.html#clamp1)
-  [`closest`](https://smikhalevski.github.io/algomatic/modules.html#closest)
-  [`cycle`](https://smikhalevski.github.io/algomatic/modules.html#cycle)
-  [`snap`](https://smikhalevski.github.io/algomatic/modules.html#snap)
-  [`flip`](https://smikhalevski.github.io/algomatic/modules.html#flip)
-
-- Math
-  [`logx`](https://smikhalevski.github.io/algomatic/modules.html#logx)
-  [`deg`](https://smikhalevski.github.io/algomatic/modules.html#deg)
-  [`rad`](https://smikhalevski.github.io/algomatic/modules.html#rad)
-  [`sq`](https://smikhalevski.github.io/algomatic/modules.html#sq)
-  [`sign`](https://smikhalevski.github.io/algomatic/modules.html#sign)
-  [`trunc`](https://smikhalevski.github.io/algomatic/modules.html#trunc)
-
-- Checks
-  [`isBetween`](https://smikhalevski.github.io/algomatic/modules.html#isBetween)
-  [`isEpsClose`](https://smikhalevski.github.io/algomatic/modules.html#isEpsClose)
-  [`isNumeric`](https://smikhalevski.github.io/algomatic/modules.html#isNumeric)
-
-- Functions
-  [`callOrGet`](https://smikhalevski.github.io/algomatic/modules.html#callOrGet)
-
-- Easing functions
-  [`easeExp`](https://smikhalevski.github.io/algomatic/modules.html#easeExp)
-  [`easeLog`](https://smikhalevski.github.io/algomatic/modules.html#easeLog)
-  [`easeInQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuad)
-  [`easeOutQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuad)
-  [`easeInOutQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuad)
-  [`easeInCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeInCubic)
-  [`easeOutCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeOutCubic)
-  [`easeInOutCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutCubic)
-  [`easeInQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuart)
-  [`easeOutQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuart)
-  [`easeInOutQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuart)
-  [`easeInQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuint)
-  [`easeOutQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuint)
-  [`easeInOutQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuint)
