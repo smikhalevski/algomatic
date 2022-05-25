@@ -3,9 +3,78 @@
   <h1>Algomatic <a href="https://github.com/smikhalevski/algomatic/actions/workflows/master.yml"><img src="https://github.com/smikhalevski/algomatic/actions/workflows/master.yml/badge.svg?branch=master&event=push" alt="build"></a></h1>
 </a>
 <p>Various algorithms and utilities.</p>
+<ul>
+<li>Highly performant: in-out arguments and no heap allocations;</li>
+<li>Tree-shakeable;</li>
+<li>Thoroughly tested.</li>
+</ul>
+<p>Algorithms from this library are used in <a href="https://github.com/smikhalevski/paint-bucket#readme">Paint Bucket</a> color
+manipulation library, check out <a href="https://github.com/smikhalevski/paint-bucket#performance">its performance</a>.</p>
+<p>🔢 <a href="https://smikhalevski.github.io/algomatic/">API documentation is available here.</a></p>
 <pre><code class="language-shell"><span class="hl-1">npm install --save-prod algomatic</span>
 </code></pre>
-<p>🔢 <a href="https://smikhalevski.github.io/algomatic/">API documentation is available here.</a></p>
+<ul>
+<li><p><a href="#arrays">Arrays</a><br>
+<a href="#binarysearch"><code>binarySearch</code></a>
+<a href="#sort"><code>sort</code></a></p>
+</li>
+<li><p><a href="#interpolation">Interpolation</a><br>
+<a href="#lerp"><code>lerp</code></a>
+<a href="#cspline"><code>cspline</code></a>
+<a href="#csplinemonot"><code>csplineMonot</code></a></p>
+</li>
+<li><p><a href="#bitwise">Bitwise</a><br>
+<a href="#bitwise"><code>int</code></a>
+<a href="#bitwise"><code>byte</code></a>
+<a href="#bitwise"><code>uint</code></a>
+<a href="#bitwise"><code>left</code></a>
+<a href="#bitwise"><code>right</code></a>
+<a href="#bitwise"><code>and</code></a>
+<a href="#bitwise"><code>or</code></a>
+<a href="#bitwise"><code>xor</code></a></p>
+</li>
+<li><p>Numbers<br>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#unNaN"><code>unNaN</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#clamp"><code>clamp</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#clamp1"><code>clamp1</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#closest"><code>closest</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#cycle"><code>cycle</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#snap"><code>snap</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#flip"><code>flip</code></a></p>
+</li>
+<li><p>Math<br>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#logx"><code>logx</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#deg"><code>deg</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#rad"><code>rad</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#sq"><code>sq</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#sign"><code>sign</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#trunc"><code>trunc</code></a></p>
+</li>
+<li><p>Checks<br>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#isBetween"><code>isBetween</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#isEpsClose"><code>isEpsClose</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#isNumeric"><code>isNumeric</code></a></p>
+</li>
+<li><p>Functions<br>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#callOrGet"><code>callOrGet</code></a></p>
+</li>
+<li><p>Easing<br>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeExp"><code>easeExp</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeLog"><code>easeLog</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuad"><code>easeInQuad</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuad"><code>easeOutQuad</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuad"><code>easeInOutQuad</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInCubic"><code>easeInCubic</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutCubic"><code>easeOutCubic</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutCubic"><code>easeInOutCubic</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuart"><code>easeInQuart</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuart"><code>easeOutQuart</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuart"><code>easeInOutQuart</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuint"><code>easeInQuint</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuint"><code>easeOutQuint</code></a>
+<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuint"><code>easeInOutQuint</code></a></p>
+</li>
+</ul>
 
 <a href="#arrays" id="arrays" style="color: inherit; text-decoration: none;">
   <h1>Arrays</h1>
@@ -99,52 +168,4 @@ results.</p>
 and <a href="https://smikhalevski.github.io/algomatic/modules.html#xor"><code>xor</code></a> for <em>unsigned</em> integers that exceed 32-bit range:</p>
 <pre><code class="language-ts"><span class="hl-0">left</span><span class="hl-1">(</span><span class="hl-2">0xAB</span><span class="hl-1">, </span><span class="hl-2">8</span><span class="hl-1">); </span><span class="hl-3">// Same as 0xAB &lt;&lt; 8</span><br/><span class="hl-3">// → 0xAB_00 </span><br/><br/><span class="hl-0">left</span><span class="hl-1">(</span><span class="hl-2">0xAB_CD_EF_AB_CD</span><span class="hl-1">, </span><span class="hl-2">24</span><span class="hl-1">)</span><br/><span class="hl-3">// → 0xAB_CD_EF_AB_CD_00_00_00</span><br/><br/><span class="hl-0">right</span><span class="hl-1">(</span><span class="hl-2">0xAB_CD</span><span class="hl-1">, </span><span class="hl-2">8</span><span class="hl-1">); </span><span class="hl-3">// Same as 0xAB_CD &gt;&gt; 8</span><br/><span class="hl-3">// → 0xAB</span>
 </code></pre>
-
-<a href="#other" id="other" style="color: inherit; text-decoration: none;">
-  <h1>Other</h1>
-</a>
-<p>This library contains multiple helper functions:</p>
-<ul>
-<li><p>Numbers
-<a href="https://smikhalevski.github.io/algomatic/modules.html#unNaN"><code>unNaN</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#clamp"><code>clamp</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#clamp1"><code>clamp1</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#closest"><code>closest</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#cycle"><code>cycle</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#snap"><code>snap</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#flip"><code>flip</code></a></p>
-</li>
-<li><p>Math
-<a href="https://smikhalevski.github.io/algomatic/modules.html#logx"><code>logx</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#deg"><code>deg</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#rad"><code>rad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#sq"><code>sq</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#sign"><code>sign</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#trunc"><code>trunc</code></a></p>
-</li>
-<li><p>Checks
-<a href="https://smikhalevski.github.io/algomatic/modules.html#isBetween"><code>isBetween</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#isEpsClose"><code>isEpsClose</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#isNumeric"><code>isNumeric</code></a></p>
-</li>
-<li><p>Functions
-<a href="https://smikhalevski.github.io/algomatic/modules.html#callOrGet"><code>callOrGet</code></a></p>
-</li>
-<li><p>Easing functions
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeExp"><code>easeExp</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeLog"><code>easeLog</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuad"><code>easeInQuad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuad"><code>easeOutQuad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuad"><code>easeInOutQuad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInCubic"><code>easeInCubic</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutCubic"><code>easeOutCubic</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutCubic"><code>easeInOutCubic</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuart"><code>easeInQuart</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuart"><code>easeOutQuart</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuart"><code>easeInOutQuart</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuint"><code>easeInQuint</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuint"><code>easeOutQuint</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuint"><code>easeInOutQuint</code></a></p>
-</li>
-</ul>
 </div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-interface"><a href="interfaces/Interpolator.html" class="tsd-kind-icon">Interpolator</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/MutableArrayLike.html" class="tsd-kind-icon">Mutable<wbr/>Array<wbr/>Like</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#ArrayElement" class="tsd-kind-icon">Array<wbr/>Element</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#Comparator" class="tsd-kind-icon">Comparator</a></li><li class="tsd-kind-type-alias"><a href="modules.html#Easing" class="tsd-kind-icon">Easing</a></li><li class="tsd-kind-function"><a href="modules.html#and" class="tsd-kind-icon">and</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#asc" class="tsd-kind-icon">asc</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#binarySearch" class="tsd-kind-icon">binary<wbr/>Search</a></li><li class="tsd-kind-function"><a href="modules.html#byte" class="tsd-kind-icon">byte</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#callOrGet" class="tsd-kind-icon">call<wbr/>Or<wbr/>Get</a></li><li class="tsd-kind-function"><a href="modules.html#clamp" class="tsd-kind-icon">clamp</a></li><li class="tsd-kind-function"><a href="modules.html#clamp1" class="tsd-kind-icon">clamp1</a></li><li class="tsd-kind-function"><a href="modules.html#closest" class="tsd-kind-icon">closest</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#copyOver" class="tsd-kind-icon">copy<wbr/>Over</a></li><li class="tsd-kind-function"><a href="modules.html#createCSplines" class="tsd-kind-icon">createCSplines</a></li><li class="tsd-kind-function"><a href="modules.html#createCSplinesMonot" class="tsd-kind-icon">createCSplines<wbr/>Monot</a></li><li class="tsd-kind-function"><a href="modules.html#cspline" class="tsd-kind-icon">cspline</a></li><li class="tsd-kind-function"><a href="modules.html#csplineMonot" class="tsd-kind-icon">cspline<wbr/>Monot</a></li><li class="tsd-kind-function"><a href="modules.html#cycle" class="tsd-kind-icon">cycle</a></li><li class="tsd-kind-function"><a href="modules.html#deg" class="tsd-kind-icon">deg</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#desc" class="tsd-kind-icon">desc</a></li><li class="tsd-kind-function"><a href="modules.html#easeExp" class="tsd-kind-icon">ease<wbr/>Exp</a></li><li class="tsd-kind-function"><a href="modules.html#easeInCubic" class="tsd-kind-icon">ease<wbr/>In<wbr/>Cubic</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutCubic" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Cubic</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutQuad" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Quad</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutQuart" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Quart</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutQuint" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Quint</a></li><li class="tsd-kind-function"><a href="modules.html#easeInQuad" class="tsd-kind-icon">ease<wbr/>In<wbr/>Quad</a></li><li class="tsd-kind-function"><a href="modules.html#easeInQuart" class="tsd-kind-icon">ease<wbr/>In<wbr/>Quart</a></li><li class="tsd-kind-function"><a href="modules.html#easeInQuint" class="tsd-kind-icon">ease<wbr/>In<wbr/>Quint</a></li><li class="tsd-kind-function"><a href="modules.html#easeLog" class="tsd-kind-icon">ease<wbr/>Log</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutCubic" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Cubic</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutQuad" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Quad</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutQuart" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Quart</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutQuint" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Quint</a></li><li class="tsd-kind-function"><a href="modules.html#flip" class="tsd-kind-icon">flip</a></li><li class="tsd-kind-function"><a href="modules.html#hypot" class="tsd-kind-icon">hypot</a></li><li class="tsd-kind-function"><a href="modules.html#int" class="tsd-kind-icon">int</a></li><li class="tsd-kind-function"><a href="modules.html#interpolateCSpline" class="tsd-kind-icon">interpolateCSpline</a></li><li class="tsd-kind-function"><a href="modules.html#interpolateCSplineMonot" class="tsd-kind-icon">interpolateCSpline<wbr/>Monot</a></li><li class="tsd-kind-function"><a href="modules.html#isBetween" class="tsd-kind-icon">is<wbr/>Between</a></li><li class="tsd-kind-function"><a href="modules.html#isEpsClose" class="tsd-kind-icon">is<wbr/>Eps<wbr/>Close</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isNumeric" class="tsd-kind-icon">is<wbr/>Numeric</a></li><li class="tsd-kind-function"><a href="modules.html#left" class="tsd-kind-icon">left</a></li><li class="tsd-kind-function"><a href="modules.html#lerp" class="tsd-kind-icon">lerp</a></li><li class="tsd-kind-function"><a href="modules.html#logx" class="tsd-kind-icon">logx</a></li><li class="tsd-kind-function"><a href="modules.html#or" class="tsd-kind-icon">or</a></li><li class="tsd-kind-function"><a href="modules.html#rad" class="tsd-kind-icon">rad</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#range" class="tsd-kind-icon">range</a></li><li class="tsd-kind-function"><a href="modules.html#right" class="tsd-kind-icon">right</a></li><li class="tsd-kind-function"><a href="modules.html#sign" class="tsd-kind-icon">sign</a></li><li class="tsd-kind-function"><a href="modules.html#snap" class="tsd-kind-icon">snap</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#sort" class="tsd-kind-icon">sort</a></li><li class="tsd-kind-function"><a href="modules.html#sq" class="tsd-kind-icon">sq</a></li><li class="tsd-kind-function"><a href="modules.html#swap" class="tsd-kind-icon">swap</a></li><li class="tsd-kind-function"><a href="modules.html#trunc" class="tsd-kind-icon">trunc</a></li><li class="tsd-kind-function"><a href="modules.html#uint" class="tsd-kind-icon">uint</a></li><li class="tsd-kind-function"><a href="modules.html#unNaN" class="tsd-kind-icon">un<wbr/>NaN</a></li><li class="tsd-kind-function"><a href="modules.html#xor" class="tsd-kind-icon">xor</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
