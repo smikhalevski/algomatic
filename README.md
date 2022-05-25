@@ -2,11 +2,11 @@
 
 Various algorithms and utilities.
 
-- Highly performant: in-out arguments and no heap allocations;
-- Tree-shakeable;
+- High performance and low memory consumption: in-out arguments and no heap allocations;
+- Lightweight and tree-shakable;
 - Thoroughly tested.
 
-Algorithms from this library are used in [Paint Bucket](https://github.com/smikhalevski/paint-bucket#readme) color
+Algomatic is used in [Paint Bucket](https://github.com/smikhalevski/paint-bucket#readme), an extremely fast color
 manipulation library, check out [its performance](https://github.com/smikhalevski/paint-bucket#performance).
 
 🔢 [API documentation is available here.](https://smikhalevski.github.io/algomatic/)
@@ -17,7 +17,12 @@ npm install --save-prod algomatic
 
 - [Arrays](#arrays)<br>
   [`binarySearch`](#binarysearch)
-  [`sort`](#sort)
+  [`sort`](#sort)<sup> 🚀</sup>
+  [`copyOver`](https://smikhalevski.github.io/algomatic/modules.html#copyOver)
+  [`range`](https://smikhalevski.github.io/algomatic/modules.html#range)
+  [`swap`](https://smikhalevski.github.io/algomatic/modules.html#swap)
+  [`asc`](https://smikhalevski.github.io/algomatic/modules.html#asc)
+  [`desc`](https://smikhalevski.github.io/algomatic/modules.html#desc)
 
 - [Interpolation](#interpolation)<br>
   [`lerp`](#lerp)

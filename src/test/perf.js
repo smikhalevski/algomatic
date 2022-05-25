@@ -1,5 +1,3 @@
-const {test} = require('@smikhalevski/perf-test');
-const chalk = require('chalk');
 const {sort} = require('../../lib/index-cjs.js');
 
 const arr0 = [];
@@ -27,18 +25,41 @@ function swap(i, j) {
   arr1[j] = v;
 }
 
-console.log(chalk.inverse(' Sort '));
-gc();
-test('Array.sort ', () => arr.sort(), {timeout: 10_000, targetRme: 0.002, beforeCycle: copyArr});
-gc();
-test('sort       ', () => sort(arr), {timeout: 10_000, targetRme: 0.002, beforeCycle: copyArr});
-gc();
-test('sort + swap', () => sort(arr, swap), {timeout: 10_000, targetRme: 0.002, beforeCycle: copyArr});
+describe('Sort', () => {
 
-console.log('\n' + chalk.inverse(' Sort with comparator '));
-gc();
-test('Array.sort ', () => arr.sort(comparator), {timeout: 10_000, targetRme: 0.002, beforeCycle: copyArr});
-gc();
-test('sort       ', () => sort(arr, undefined, comparator), {timeout: 10_000, targetRme: 0.002, beforeCycle: copyArr});
-gc();
-test('sort + swap', () => sort(arr, swap, comparator), {timeout: 10_000, targetRme: 0.002, beforeCycle: copyArr});
+  beforeIteration(copyArr);
+
+  describe('with comparator', () => {
+
+    test('Array.sort', (measure) => {
+      measure(() => arr.sort());
+    });
+
+    test('sort', (measure) => {
+      measure(() => sort(arr));
+
+    });
+
+    test('sort + swap', (measure) => {
+      measure(() => sort(arr, swap));
+    });
+
+  });
+
+  describe('without comparator', () => {
+
+    test('Array.sort', (measure) => {
+      measure(() => arr.sort(comparator));
+    });
+
+    test('sort', (measure) => {
+      measure(() => sort(arr, undefined, comparator));
+    });
+
+    test('sort + swap', (measure) => {
+      measure(() => sort(arr, swap, comparator));
+    });
+
+  });
+
+}, {targetRme: 0.002});
