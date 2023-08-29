@@ -21,6 +21,8 @@ export function easeLog(q = 1): Mapper {
   return x => (q === 0 ? x : log(x * (exp(q) - 1) + 1) / q);
 }
 
+export const easeLinear: Mapper = x => x;
+
 /**
  * @group Easing
  */
