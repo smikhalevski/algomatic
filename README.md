@@ -205,12 +205,12 @@ Bitwise operations [`left`](https://smikhalevski.github.io/algomatic/modules.htm
 and [`xor`](https://smikhalevski.github.io/algomatic/modules.html#xor) for _unsigned_ integers that exceed 32-bit range:
 
 ```ts
-left(0xAB, 8); // Same as 0xAB << 8
-// → 0xAB_00 
+left(0xab, 8); // Same as 0xab << 8
+// → 0xab_00 
 
-left(0xAB_CD_EF_AB_CD, 24)
-// → 0xAB_CD_EF_AB_CD_00_00_00
+left(0xab_cd_ef_ab_cd, 24)
+// → 0xab_cd_ef_ab_cd_00_00_00
 
-right(0xAB_CD, 8); // Same as 0xAB_CD >> 8
-// → 0xAB
+right(0xab_cd, 8); // Same as 0xab_cd >> 8
+// → 0xab
 ```

@@ -14,8 +14,8 @@ describe('byte', () => {
   test('returns unsigned byte', () => {
     expect(byte(-105.666)).toBe(105);
     expect(byte(105.666)).toBe(105);
-    expect(byte(-123123123.123)).toBe(0xFF);
-    expect(byte(123123123.123)).toBe(0xFF);
+    expect(byte(-123123123.123)).toBe(0xff);
+    expect(byte(123123123.123)).toBe(0xff);
     expect(byte(NaN)).toBe(0);
   });
 });

@@ -1,5 +1,4 @@
-import {ArrayElement, MutableArrayLike} from '../shared-types';
-import {clamp} from '../math-utils';
+import { ArrayValue, MutableArrayLike } from './types';
 
 /**
  * Copies an array from the specified source array, beginning at the specified position, to the specified position of
@@ -13,9 +12,13 @@ import {clamp} from '../math-utils';
  * @returns The destination array.
  * @template T The type of the destination array.
  */
-export function copyOver<T extends MutableArrayLike<any>>(src: MutableArrayLike<ArrayElement<T>>, dest: T, srcIndex = 0, destIndex = 0, n = src.length): T {
-  n = clamp(n, 0, src.length - srcIndex);
-
+export function copyOver<T extends MutableArrayLike<any>>(
+  src: MutableArrayLike<ArrayValue<T>>,
+  dest: T,
+  srcIndex = 0,
+  destIndex = 0,
+  n = src.length
+): T {
   for (let i = 0; i < n; i++) {
     dest[destIndex + i] = src[srcIndex + i];
   }

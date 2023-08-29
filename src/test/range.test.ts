@@ -1,7 +1,6 @@
-import {range} from '../../main';
+import { range } from '../main';
 
 describe('range', () => {
-
   test('creates a new array', () => {
     expect(range(0)).toEqual([]);
     expect(range(1)).toEqual([0]);

@@ -1,7 +1,6 @@
-import {csplineMonot} from '../../main';
+import { csplineMonot } from '../main';
 
 describe('csplineMonot', () => {
-
   it('creates a monotonous cubic spline interpolator', () => {
     const f = csplineMonot([0, 1, 2], [0, 1, 0]);
 

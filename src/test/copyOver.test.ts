@@ -1,7 +1,6 @@
-import {copyOver} from '../../main';
+import { copyOver } from '../main';
 
 describe('copyOver', () => {
-
   it('copies values', () => {
     expect(copyOver<unknown[]>([1, 2, 3], ['a', 'b', 'c', 'd'])).toEqual([1, 2, 3, 'd']);
   });

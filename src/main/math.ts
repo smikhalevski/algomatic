@@ -1,55 +1,21 @@
-import {abs, ceil, floor, log10, min, PI, sqrt} from './native-math';
+import { abs, ceil, floor, log10, PI, sqrt } from './utils';
 
 /**
  * Returns the integer part of a number by removing any fractional digits.
  */
-export const trunc = Math.trunc || ((x) => x < 0 ? ceil(x) : floor(x));
+export const trunc = Math.trunc || (x => (x < 0 ? ceil(x) : floor(x)));
 
 /**
  * Returns either a positive or negative +/- 1, indicating the sign of a number passed into the argument. If the number
  * passed into `sign()` is 0, it will return a +/- 0. Note that if the number is positive, an explicit (+) will not be
  * returned.
  */
-export const sign = Math.sign || ((x) => abs(x) / x);
+export const sign = Math.sign || (x => abs(x) / x);
 
 /**
  * Returns the square root of the sum of squares of its arguments.
  */
 export const hypot: (x: number, y: number) => number = Math.hypot || ((x, y) => sqrt(x * x + y + y));
-
-/**
- * Returns `x` as is or `n` if `x` is `NaN`.
- */
-export function unNaN(x: number, n?: number): number {
-  return isNaN(x) ? n || 0 : +x;
-}
-
-/**
- * Converts number to a non-NaN large integer.
- *
- * @see {@link trunc}
- */
-export function int(x: number): number {
-  return trunc(x) || 0;
-}
-
-/**
- * Converts number to a non-NaN large unsigned integer.
- *
- * @see {@link int}
- */
-export function uint(x: number): number {
-  return floor(abs(x)) || 0;
-}
-
-/**
- * Converts number to non-NaN 8-bit unsigned integer.
- *
- * @see {@link int}
- */
-export function byte(x: number): number {
-  return min(uint(x), 0xFF);
-}
 
 /**
  * Returns the logarithm of `x` with base `n`.
@@ -62,7 +28,7 @@ export function byte(x: number): number {
  * ```
  */
 export function logx(x: number, n: number): number {
-  return +x && log10(abs(x)) / log10(n);
+  return log10(abs(x)) / log10(n);
 }
 
 /**
@@ -84,8 +50,6 @@ export function clamp(x: number, a: number, b: number): number {
 
 /**
  * Clamps `x` to range [0, 1].
- *
- * @see {@link clamp}
  */
 export function clamp1(x: number): number {
   x = +x;
@@ -98,7 +62,7 @@ export function clamp1(x: number): number {
  * Ranges can be inverse.
  */
 export function flip(x: number, a1: number, b1: number, a2: number, b2: number): number {
-  return +a2 + (b2 - a2) * (x - a1) / (b1 - a1);
+  return +a2 + ((b2 - a2) * (x - a1)) / (b1 - a1);
 }
 
 /**
@@ -130,7 +94,7 @@ export function cycle(x: number, a: number, b: number): number {
  * @see {@link deg}
  */
 export function rad(x: number): number {
-  return x * PI / 180;
+  return (x * PI) / 180;
 }
 
 /**
@@ -139,7 +103,7 @@ export function rad(x: number): number {
  * @see {@rad}
  */
 export function deg(x: number): number {
-  return x / PI * 180;
+  return (x / PI) * 180;
 }
 
 /**

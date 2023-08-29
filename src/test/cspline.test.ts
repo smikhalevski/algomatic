@@ -1,7 +1,6 @@
-import {cspline} from '../../main';
+import { cspline } from '../main';
 
 describe('cspline', () => {
-
   it('creates a cubic spline interpolator', () => {
     const f = cspline([0, 1, 2], [0, 1, 0]);
 

@@ -1,7 +1,7 @@
-import {ArrayElement, Comparator, MutableArrayLike} from '../shared-types';
+import { ArrayValue, Comparator, MutableArrayLike } from './types';
 
 // The stack is an array indices of partitions used by quicksort
-let sharedStack: Uint32Array | undefined;
+let globalStack: number[] | null = [];
 
 /**
  * Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.
@@ -11,61 +11,73 @@ let sharedStack: Uint32Array | undefined;
  * @param arr The mutable array-like data structure that is sorted in-place.
  * @param swap The callback that is invoked with indices that were swapped.
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
- *     comparison operators.
+ * comparison operators.
  * @returns The `arr` array.
+ * @group Sort
  */
-export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number, j: number) => void, comparator?: Comparator<ArrayElement<T>>): T {
+export function qsort<T extends MutableArrayLike<any>>(
+  arr: T,
+  swap?: (i: number, j: number) => void,
+  comparator?: Comparator<ArrayValue<T>>
+): T {
+  let i, t, r, l, x, y, pivotValue, ar, ax, ay, pristine;
+
   const n = arr.length;
+
+  const isComparing = typeof comparator === 'function';
+  const isSwapping = typeof swap === 'function';
 
   if (n < 2) {
     return arr;
   }
 
   if (n === 2) {
-    const a0 = arr[0];
-    const a1 = arr[1];
+    ax = arr[0];
+    ay = arr[1];
 
-    if (comparator ? comparator(a0, a1) > 0 : a0 > a1) {
-      arr[0] = a1;
-      arr[1] = a0;
-      swap?.(0, 1);
+    if (isComparing ? comparator(ax, ay) > 0 : ax > ay) {
+      arr[0] = ay;
+      arr[1] = ax;
+
+      if (isSwapping) {
+        swap(0, 1);
+      }
     }
     return arr;
   }
 
-  let i = 2;
-
   // Nested sort call creates a new stack, otherwise previously allocated stack is reused
-  const stack = sharedStack || new Uint32Array(256);
-  sharedStack = undefined;
+  const stack = globalStack || [];
+  globalStack = null;
 
   stack[0] = 0;
   stack[1] = n - 1;
 
+  i = 2;
+
   while (i > 1) {
-    let r = stack[--i];
-    let l = stack[--i];
+    r = stack[--i];
+    l = stack[--i];
 
     if (l >= r) {
       continue;
     }
 
-    let x = l;
-    let y = r - 1;
+    x = l;
+    y = r - 1;
 
-    const pivotValue = arr[x];
+    pivotValue = arr[x];
 
-    const ar = arr[r];
+    ar = arr[r];
 
-    let ax = ar;
-    let ay = arr[y];
+    ax = ar;
+    ay = arr[y];
 
     // true if no swaps were made during the loop
-    let pristine = true;
+    pristine = true;
 
     while (true) {
-
-      if (comparator) {
+      if (isComparing) {
         while (x <= y && !(comparator(ax, pivotValue) >= 0)) {
           ax = arr[++x];
         }
@@ -89,13 +101,19 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
         pristine = false;
         arr[l] = ar;
         arr[r] = pivotValue;
-        swap?.(l, r);
+
+        if (isSwapping) {
+          swap(l, r);
+        }
       }
 
-      const t = ax;
+      t = ax;
       ax = arr[x] = ay;
       ay = arr[y] = t;
-      swap?.(x, y);
+
+      if (isSwapping) {
+        swap(x, y);
+      }
     }
 
     stack[i++] = x + 1;
@@ -105,12 +123,19 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
       if (pristine) {
         arr[l] = ar;
         arr[r] = pivotValue;
-        swap?.(l, r);
+
+        if (isSwapping) {
+          swap(l, r);
+        }
       }
+
       if (x !== r) {
         arr[r] = ax;
         arr[x] = pivotValue;
-        swap?.(x, r);
+
+        if (isSwapping) {
+          swap(x, r);
+        }
       }
 
       // Smaller partition is sorted first to ensure log(n) stack depth
@@ -127,7 +152,7 @@ export function sort<T extends MutableArrayLike<any>>(arr: T, swap?: (i: number,
     }
   }
 
-  sharedStack = stack;
+  globalStack = stack;
 
   return arr;
 }
