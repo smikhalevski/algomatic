@@ -1,25 +1,31 @@
 /**
  * A function that maps a number to another number.
+ *
+ * @param x The input value.
+ * @returns The output value.
+ * @template I The input value.
+ * @template O The output value.
+ * @group Utils
  */
-export type Mapper = (x: number) => number;
+export type Mapper<I, O = I> = (x: I) => O;
 
 /**
  * Compares `a` and `b` and returns:
  * - A negative number if `a` < `b`;
  * - A positive number if `a` > `b`;
  * - 0 if `a` is equal to `b`.
+ *
+ * @template T Compared values.
+ * @group Utils
  */
 export type Comparator<T> = (a: T, b: T) => number;
 
 /**
- * An interpolator function.
+ * An array like object with mutable elements.
  *
- * @group Interpolation
+ * @template T The array element.
+ * @group Utils
  */
-export interface Interpolator extends Mapper {
-  update(xs: ArrayLike<number>, ys: ArrayLike<number>): void;
-}
-
 export interface MutableArrayLike<T> {
   [index: number]: T;
 
@@ -27,6 +33,6 @@ export interface MutableArrayLike<T> {
 }
 
 /**
- * Infers an array value type.
+ * Infers the value stored in an  array.
  */
-export type ArrayValue<T extends ArrayLike<unknown>> = T extends ArrayLike<infer E> ? E : never;
+export type ArrayValue<T extends ArrayLike<any>> = T extends ArrayLike<infer V> ? V : never;

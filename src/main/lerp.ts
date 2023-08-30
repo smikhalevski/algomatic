@@ -1,6 +1,7 @@
-import { Interpolator } from './types';
+import { Mapper } from './types';
 import { binarySearch } from './binarySearch';
 import { min } from './utils';
+import { nan } from './nan';
 
 /**
  * Returns a linear interpolation function for given pivot points.
@@ -9,8 +10,8 @@ import { min } from './utils';
  * interpolation.
  *
  * ```ts
- * const f = lerp(xs, ys);
- * const y = f(x);
+ * const fn = lerp(xs, ys);
+ * const y = fn(x);
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order.
@@ -18,39 +19,36 @@ import { min } from './utils';
  * @returns The function that takes X coordinate and returns an interpolated Y coordinate.
  * @group Interpolation
  */
-export function lerp(xs: ArrayLike<number>, ys: ArrayLike<number>): Interpolator {
-  let n = 0;
+export function lerp(xs: ArrayLike<number>, ys: ArrayLike<number>): Mapper<number> {
+  const n = min(xs.length, ys.length);
+  const x0 = xs[0];
+  const y0 = ys[0];
+  const xn = xs[n - 1];
+  const yn = ys[n - 1];
 
-  const fn: Interpolator = x => {
-    if (n === 0) {
-      return NaN;
+  if (n === 0) {
+    return nan;
+  }
+
+  return x => {
+    let i, xj, yj;
+
+    if (x <= x0) {
+      return y0;
     }
-    if (x <= xs[0]) {
-      return ys[0];
-    }
-    if (x >= xs[n - 1]) {
-      return ys[n - 1];
+    if (x >= xn) {
+      return yn;
     }
 
-    let i = binarySearch(xs, x, n);
+    i = binarySearch(xs, x, n);
     if (i >= 0) {
       return ys[i];
     }
     i = ~i;
 
-    const xj = xs[i - 1];
-    const yj = ys[i - 1];
+    xj = xs[i - 1];
+    yj = ys[i - 1];
 
     return yj + ((x - xj) / (xs[i] - xj)) * (ys[i] - yj);
   };
-
-  fn.update = (nextXs, nextYs) => {
-    n = min(nextXs.length, nextYs.length);
-    xs = nextXs;
-    ys = nextYs;
-  };
-
-  fn.update(xs, ys);
-
-  return fn;
 }

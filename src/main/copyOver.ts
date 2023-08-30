@@ -10,10 +10,11 @@ import { ArrayValue, MutableArrayLike } from './types';
  * @param destIndex The start position in the destination array.
  * @param n The number of elements to copy.
  * @returns The destination array.
- * @template T The type of the destination array.
+ * @template T The destination array.
+ * @group Arrays
  */
 export function copyOver<T extends MutableArrayLike<any>>(
-  src: MutableArrayLike<ArrayValue<T>>,
+  src: ArrayLike<ArrayValue<T>>,
   dest: T,
   srcIndex = 0,
   destIndex = 0,

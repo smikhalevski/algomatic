@@ -1,11 +1,12 @@
 import { log, sqrt } from './utils';
+import { Mapper } from './types';
 
 /**
- * Inverse cumulative distribution function for Gaussian distribution.
+ * Inverse cumulative distribution function for Gaussian (normal) distribution.
  *
- * @param x The value in range (0, 1).
+ * @group Distributions
  */
-export function cdfInv(x: number): number {
+export const cdfGaussInv: Mapper<number> = x => {
   let q, r;
 
   if (x <= 0) {
@@ -43,4 +44,4 @@ export function cdfInv(x: number): number {
       r +
       1)
   );
-}
+};

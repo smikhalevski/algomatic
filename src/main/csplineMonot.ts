@@ -1,6 +1,7 @@
 import { binarySearch } from './binarySearch';
-import { Interpolator, MutableArrayLike } from './types';
+import { Mapper, MutableArrayLike } from './types';
 import { min } from './utils';
+import { nan } from './nan';
 
 /**
  * Returns a monotonous cubic spline interpolation function for given pivot points, that prevent overshoot of
@@ -10,8 +11,8 @@ import { min } from './utils';
  * during interpolation.
  *
  * ```ts
- * const f = csplineMonot(xs, ys);
- * const y = f(x);
+ * const fn = csplineMonot(xs, ys);
+ * const y = fn(x);
  * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order.
@@ -21,30 +22,22 @@ import { min } from './utils';
  * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  * @group Interpolation
  */
-export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): Interpolator {
-  let n = 0;
+export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): Mapper<number> {
+  const n = min(xs.length, ys.length);
 
-  const splines: number[] = [];
+  if (n === 0) {
+    return nan;
+  }
+  if (n === 1) {
+    const y0 = ys[0];
+    return () => y0;
+  }
 
-  const fn: Interpolator = x => (n === 0 ? NaN : n === 1 ? ys[0] : interpolateCSplineMonot(xs, ys, x, n, splines));
+  const splines = new Float32Array(n * 3 - 2);
 
-  fn.update = (nextXs, nextYs) => {
-    const nextN = min(nextXs.length, nextYs.length);
-    xs = nextXs;
-    ys = nextYs;
+  populateCSplinesMonot(xs, ys, n, splines);
 
-    if (nextN > 1) {
-      for (let i = n * 3 - 2; i < nextN * 3 - 2; ++i) {
-        splines.push(0);
-      }
-      populateCSplinesMonot(xs, ys, nextN, splines);
-    }
-    n = nextN;
-  };
-
-  fn.update(xs, ys);
-
-  return fn;
+  return x => interpolateCSplineMonot(xs, ys, x, n, splines);
 }
 
 /**
@@ -67,13 +60,14 @@ export function csplineMonot(xs: ArrayLike<number>, ys: ArrayLike<number>): Inte
  *
  * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  * @group Interpolation
+ * @internal
  */
 export function interpolateCSplineMonot(
   xs: ArrayLike<number>,
   ys: ArrayLike<number>,
   x: number,
   n: number,
-  splines: number[]
+  splines: MutableArrayLike<number>
 ): number {
   if (x <= xs[0]) {
     return ys[0];
@@ -110,6 +104,7 @@ export function interpolateCSplineMonot(
  *
  * @see {@link https://en.wikipedia.org/wiki/Monotone_cubic_interpolation Monotone cubic interpolation}
  * @group Interpolation
+ * @internal
  */
 export function populateCSplinesMonot(
   xs: ArrayLike<number>,

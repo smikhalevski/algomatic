@@ -2,16 +2,22 @@ import { Mapper } from './types';
 import { exp, PI, sqrt } from './utils';
 
 /**
- * Gaussian distribution.
+ * Gaussian (normal) distribution.
  *
- * @param m Mean.
- * @param d Standard deviation.
+ * ```ts
+ * seq(3).map(gauss(0.5, 0.3))
+ * // ⮕ [0.33, 1.32, 0.33]
+ * ```
+ *
+ * @param mean The mean value.
+ * @param deviation Standard deviation.
+ * @group Distributions
  */
-export function gauss(m = 0, d = 1): Mapper {
-  const q = d * sqrt(2 * PI);
+export function gauss(mean = 0, deviation = 1): Mapper<number> {
+  const q = deviation * sqrt(2 * PI);
 
   return x => {
-    x = (x - m) / d;
+    x = (x - mean) / deviation;
     return exp(-0.5 * x * x) / q;
   };
 }

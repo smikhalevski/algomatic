@@ -12,7 +12,8 @@ let globalStack: number[] | null = [];
  * @param swap The callback that is invoked with indices that were swapped.
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  * comparison operators.
- * @returns The `arr` array.
+ * @returns The input array.
+ * @template T The input array.
  * @group Sort
  */
 export function qsort<T extends MutableArrayLike<any>>(
@@ -24,8 +25,8 @@ export function qsort<T extends MutableArrayLike<any>>(
 
   const n = arr.length;
 
-  const isComparing = typeof comparator === 'function';
-  const isSwapping = typeof swap === 'function';
+  const compares = comparator != null;
+  const swaps = swap != null;
 
   if (n < 2) {
     return arr;
@@ -35,11 +36,11 @@ export function qsort<T extends MutableArrayLike<any>>(
     ax = arr[0];
     ay = arr[1];
 
-    if (isComparing ? comparator(ax, ay) > 0 : ax > ay) {
+    if (compares ? comparator(ax, ay) > 0 : ax > ay) {
       arr[0] = ay;
       arr[1] = ax;
 
-      if (isSwapping) {
+      if (swaps) {
         swap(0, 1);
       }
     }
@@ -77,7 +78,7 @@ export function qsort<T extends MutableArrayLike<any>>(
     pristine = true;
 
     while (true) {
-      if (isComparing) {
+      if (compares) {
         while (x <= y && !(comparator(ax, pivotValue) >= 0)) {
           ax = arr[++x];
         }
@@ -102,7 +103,7 @@ export function qsort<T extends MutableArrayLike<any>>(
         arr[l] = ar;
         arr[r] = pivotValue;
 
-        if (isSwapping) {
+        if (swaps) {
           swap(l, r);
         }
       }
@@ -111,7 +112,7 @@ export function qsort<T extends MutableArrayLike<any>>(
       ax = arr[x] = ay;
       ay = arr[y] = t;
 
-      if (isSwapping) {
+      if (swaps) {
         swap(x, y);
       }
     }
@@ -124,7 +125,7 @@ export function qsort<T extends MutableArrayLike<any>>(
         arr[l] = ar;
         arr[r] = pivotValue;
 
-        if (isSwapping) {
+        if (swaps) {
           swap(l, r);
         }
       }
@@ -133,7 +134,7 @@ export function qsort<T extends MutableArrayLike<any>>(
         arr[r] = ax;
         arr[x] = pivotValue;
 
-        if (isSwapping) {
+        if (swaps) {
           swap(x, r);
         }
       }
