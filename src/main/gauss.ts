@@ -9,8 +9,8 @@ import { exp, PI, sqrt } from './utils';
  * // ⮕ [0.33, 1.32, 0.33]
  * ```
  *
- * @param mean The mean value.
- * @param deviation Standard deviation.
+ * @param [mean = 0] The mean value.
+ * @param [deviation = 1] Standard deviation.
  * @group Distributions
  */
 export function gauss(mean = 0, deviation = 1): Mapper<number> {
