@@ -1,176 +1,49 @@
-<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>algomatic</title><meta name="description" content="Documentation for algomatic"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">algomatic</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>algomatic </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
-<a href="#algomatic-" id="algomatic-" style="color: inherit; text-decoration: none;">
-  <h1>Algomatic <a href="https://github.com/smikhalevski/algomatic/actions/workflows/master.yml"><img src="https://github.com/smikhalevski/algomatic/actions/workflows/master.yml/badge.svg?branch=master&event=push" alt="build"></a></h1>
-</a>
-<p>Various algorithms and utilities.</p>
-<ul>
-<li>High performance and low memory consumption: in-out arguments and no heap allocations;</li>
-<li>Lightweight and tree-shakable;</li>
-<li>Thoroughly tested.</li>
-</ul>
-<p>Algomatic is used in <a href="https://github.com/smikhalevski/paint-bucket#readme">Paint Bucket</a>, an extremely fast color
-manipulation library, check out <a href="https://github.com/smikhalevski/paint-bucket#performance">its performance</a>.</p>
-<p>🔢 <a href="https://smikhalevski.github.io/algomatic/">API documentation is available here.</a></p>
-<pre><code class="language-shell"><span class="hl-1">npm install --save-prod algomatic</span>
-</code></pre>
-<ul>
-<li><p><a href="#arrays">Arrays</a><br>
-<a href="#binarysearch"><code>binarySearch</code></a>
-<a href="#sort"><code>sort</code></a><sup> 🚀</sup>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#copyOver"><code>copyOver</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#range"><code>range</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#swap"><code>swap</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#asc"><code>asc</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#desc"><code>desc</code></a></p>
-</li>
-<li><p><a href="#interpolation">Interpolation</a><br>
-<a href="#lerp"><code>lerp</code></a>
-<a href="#cspline"><code>cspline</code></a>
-<a href="#csplinemonot"><code>csplineMonot</code></a></p>
-</li>
-<li><p><a href="#bitwise">Bitwise</a><br>
-<a href="#bitwise"><code>int</code></a>
-<a href="#bitwise"><code>byte</code></a>
-<a href="#bitwise"><code>uint</code></a>
-<a href="#bitwise"><code>left</code></a>
-<a href="#bitwise"><code>right</code></a>
-<a href="#bitwise"><code>and</code></a>
-<a href="#bitwise"><code>or</code></a>
-<a href="#bitwise"><code>xor</code></a></p>
-</li>
-<li><p>Numbers<br>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#unNaN"><code>unNaN</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#clamp"><code>clamp</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#clamp1"><code>clamp1</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#closest"><code>closest</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#cycle"><code>cycle</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#snap"><code>snap</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#flip"><code>flip</code></a></p>
-</li>
-<li><p>Math<br>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#logx"><code>logx</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#deg"><code>deg</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#rad"><code>rad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#sq"><code>sq</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#sign"><code>sign</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#trunc"><code>trunc</code></a></p>
-</li>
-<li><p>Checks<br>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#isBetween"><code>isBetween</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#isEpsClose"><code>isEpsClose</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#isNumeric"><code>isNumeric</code></a></p>
-</li>
-<li><p>Functions<br>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#callOrGet"><code>callOrGet</code></a></p>
-</li>
-<li><p>Easing<br>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeExp"><code>easeExp</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeLog"><code>easeLog</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuad"><code>easeInQuad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuad"><code>easeOutQuad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuad"><code>easeInOutQuad</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInCubic"><code>easeInCubic</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutCubic"><code>easeOutCubic</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutCubic"><code>easeInOutCubic</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuart"><code>easeInQuart</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuart"><code>easeOutQuart</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuart"><code>easeInOutQuart</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInQuint"><code>easeInQuint</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeOutQuint"><code>easeOutQuint</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuint"><code>easeInOutQuint</code></a></p>
-</li>
-</ul>
-
-<a href="#arrays" id="arrays" style="color: inherit; text-decoration: none;">
-  <h1>Arrays</h1>
-</a>
-<p>Utilities
-<a href="https://smikhalevski.github.io/algomatic/modules.html#copyOver"><code>copyOver</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#range"><code>range</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#swap"><code>swap</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#asc"><code>asc</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#desc"><code>desc</code></a></p>
-
-<a href="#binarysearch" id="binarysearch" style="color: inherit; text-decoration: none;">
-  <h3><code>binarySearch</code></h3>
-</a>
-<p>Searches the specified array for the specified value using the binary search algorithm. The array must be sorted into
-ascending order according to the natural ordering of its elements prior to making this call. If it is not sorted, the
-results are undefined.</p>
-<p>Returns the index of the searched value, if it is contained in the array; otherwise, -(insertion point) - 1. The
-insertion point is defined as the point at which the searched value would be inserted into the array: the index of the
-first element greater than the searched value, or array length if all elements in the array are less than the specified
-key. Note that this guarantees that the return value will be ≥ 0 if and only if the searched value is found.</p>
-<pre><code class="language-ts"><span class="hl-0">binarySearch</span><span class="hl-1">([</span><span class="hl-2">10</span><span class="hl-1">, </span><span class="hl-2">20</span><span class="hl-1">, </span><span class="hl-2">30</span><span class="hl-1">, </span><span class="hl-2">40</span><span class="hl-1">], </span><span class="hl-2">20</span><span class="hl-1">); </span><span class="hl-3">// → 1</span><br/><br/><span class="hl-0">binarySearch</span><span class="hl-1">([</span><span class="hl-2">10</span><span class="hl-1">, </span><span class="hl-2">20</span><span class="hl-1">, </span><span class="hl-2">30</span><span class="hl-1">, </span><span class="hl-2">40</span><span class="hl-1">], </span><span class="hl-2">25</span><span class="hl-1">); </span><span class="hl-3">// → -3</span>
-</code></pre>
-
-<a href="#sort" id="sort" style="color: inherit; text-decoration: none;">
-  <h3><code>sort</code></h3>
-</a>
-<p>Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.</p>
-<pre><code class="language-ts"><span class="hl-0">sort</span><span class="hl-1">(</span><br/><span class="hl-1">    </span><span class="hl-6">arr</span><span class="hl-1">, </span><span class="hl-3">// Mutable array that would be sorted</span><br/><span class="hl-1">    (</span><span class="hl-6">i</span><span class="hl-1">, </span><span class="hl-6">j</span><span class="hl-1">) </span><span class="hl-4">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-3">// Called when i and j elements of arr were swapped</span><br/><span class="hl-1">      </span><span class="hl-3">// Use this to sort multiple arrays in parallel</span><br/><span class="hl-1">    },</span><br/><span class="hl-1">    (</span><span class="hl-6">a</span><span class="hl-1">, </span><span class="hl-6">b</span><span class="hl-1">) </span><span class="hl-4">=&gt;</span><span class="hl-1"> </span><span class="hl-2">0</span><span class="hl-1">, </span><span class="hl-3">// Comparator works the same way as in Array.sort</span><br/><span class="hl-1">);</span>
-</code></pre>
-<p><code>sort</code> uses a non-recursive <a href="https://en.wikipedia.org/wiki/Quicksort">Quicksort</a> algorithm. In contrast to
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"><code>Array.sort</code></a>, <code>sort</code>
-doesn&#39;t convert array elements to strings before comparison and uses comparison operators directly. So numeric arrays
-are sorted in natural order with <code>sort(arr)</code>. You can provide an element comparator to change the sorting order.</p>
-<p><code>sort</code> is order of magnitude faster than <code>Array.sort</code> on both small and big arrays. The plot below uses a log scale and
-shows the dependency of number of operations per second from the input array length.</p>
-<img alt="sort vs Array.sort performance comparison" src="https://github.com/smikhalevski/algomatic/raw/master/images/sort-perf.svg"/>
-
-
-<a href="#interpolation" id="interpolation" style="color: inherit; text-decoration: none;">
-  <h1>Interpolation</h1>
-</a>
-
-<a href="#lerp" id="lerp" style="color: inherit; text-decoration: none;">
-  <h3><code>lerp</code></h3>
-</a>
-<p>Creates a linear interpolator:</p>
-<pre><code class="language-ts"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">f</span><span class="hl-1"> = </span><span class="hl-0">lerp</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">y</span><span class="hl-1"> = </span><span class="hl-0">f</span><span class="hl-1">(</span><span class="hl-6">x</span><span class="hl-1">);</span>
-</code></pre>
-<p>Here <code>xs</code> is the array of X coordinates of pivot points in ascending order, and <code>ys</code> is the array of corresponding Y
-coordinates of pivot points.</p>
-
-<a href="#cspline" id="cspline" style="color: inherit; text-decoration: none;">
-  <h3><code>cspline</code></h3>
-</a>
-<p>Creates
-<a href="https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines">a cubic spline interpolator</a>
-for given pivot points:</p>
-<pre><code class="language-ts"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">f</span><span class="hl-1"> = </span><span class="hl-0">cspline</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">y</span><span class="hl-1"> = </span><span class="hl-0">f</span><span class="hl-1">(</span><span class="hl-6">x</span><span class="hl-1">);</span>
-</code></pre>
-<p>More control over spline caching and computation:</p>
-<pre><code class="language-ts"><span class="hl-3">// Pre-allocate an array of spline components that can be later reused</span><br/><span class="hl-3">// to avoid excessive memory allocations</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">splines</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-8">Float32Array</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">.</span><span class="hl-6">length</span><span class="hl-1"> * </span><span class="hl-2">3</span><span class="hl-1">);</span><br/><br/><span class="hl-0">createCSplines</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">, </span><span class="hl-6">xs</span><span class="hl-1">.</span><span class="hl-6">length</span><span class="hl-1">, </span><span class="hl-6">splines</span><span class="hl-1">); </span><span class="hl-3">// → splines</span><br/><span class="hl-3">// or</span><br/><span class="hl-3">// const splines = createCSplines(xs, ys, xs.length); // → Float32Array</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">y</span><span class="hl-1"> = </span><span class="hl-0">interpolateCSpline</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">, </span><span class="hl-6">x</span><span class="hl-1">, </span><span class="hl-6">xs</span><span class="hl-1">.</span><span class="hl-6">length</span><span class="hl-1">, </span><span class="hl-6">splines</span><span class="hl-1">);</span>
-</code></pre>
-
-<a href="#csplinemonot" id="csplinemonot" style="color: inherit; text-decoration: none;">
-  <h3><code>csplineMonot</code></h3>
-</a>
-<p>Creates
-<a href="https://en.wikipedia.org/wiki/Monotone_cubic_interpolation">a monotone cubic interpolator</a> for given pivot points:</p>
-<pre><code class="language-ts"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">f</span><span class="hl-1"> = </span><span class="hl-0">csplineMonot</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">y</span><span class="hl-1"> = </span><span class="hl-0">f</span><span class="hl-1">(</span><span class="hl-6">x</span><span class="hl-1">);</span>
-</code></pre>
-<p>Or using more fine-grained approach:</p>
-<pre><code class="language-ts"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">y</span><span class="hl-1"> = </span><span class="hl-0">interpolateCSplineMonot</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">, </span><span class="hl-6">x</span><span class="hl-1">, </span><span class="hl-6">xs</span><span class="hl-1">.</span><span class="hl-6">length</span><span class="hl-1">, </span><span class="hl-0">createCSplinesMonot</span><span class="hl-1">(</span><span class="hl-6">xs</span><span class="hl-1">, </span><span class="hl-6">ys</span><span class="hl-1">, </span><span class="hl-6">xs</span><span class="hl-1">.</span><span class="hl-6">length</span><span class="hl-1">));</span>
-</code></pre>
-<p>The plot below shows that <code>cspline</code> interpolation overshoots pivot points while <code>csplineMonot</code> provides monotonous
-results.</p>
-<img alt="cspline and csplineMonot comparison" src="https://github.com/smikhalevski/algomatic/raw/master/images/cspline.svg"/>
-
-
-<a href="#bitwise" id="bitwise" style="color: inherit; text-decoration: none;">
-  <h1>Bitwise</h1>
-</a>
-<p>Utilities
-<a href="https://smikhalevski.github.io/algomatic/modules.html#int"><code>int</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#byte"><code>byte</code></a>
-<a href="https://smikhalevski.github.io/algomatic/modules.html#uint"><code>uint</code></a></p>
-<p>Bitwise operations <a href="https://smikhalevski.github.io/algomatic/modules.html#left"><code>left</code></a>,
-<a href="https://smikhalevski.github.io/algomatic/modules.html#right"><code>right</code></a>,
-<a href="https://smikhalevski.github.io/algomatic/modules.html#and"><code>and</code></a>,
-<a href="https://smikhalevski.github.io/algomatic/modules.html#or"><code>or</code></a>
-and <a href="https://smikhalevski.github.io/algomatic/modules.html#xor"><code>xor</code></a> for <em>unsigned</em> integers that exceed 32-bit range:</p>
-<pre><code class="language-ts"><span class="hl-0">left</span><span class="hl-1">(</span><span class="hl-2">0xAB</span><span class="hl-1">, </span><span class="hl-2">8</span><span class="hl-1">); </span><span class="hl-3">// Same as 0xAB &lt;&lt; 8</span><br/><span class="hl-3">// → 0xAB_00 </span><br/><br/><span class="hl-0">left</span><span class="hl-1">(</span><span class="hl-2">0xAB_CD_EF_AB_CD</span><span class="hl-1">, </span><span class="hl-2">24</span><span class="hl-1">)</span><br/><span class="hl-3">// → 0xAB_CD_EF_AB_CD_00_00_00</span><br/><br/><span class="hl-0">right</span><span class="hl-1">(</span><span class="hl-2">0xAB_CD</span><span class="hl-1">, </span><span class="hl-2">8</span><span class="hl-1">); </span><span class="hl-3">// Same as 0xAB_CD &gt;&gt; 8</span><br/><span class="hl-3">// → 0xAB</span>
-</code></pre>
-</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-interface"><a href="interfaces/Interpolator.html" class="tsd-kind-icon">Interpolator</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/MutableArrayLike.html" class="tsd-kind-icon">Mutable<wbr/>Array<wbr/>Like</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#ArrayElement" class="tsd-kind-icon">Array<wbr/>Element</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#Comparator" class="tsd-kind-icon">Comparator</a></li><li class="tsd-kind-type-alias"><a href="modules.html#Easing" class="tsd-kind-icon">Easing</a></li><li class="tsd-kind-function"><a href="modules.html#and" class="tsd-kind-icon">and</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#asc" class="tsd-kind-icon">asc</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#binarySearch" class="tsd-kind-icon">binary<wbr/>Search</a></li><li class="tsd-kind-function"><a href="modules.html#byte" class="tsd-kind-icon">byte</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#callOrGet" class="tsd-kind-icon">call<wbr/>Or<wbr/>Get</a></li><li class="tsd-kind-function"><a href="modules.html#clamp" class="tsd-kind-icon">clamp</a></li><li class="tsd-kind-function"><a href="modules.html#clamp1" class="tsd-kind-icon">clamp1</a></li><li class="tsd-kind-function"><a href="modules.html#closest" class="tsd-kind-icon">closest</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#copyOver" class="tsd-kind-icon">copy<wbr/>Over</a></li><li class="tsd-kind-function"><a href="modules.html#createCSplines" class="tsd-kind-icon">createCSplines</a></li><li class="tsd-kind-function"><a href="modules.html#createCSplinesMonot" class="tsd-kind-icon">createCSplines<wbr/>Monot</a></li><li class="tsd-kind-function"><a href="modules.html#cspline" class="tsd-kind-icon">cspline</a></li><li class="tsd-kind-function"><a href="modules.html#csplineMonot" class="tsd-kind-icon">cspline<wbr/>Monot</a></li><li class="tsd-kind-function"><a href="modules.html#cycle" class="tsd-kind-icon">cycle</a></li><li class="tsd-kind-function"><a href="modules.html#deg" class="tsd-kind-icon">deg</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#desc" class="tsd-kind-icon">desc</a></li><li class="tsd-kind-function"><a href="modules.html#easeExp" class="tsd-kind-icon">ease<wbr/>Exp</a></li><li class="tsd-kind-function"><a href="modules.html#easeInCubic" class="tsd-kind-icon">ease<wbr/>In<wbr/>Cubic</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutCubic" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Cubic</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutQuad" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Quad</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutQuart" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Quart</a></li><li class="tsd-kind-function"><a href="modules.html#easeInOutQuint" class="tsd-kind-icon">ease<wbr/>In<wbr/>Out<wbr/>Quint</a></li><li class="tsd-kind-function"><a href="modules.html#easeInQuad" class="tsd-kind-icon">ease<wbr/>In<wbr/>Quad</a></li><li class="tsd-kind-function"><a href="modules.html#easeInQuart" class="tsd-kind-icon">ease<wbr/>In<wbr/>Quart</a></li><li class="tsd-kind-function"><a href="modules.html#easeInQuint" class="tsd-kind-icon">ease<wbr/>In<wbr/>Quint</a></li><li class="tsd-kind-function"><a href="modules.html#easeLog" class="tsd-kind-icon">ease<wbr/>Log</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutCubic" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Cubic</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutQuad" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Quad</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutQuart" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Quart</a></li><li class="tsd-kind-function"><a href="modules.html#easeOutQuint" class="tsd-kind-icon">ease<wbr/>Out<wbr/>Quint</a></li><li class="tsd-kind-function"><a href="modules.html#flip" class="tsd-kind-icon">flip</a></li><li class="tsd-kind-function"><a href="modules.html#hypot" class="tsd-kind-icon">hypot</a></li><li class="tsd-kind-function"><a href="modules.html#int" class="tsd-kind-icon">int</a></li><li class="tsd-kind-function"><a href="modules.html#interpolateCSpline" class="tsd-kind-icon">interpolateCSpline</a></li><li class="tsd-kind-function"><a href="modules.html#interpolateCSplineMonot" class="tsd-kind-icon">interpolateCSpline<wbr/>Monot</a></li><li class="tsd-kind-function"><a href="modules.html#isBetween" class="tsd-kind-icon">is<wbr/>Between</a></li><li class="tsd-kind-function"><a href="modules.html#isEpsClose" class="tsd-kind-icon">is<wbr/>Eps<wbr/>Close</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isNumeric" class="tsd-kind-icon">is<wbr/>Numeric</a></li><li class="tsd-kind-function"><a href="modules.html#left" class="tsd-kind-icon">left</a></li><li class="tsd-kind-function"><a href="modules.html#lerp" class="tsd-kind-icon">lerp</a></li><li class="tsd-kind-function"><a href="modules.html#logx" class="tsd-kind-icon">logx</a></li><li class="tsd-kind-function"><a href="modules.html#or" class="tsd-kind-icon">or</a></li><li class="tsd-kind-function"><a href="modules.html#rad" class="tsd-kind-icon">rad</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#range" class="tsd-kind-icon">range</a></li><li class="tsd-kind-function"><a href="modules.html#right" class="tsd-kind-icon">right</a></li><li class="tsd-kind-function"><a href="modules.html#sign" class="tsd-kind-icon">sign</a></li><li class="tsd-kind-function"><a href="modules.html#snap" class="tsd-kind-icon">snap</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#sort" class="tsd-kind-icon">sort</a></li><li class="tsd-kind-function"><a href="modules.html#sq" class="tsd-kind-icon">sq</a></li><li class="tsd-kind-function"><a href="modules.html#swap" class="tsd-kind-icon">swap</a></li><li class="tsd-kind-function"><a href="modules.html#trunc" class="tsd-kind-icon">trunc</a></li><li class="tsd-kind-function"><a href="modules.html#uint" class="tsd-kind-icon">uint</a></li><li class="tsd-kind-function"><a href="modules.html#unNaN" class="tsd-kind-icon">un<wbr/>NaN</a></li><li class="tsd-kind-function"><a href="modules.html#xor" class="tsd-kind-icon">xor</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Algomatic - v4.0.0</title><meta name="description" content="Documentation for Algomatic"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><link rel="stylesheet" href="assets/custom.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Algomatic - v4.0.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>Algomatic - v4.0.0</h1></div><section class="tsd-panel-group tsd-index-group"><section class="tsd-panel tsd-index-panel"><h3 class="tsd-index-heading uppercase">Index</h3><section class="tsd-index-section"><h3 class="tsd-index-heading">Algebra</h3><div class="tsd-index-list"><a href="functions/clamp.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>clamp</span></a>
+<a href="functions/closest.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>closest</span></a>
+<a href="functions/cycle.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>cycle</span></a>
+<a href="functions/deg.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>deg</span></a>
+<a href="functions/hypot.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>hypot</span></a>
+<a href="functions/logx.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>logx</span></a>
+<a href="functions/rad.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>rad</span></a>
+<a href="functions/scale.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>scale</span></a>
+<a href="functions/sign.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>sign</span></a>
+<a href="functions/snap.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>snap</span></a>
+<a href="functions/sq.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>sq</span></a>
+<a href="functions/trunc.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>trunc</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Arrays</h3><div class="tsd-index-list"><a href="functions/copyOver.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>copy<wbr/>Over</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Bitwise Operations</h3><div class="tsd-index-list"><a href="functions/and.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>and</span></a>
+<a href="functions/left.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>left</span></a>
+<a href="functions/or.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>or</span></a>
+<a href="functions/right.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>right</span></a>
+<a href="functions/xor.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>xor</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Distributions</h3><div class="tsd-index-list"><a href="functions/cdfGauss.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>cdf<wbr/>Gauss</span></a>
+<a href="functions/cdfGaussInv.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>cdf<wbr/>Gauss<wbr/>Inv</span></a>
+<a href="functions/gauss.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>gauss</span></a>
+<a href="functions/seq.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>seq</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Easing</h3><div class="tsd-index-list"><a href="functions/easeExp.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>Exp</span></a>
+<a href="functions/easeInCubic.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Cubic</span></a>
+<a href="functions/easeInOutCubic.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Out<wbr/>Cubic</span></a>
+<a href="functions/easeInOutQuad.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Out<wbr/>Quad</span></a>
+<a href="functions/easeInOutQuart.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Out<wbr/>Quart</span></a>
+<a href="functions/easeInOutQuint.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Out<wbr/>Quint</span></a>
+<a href="functions/easeInQuad.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Quad</span></a>
+<a href="functions/easeInQuart.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Quart</span></a>
+<a href="functions/easeInQuint.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>In<wbr/>Quint</span></a>
+<a href="functions/easeLog.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>Log</span></a>
+<a href="functions/easeOutCubic.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>Out<wbr/>Cubic</span></a>
+<a href="functions/easeOutQuad.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>Out<wbr/>Quad</span></a>
+<a href="functions/easeOutQuart.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>Out<wbr/>Quart</span></a>
+<a href="functions/easeOutQuint.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>ease<wbr/>Out<wbr/>Quint</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Interpolation</h3><div class="tsd-index-list"><a href="functions/cspline.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>cspline</span></a>
+<a href="functions/csplineMonot.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>cspline<wbr/>Monot</span></a>
+<a href="functions/lerp.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>lerp</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Search</h3><div class="tsd-index-list"><a href="functions/binarySearch.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>binary<wbr/>Search</span></a>
+<a href="functions/binarySearchComp.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>binary<wbr/>Search<wbr/>Comp</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Sort</h3><div class="tsd-index-list"><a href="functions/qsort.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>qsort</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Utils</h3><div class="tsd-index-list"><a href="interfaces/ArrayLike.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-256"></use></svg><span>Array<wbr/>Like</span></a>
+<a href="types/ArrayValue.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-2097152"></use></svg><span>Array<wbr/>Value</span></a>
+<a href="types/Comparator.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-2097152"></use></svg><span>Comparator</span></a>
+<a href="types/Mapper.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-2097152"></use></svg><span>Mapper</span></a>
+<a href="functions/compose.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>compose</span></a>
+<a href="functions/nan.html" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-64"></use></svg><span>nan</span></a>
+</div></section></section></section></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div></div><div class="site-menu"><nav class="tsd-navigation"><a href="index.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>Algomatic - v4.0.0</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer></footer><div class="overlay"></div></body></html>
