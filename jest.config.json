@@ -1,0 +1,7 @@
+{
+  "transform": {
+    "^.+\\.tsx?$": "@swc/jest"
+  },
+  "testMatch": ["<rootDir>/src/test/**/*.test.ts"],
+  "modulePathIgnorePatterns": ["<rootDir>/lib"]
+}
