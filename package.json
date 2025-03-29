@@ -15,11 +15,11 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsc --project tsconfig.build.json && rollup --config && cp package.json README.md LICENSE.txt lib/ && cd lib && npm pkg delete scripts devDependencies",
-    "clean": "rimraf gen lib docs coverage",
+    "build": "rollup --config && cp package.json README.md LICENSE.txt lib/ && cd lib && npm pkg delete scripts devDependencies",
+    "clean": "rimraf lib docs coverage",
     "test": "jest",
     "perf": "toofast",
-    "docs": "typedoc src/main/index.ts"
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -50,17 +50,18 @@
   },
   "homepage": "https://github.com/smikhalevski/algomatic#readme",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.1",
-    "@types/jest": "^29.5.4",
-    "jest": "^29.6.4",
-    "prettier": "^3.0.3",
-    "rimraf": "^5.0.1",
-    "rollup-plugin-dts": "^6.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@swc/core": "^1.11.13",
+    "@swc/jest": "^0.2.37",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.38.0",
     "toofast": "^2.0.0",
-    "ts-jest": "^29.1.1",
-    "tslib": "^2.6.2",
-    "typedoc": "^0.24.8",
+    "tslib": "^2.8.1",
+    "typedoc": "^0.26.11",
     "typedoc-custom-css": "github:smikhalevski/typedoc-custom-css#master",
-    "typescript": "^5.1.6"
+    "typescript": "^5.6.3"
   }
 }

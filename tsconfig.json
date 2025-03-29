@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "importHelpers": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
     "strict": true,
-    "target": "ES5",
+    "target": "ES6",
     "module": "ES6",
-    "outDir": "./gen"
+    "outDir": "./lib"
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["./src/**/*"]
 }
