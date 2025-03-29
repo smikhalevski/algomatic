@@ -129,7 +129,7 @@ seq(3).map(cdfGaussInv);
 
 # Easing
 
-Various easing function:
+Various easing functions:
 
 ```ts
 import { easeExp, easeInCubic } from 'algomatic';
@@ -221,7 +221,7 @@ binarySearch([10, 20, 30, 40], 25);
 Binary search with a comparator:
 
 ```ts
-binarySearch(
+binarySearchComp(
   [{x: 10}, {x: 20}, {x: 30}],
   {x: 20},
   (a, b) => a.x - b.x
