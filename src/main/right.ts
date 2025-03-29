@@ -5,8 +5,8 @@ import { trunc } from './trunc';
  * Bitwise right shift operator ({@link x} >> {@link n}) for large unsigned integers.
  *
  * @example
- * right(0xab_cd_ef_ab_cd_ef_ab, 24);
- * // ⮕ 0xab_cd_ef_ab
+ * right(0x11_22_22_44_55_66_77, 24);
+ * // ⮕ 0x11_22_22_44
  *
  * @param x The integer.
  * @param n The number of bytes to shift to the right.

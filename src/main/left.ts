@@ -4,8 +4,8 @@ import { pow } from './utils';
  * Bitwise left shift operator ({@link x} << {@link n}) for large unsigned integers.
  *
  * @example
- * left(0xab_cd_ef_ab, 24);
- * // ⮕ 0xab_cd_ef_ab_00_00_00
+ * left(0x11_22_33_44, 24)
+ * // ⮕ 0x11_22_33_44_00_00_00
  *
  * @param x The integer.
  * @param n The number of bytes to shift to the left.

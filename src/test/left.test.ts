@@ -1,7 +1,7 @@
 import { left } from '../main';
 
 test('shifts left', () => {
-  expect(left(0xab_cd_ef_ab_cd, 24)).toBe(0xab_cd_ef_ab_cd_00_00_00);
+  expect(left(0x11_22_33_44, 24)).toBe(0x11_22_33_44_00_00_00);
 });
 
 test('handles NaN as native operator', () => {

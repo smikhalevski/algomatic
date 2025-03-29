@@ -2,7 +2,7 @@
 
 Various algorithms and utilities.
 
-- High performance and low memory consumption: in-out arguments and no heap allocations;
+- High performance and low memory consumption (no heap allocations);
 - Lightweight and tree-shakable;
 - Thoroughly tested.
 
@@ -25,13 +25,9 @@ npm install --save-prod algomatic
 Clamp a value to range:
 
 ```ts
+import { clamp } from 'algomatic';
+
 const f = clamp(5, 10);
-
-f(2);
-// ⮕ 2
-
-f(-2);
-// ⮕ 5
 
 f(33);
 // ⮕ 10
@@ -67,21 +63,23 @@ f(12);
 # Bitwise operations
 
 Bitwise operators that can manipulate integers in
-[[`Number.MIN_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER), [`Number.MAX_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)]
+[[`MIN_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER), [`MAX_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)]
 range:
 
 ```ts
-left(0xab, 8); // Same as 0xab << 8
-// ⮕ 0xab_00 
+import { left, right, and, or } from 'algomatic';
 
-left(0xab_cd_ef_ab_cd, 24)
-// ⮕ 0xab_cd_ef_ab_cd_00_00_00
+left(0x11, 8); // Same as 0x11 << 8
+// ⮕ 0x11_00 
 
-right(0xab_cd, 8); // Same as 0xab_cd >> 8
-// ⮕ 0xab
+left(0x11_22_33_44, 24)
+// ⮕ 0x11_22_33_44_00_00_00
 
-right(0xab_cd_ef_ab_cd_ef_ab, 24);
-// ⮕ 0xab_cd_ef_ab
+right(0x11_22, 8); // Same as 0x11_22 >> 8
+// ⮕ 0x11
+
+right(0x11_22_22_44_55_66_77, 24);
+// ⮕ 0x11_22_22_44
 
 and(0x10_aa_bb_00_00_00_ff, 0x10_00_bb_cc_00_00_ff);
 // ⮕ 0x10_00_bb_00_00_00_ff
@@ -98,6 +96,8 @@ xor(0x10_aa_bb_00_00_00_ff, 0x10_00_bb_cc_00_00_ff);
 Create an array and fill it with numbers that are evenly distributed in a range:
 
 ```ts
+import { seq } from 'algomatic';
+
 seq(3);
 // ⮕ [0, 0.5, 1]
 
@@ -132,6 +132,8 @@ seq(3).map(cdfGaussInv);
 Various easing function:
 
 ```ts
+import { easeExp, easeInCubic } from 'algomatic';
+
 const f = easeExp();
 
 f(0.5)
@@ -146,6 +148,8 @@ easeInCubic(0.5);
 Linear interpolator:
 
 ```ts
+import { lerp } from 'algomatic';
+
 const f = lerp(xs, ys);
 
 const y = f(x);
@@ -165,6 +169,8 @@ const y = f(x);
 More control over cubic spline caching and computation:
 
 ```ts
+import { interpolateCSpline, populateCSplines } from 'algomatic';
+
 // Pre-allocate an array of spline components that can be later reused
 // to avoid excessive memory allocations
 const splines = new Float32Array(xs.length * 3);
@@ -186,6 +192,8 @@ const y = f(x);
 Or using more fine-grained approach:
 
 ```ts
+import { interpolateCSplineMonot, populateCSplinesMonot } from 'algomatic';
+
 const y = interpolateCSplineMonot(xs, ys, x, xs.length, populateCSplinesMonot(xs, ys, xs.length));
 ```
 
@@ -201,6 +209,8 @@ first element greater than the searched value, or array length if all elements i
 key. Note that this guarantees that the return value will be ≥ 0 if and only if the searched value is found.
 
 ```ts
+import { binarySearch } from 'algomatic';
+
 binarySearch([10, 20, 30, 40], 20);
 // ⮕ 1
 
@@ -223,6 +233,8 @@ binarySearch(
 Sort the array in-place:
 
 ```ts
+import { qsort } from 'algomatic';
+
 const arr = [3, 2, 0, 1];
 
 qsort(arr);
