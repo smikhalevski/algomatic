@@ -189,17 +189,6 @@ Or using more fine-grained approach:
 const y = interpolateCSplineMonot(xs, ys, x, xs.length, populateCSplinesMonot(xs, ys, xs.length));
 ```
 
-The plot below shows that `cspline` interpolation overshoots pivot points while `csplineMonot` provides monotonous
-results.
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./images/cspline-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="./images/cspline-light.svg" />
-    <img alt="cspline and csplineMonot comparison" src="./images/cspline-light.svg" width="550" />
-  </picture>
-</p>
-
 # Search
 
 Binary search searches the specified array for the specified value using the binary search algorithm. The array must be
