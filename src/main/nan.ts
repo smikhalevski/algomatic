@@ -1,5 +1,5 @@
 /**
- * Always returns `NaN`.
+ * Always returns {@link NaN}.
  *
  * @group Utils
  */

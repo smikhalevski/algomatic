@@ -1,15 +1,15 @@
-import { Comparator } from './types';
+import { ArrayLike, Comparator } from './types';
 
 /**
- * Searches the specified array `xs` for the specified value `x` using the binary search algorithm. The array must be
- * sorted into ascending order according to the `comparator` prior to making this call. If it is not sorted, the results
- * are undefined.
+ * Searches the specified array {@link xs} for the specified value {@link x} using the binary search algorithm.
+ * The array must be sorted into ascending order according to the `comparator` prior to making this call. If it is not
+ * sorted, the results are undefined.
  *
  * @param xs The array to be searched.
  * @param x The value to be searched for.
  * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
  * [comparison operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#comparison_operators).
- * @param n The maximum index in `xs` that is searched (exclusive).
+ * @param n The maximum index in {@link xs} that is searched (exclusive).
  * @returns The index of the searched value, if it is contained in the array; otherwise, -(insertion point) - 1. The
  * insertion point is defined as the point at which the searched value would be inserted into the array: the index of
  * the first element greater than the searched value, or array length if all elements in the array are less than the

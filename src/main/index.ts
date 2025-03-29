@@ -1,4 +1,4 @@
-export * from './types';
+export { type ArrayLike, type ArrayValue, type Comparator, type Mapper } from './types';
 
 export { and } from './and';
 export { binarySearch } from './binarySearch';

@@ -1,4 +1,4 @@
-# Algomatic [![build](https://github.com/smikhalevski/algomatic/actions/workflows/master.yml/badge.svg?branch=master&event=push)](https://github.com/smikhalevski/algomatic/actions/workflows/master.yml)
+# Algomatic
 
 Various algorithms and utilities.
 
@@ -6,149 +6,155 @@ Various algorithms and utilities.
 - Lightweight and tree-shakable;
 - Thoroughly tested.
 
-Algomatic is used in [Paint Bucket](https://github.com/smikhalevski/paint-bucket#readme), an extremely fast color
-manipulation library, check out [its performance](https://github.com/smikhalevski/paint-bucket#performance).
-
-🔢 [API documentation is available here.](https://smikhalevski.github.io/algomatic/)
+🔎 [API documentation is available here.](https://smikhalevski.github.io/algomatic/)
 
 ```shell
 npm install --save-prod algomatic
 ```
 
-- [Arrays](#arrays)<br>
-  [`binarySearch`](#binarysearch)
-  [`sort`](#sort)<sup> 🚀</sup>
-  [`copyOver`](https://smikhalevski.github.io/algomatic/modules.html#copyOver)
-  [`range`](https://smikhalevski.github.io/algomatic/modules.html#range)
-  [`swap`](https://smikhalevski.github.io/algomatic/modules.html#swap)
-  [`asc`](https://smikhalevski.github.io/algomatic/modules.html#asc)
-  [`desc`](https://smikhalevski.github.io/algomatic/modules.html#desc)
+- [Algebra](#algebra)
+- [Bitwise operations](#bitwise-operations)
+- [Distributions](#distributions)
+- [Easing](#easing)
+- [Interpolation](#interpolation)
+- [Search](#search)
+- [Sort](#sort)
 
-- [Interpolation](#interpolation)<br>
-  [`lerp`](#lerp)
-  [`cspline`](#cspline)
-  [`csplineMonot`](#csplinemonot)
+# Algebra
 
-- [Bitwise](#bitwise)<br>
-  [`int`](#bitwise)
-  [`byte`](#bitwise)
-  [`uint`](#bitwise)
-  [`left`](#bitwise)
-  [`right`](#bitwise)
-  [`and`](#bitwise)
-  [`or`](#bitwise)
-  [`xor`](#bitwise)
-
-- Numbers<br>
-  [`unNaN`](https://smikhalevski.github.io/algomatic/modules.html#unNaN)
-  [`clamp`](https://smikhalevski.github.io/algomatic/modules.html#clamp)
-  [`clamp1`](https://smikhalevski.github.io/algomatic/modules.html#clamp1)
-  [`closest`](https://smikhalevski.github.io/algomatic/modules.html#closest)
-  [`cycle`](https://smikhalevski.github.io/algomatic/modules.html#cycle)
-  [`snap`](https://smikhalevski.github.io/algomatic/modules.html#snap)
-  [`flip`](https://smikhalevski.github.io/algomatic/modules.html#flip)
-
-- Math<br>
-  [`logx`](https://smikhalevski.github.io/algomatic/modules.html#logx)
-  [`deg`](https://smikhalevski.github.io/algomatic/modules.html#deg)
-  [`rad`](https://smikhalevski.github.io/algomatic/modules.html#rad)
-  [`sq`](https://smikhalevski.github.io/algomatic/modules.html#sq)
-  [`sign`](https://smikhalevski.github.io/algomatic/modules.html#sign)
-  [`trunc`](https://smikhalevski.github.io/algomatic/modules.html#trunc)
-
-- Checks<br>
-  [`isBetween`](https://smikhalevski.github.io/algomatic/modules.html#isBetween)
-  [`isEpsClose`](https://smikhalevski.github.io/algomatic/modules.html#isEpsClose)
-  [`isNumeric`](https://smikhalevski.github.io/algomatic/modules.html#isNumeric)
-
-- Functions<br>
-  [`callOrGet`](https://smikhalevski.github.io/algomatic/modules.html#callOrGet)
-
-- Easing<br>
-  [`easeExp`](https://smikhalevski.github.io/algomatic/modules.html#easeExp)
-  [`easeLog`](https://smikhalevski.github.io/algomatic/modules.html#easeLog)
-  [`easeInQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuad)
-  [`easeOutQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuad)
-  [`easeInOutQuad`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuad)
-  [`easeInCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeInCubic)
-  [`easeOutCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeOutCubic)
-  [`easeInOutCubic`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutCubic)
-  [`easeInQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuart)
-  [`easeOutQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuart)
-  [`easeInOutQuart`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuart)
-  [`easeInQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeInQuint)
-  [`easeOutQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeOutQuint)
-  [`easeInOutQuint`](https://smikhalevski.github.io/algomatic/modules.html#easeInOutQuint)
-
-# Arrays
-
-Utilities
-[`copyOver`](https://smikhalevski.github.io/algomatic/modules.html#copyOver)
-[`range`](https://smikhalevski.github.io/algomatic/modules.html#range)
-[`swap`](https://smikhalevski.github.io/algomatic/modules.html#swap)
-[`asc`](https://smikhalevski.github.io/algomatic/modules.html#asc)
-[`desc`](https://smikhalevski.github.io/algomatic/modules.html#desc)
-
-### `binarySearch`
-
-Searches the specified array for the specified value using the binary search algorithm. The array must be sorted into
-ascending order according to the natural ordering of its elements prior to making this call. If it is not sorted, the
-results are undefined.
-
-Returns the index of the searched value, if it is contained in the array; otherwise, -(insertion point) - 1. The
-insertion point is defined as the point at which the searched value would be inserted into the array: the index of the
-first element greater than the searched value, or array length if all elements in the array are less than the specified
-key. Note that this guarantees that the return value will be ≥ 0 if and only if the searched value is found.
+Clamp a value to range:
 
 ```ts
-binarySearch([10, 20, 30, 40], 20); // → 1
+const f = clamp(5, 10);
 
-binarySearch([10, 20, 30, 40], 25); // → -3
+f(2);
+// ⮕ 2
+
+f(-2);
+// ⮕ 5
+
+f(33);
+// ⮕ 10
 ```
 
-### `sort`
-
-Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.
+Scale a value from one range to another:
 
 ```ts
-sort(
-    arr, // Mutable array that would be sorted
-    (i, j) => {
-      // Called when i and j elements of arr were swapped
-      // Use this to sort multiple arrays in parallel
-    },
-    (a, b) => 0, // Comparator works the same way as in Array.sort
-);
+const f = scale(0, 1, 50, 100);
+
+f(75);
+// ⮕ 0.5
 ```
 
-`sort` uses a non-recursive [Quicksort](https://en.wikipedia.org/wiki/Quicksort) algorithm. In contrast to
-[`Array.sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), `sort`
-doesn't convert array elements to strings before comparison and uses comparison operators directly. So numeric arrays
-are sorted in natural order with `sort(arr)`. You can provide an element comparator to change the sorting order.
+Round a value to the closest value that is divided by divisor without any remainder:
 
-`sort` is order of magnitude faster than `Array.sort` on both small and big arrays. The plot below uses a log scale and
-shows the dependency of number of operations per second from the input array length.
+```ts
+const f = snap(10);
 
-<img alt="sort vs Array.sort performance comparison" src="https://github.com/smikhalevski/algomatic/raw/master/images/sort-perf.svg"/>
+f(17);
+// ⮕ 20
+```
+
+Bring a value to the range by adding or subtracting the range size:
+
+```ts
+const f = cycle(0, 10);
+
+f(12);
+// ⮕ 2
+```
+
+# Bitwise operations
+
+Bitwise operators that can manipulate integers in
+[[`Number.MIN_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER), [`Number.MAX_SAFE_INTEGER`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)]
+range:
+
+```ts
+left(0xab, 8); // Same as 0xab << 8
+// ⮕ 0xab_00 
+
+left(0xab_cd_ef_ab_cd, 24)
+// ⮕ 0xab_cd_ef_ab_cd_00_00_00
+
+right(0xab_cd, 8); // Same as 0xab_cd >> 8
+// ⮕ 0xab
+
+right(0xab_cd_ef_ab_cd_ef_ab, 24);
+// ⮕ 0xab_cd_ef_ab
+
+and(0x10_aa_bb_00_00_00_ff, 0x10_00_bb_cc_00_00_ff);
+// ⮕ 0x10_00_bb_00_00_00_ff
+
+or(0x10_aa_bb_00_00_00_ff, 0x10_00_bb_cc_00_00_ff);
+// ⮕ 0x10_aa_bb_cc_00_00_ff
+
+xor(0x10_aa_bb_00_00_00_ff, 0x10_00_bb_cc_00_00_ff);
+// ⮕ 0xaa_00_cc_00_00_00
+```
+
+# Distributions
+
+Create an array and fill it with numbers that are evenly distributed in a range:
+
+```ts
+seq(3);
+// ⮕ [0, 0.5, 1]
+
+seq(4, -10, 2);
+// ⮕ [-10, -6, -2, 2]
+```
+
+Create gaussian distribution ([normal distribution](https://en.wikipedia.org/wiki/Normal_distribution)):
+
+```ts
+seq(3).map(gauss(0.5, 0.3));
+// ⮕ [0.33, 1.32, 0.33]
+```
+
+Create [cumulative distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) for Gaussian
+(normal) distribution:
+
+```ts
+seq(3).map(cdfGauss(0.5, 0.3));
+// ⮕ [ 0.04, 0.5, 0.95 ]
+```
+
+[Inverse distribution function (quantile function)](https://en.wikipedia.org/wiki/Cumulative_distribution_function#Inverse_distribution_function_(quantile_function))
+for Gaussian (normal) distribution:
+
+```ts
+seq(3).map(cdfGaussInv);
+```
+
+# Easing
+
+Various easing function:
+
+```ts
+const f = easeExp();
+
+f(0.5)
+// ⮕ 0.3775
+
+easeInCubic(0.5);
+// ⮕ 0.125
+```
 
 # Interpolation
 
-### `lerp`
-
-Creates a linear interpolator:
+Linear interpolator:
 
 ```ts
 const f = lerp(xs, ys);
+
 const y = f(x);
 ```
 
 Here `xs` is the array of X coordinates of pivot points in ascending order, and `ys` is the array of corresponding Y
 coordinates of pivot points.
 
-### `cspline`
-
-Creates
-[a cubic spline interpolator](https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines)
+[A cubic spline interpolator](https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines)
 for given pivot points:
 
 ```ts
@@ -156,24 +162,21 @@ const f = cspline(xs, ys);
 const y = f(x);
 ```
 
-More control over spline caching and computation:
+More control over cubic spline caching and computation:
 
 ```ts
 // Pre-allocate an array of spline components that can be later reused
 // to avoid excessive memory allocations
 const splines = new Float32Array(xs.length * 3);
 
-createCSplines(xs, ys, xs.length, splines); // → splines
+populateCSplines(xs, ys, xs.length, splines);
 // or
-// const splines = createCSplines(xs, ys, xs.length); // → Float32Array
+// const splines = createCSplines(xs, ys, xs.length);
 
 const y = interpolateCSpline(xs, ys, x, xs.length, splines);
 ```
 
-### `csplineMonot`
-
-Creates
-[a monotone cubic interpolator](https://en.wikipedia.org/wiki/Monotone_cubic_interpolation) for given pivot points:
+[A monotone cubic interpolator](https://en.wikipedia.org/wiki/Monotone_cubic_interpolation) for given pivot points:
 
 ```ts
 const f = csplineMonot(xs, ys);
@@ -183,34 +186,81 @@ const y = f(x);
 Or using more fine-grained approach:
 
 ```ts
-const y = interpolateCSplineMonot(xs, ys, x, xs.length, createCSplinesMonot(xs, ys, xs.length));
+const y = interpolateCSplineMonot(xs, ys, x, xs.length, populateCSplinesMonot(xs, ys, xs.length));
 ```
 
 The plot below shows that `cspline` interpolation overshoots pivot points while `csplineMonot` provides monotonous
 results.
 
-<img alt="cspline and csplineMonot comparison" src="https://github.com/smikhalevski/algomatic/raw/master/images/cspline.svg"/>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./images/cspline-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./images/cspline-light.svg" />
+    <img alt="cspline and csplineMonot comparison" src="./images/cspline-light.svg" width="550" />
+  </picture>
+</p>
 
-# Bitwise
+# Search
 
-Utilities
-[`int`](https://smikhalevski.github.io/algomatic/modules.html#int)
-[`byte`](https://smikhalevski.github.io/algomatic/modules.html#byte)
-[`uint`](https://smikhalevski.github.io/algomatic/modules.html#uint)
+Binary search searches the specified array for the specified value using the binary search algorithm. The array must be
+sorted into ascending order according to the natural ordering of its elements prior to making this call. If it is not
+sorted, the results are undefined.
 
-Bitwise operations [`left`](https://smikhalevski.github.io/algomatic/modules.html#left),
-[`right`](https://smikhalevski.github.io/algomatic/modules.html#right),
-[`and`](https://smikhalevski.github.io/algomatic/modules.html#and),
-[`or`](https://smikhalevski.github.io/algomatic/modules.html#or)
-and [`xor`](https://smikhalevski.github.io/algomatic/modules.html#xor) for _unsigned_ integers that exceed 32-bit range:
+Returns the index of the searched value, if it is contained in the array; otherwise, -(insertion point) - 1. The
+insertion point is defined as the point at which the searched value would be inserted into the array: the index of the
+first element greater than the searched value, or array length if all elements in the array are less than the specified
+key. Note that this guarantees that the return value will be ≥ 0 if and only if the searched value is found.
 
 ```ts
-left(0xab, 8); // Same as 0xab << 8
-// → 0xab_00 
+binarySearch([10, 20, 30, 40], 20);
+// ⮕ 1
 
-left(0xab_cd_ef_ab_cd, 24)
-// → 0xab_cd_ef_ab_cd_00_00_00
-
-right(0xab_cd, 8); // Same as 0xab_cd >> 8
-// → 0xab
+binarySearch([10, 20, 30, 40], 25);
+// ⮕ -3
 ```
+
+Binary search with a comparator:
+
+```ts
+binarySearch(
+  [{x: 10}, {x: 20}, {x: 30}],
+  {x: 20},
+  (a, b) => a.x - b.x
+);
+```
+
+# Sort
+
+Sort the array in-place:
+
+```ts
+const arr = [3, 2, 0, 1];
+
+qsort(arr);
+```
+
+Sort the array in-place and invoke a callback after a pair of elements was swapped:
+
+```ts
+qsort(arr, (i, j) => {
+  // Called when i and j elements of arr were swapped.
+  // Use this to sort multiple arrays in parallel.
+});
+```
+
+Sort using a comparator:
+
+```ts
+qsort(arr, undefined, (a, b) => {
+  // Comparator works the same way as in Array.sort
+  return 0;
+});
+```
+
+`qsort` uses a non-recursive [Quicksort](https://en.wikipedia.org/wiki/Quicksort) algorithm. In contrast to
+[`Array.sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), `qsort`
+doesn't convert array elements to strings before comparison and uses comparison operators directly. So numeric arrays
+are sorted in natural order with `qsort(arr)`. You can provide an element comparator to change the sorting order.
+
+`qsort` is _10x_ faster than `Array.sort` on both small and big arrays. The plot below uses a log scale and
+shows the dependency of number of operations per second from the input array length.

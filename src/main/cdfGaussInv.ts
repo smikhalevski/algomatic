@@ -32,6 +32,7 @@ const x1 = 1 - x0;
 /**
  * Inverse cumulative distribution function for Gaussian (normal) distribution.
  *
+ * @see [Inverse distribution function (quantile function)](https://en.wikipedia.org/wiki/Cumulative_distribution_function#Inverse_distribution_function_(quantile_function))
  * @group Distributions
  */
 export const cdfGaussInv: Mapper<number> = x => {

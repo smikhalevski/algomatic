@@ -1,4 +1,4 @@
-import { Mapper, MutableArrayLike } from './types';
+import { ArrayLike, Mapper } from './types';
 import { binarySearch } from './binarySearch';
 import { min } from './utils';
 import { nan } from './nan';
@@ -6,13 +6,12 @@ import { nan } from './nan';
 /**
  * Returns a natural cubic spline interpolation function for given pivot points.
  *
- * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
- * interpolation.
+ * **Notes:** Don't mutate {@link xs} and {@link ys} arrays after creating this function since data from these arrays
+ * is read during interpolation.
  *
- * ```ts
- * const fn = cspline(xs, ys);
- * const y = fn(x);
- * ```
+ * @example
+ * const f = cspline(xs, ys);
+ * const y = f(x);
  *
  * @param xs The array of X coordinates of pivot points in ascending order.
  * @param ys The array of corresponding Y coordinates of pivot points.
@@ -38,24 +37,23 @@ export function cspline(xs: ArrayLike<number>, ys: ArrayLike<number>): Mapper<nu
 }
 
 /**
- * Interpolates `y` at `x` using a natural cubic spline algorithm for a set of pivot points.
+ * Interpolates {@link y} at {@link x} using a natural cubic spline algorithm for a set of pivot points.
  *
- * ```ts
+ * @example
  * const splines = new Float32Array(xs.length * 3);
  * populateCSplines(xs, ys, xs.length, splines);
  *
  * const y = interpolateCSpline(xs, ys, x, xs.length, splines);
- * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order, length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param x The X coordinate of interpolated point.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines The array of spline components, length must be `n * 3`.
+ * @param splines The array of spline components, length must be {@link n} * 3.
  * @returns Interpolated Y coordinate.
  *
- * @see {@link createCSplines}
- * @see {@link https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines Algorithm for computing natural cubic splines}
+ * @see {@link populateCSplines}
+ * @see [Algorithm for computing natural cubic splines](https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines)
  * @group Interpolation
  * @internal
  */
@@ -64,7 +62,7 @@ export function interpolateCSpline(
   ys: ArrayLike<number>,
   x: number,
   n: number,
-  splines: MutableArrayLike<number>
+  splines: ArrayLike<number>
 ): number {
   let i, k, dx;
 
@@ -90,15 +88,14 @@ export function interpolateCSpline(
 /**
  * Computes cubic splines for given pivot points.
  *
- * ```ts
+ * @example
  * const splines = new Float32Array(xs.length * 3);
  * populateCSplines(xs, ys, xs.length, splines);
- * ```
  *
  * @param xs The array of X coordinates of pivot points in ascending order, length must be at least 2.
  * @param ys The array of corresponding Y coordinates of pivot points.
  * @param n The number of pivot points, usually equals `xs.length`.
- * @param splines Mutable array that would be populated with spline components, length must be at least `n * 3`.
+ * @param splines Mutable array that would be populated with spline components, length must be at least {@link n} * 3.
  * @group Interpolation
  * @internal
  */
@@ -106,7 +103,7 @@ export function populateCSplines(
   xs: ArrayLike<number>,
   ys: ArrayLike<number>,
   n: number,
-  splines: MutableArrayLike<number>
+  splines: ArrayLike<number>
 ): void {
   let k, a, b, c;
 

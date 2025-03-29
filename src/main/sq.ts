@@ -1,8 +1,8 @@
 import { Mapper } from './types';
 
 /**
- * Semantic shortcut for `n` \*\* 2.
+ * Semantic shortcut for `x` \*\* 2.
  *
- * @group Math
+ * @group Algebra
  */
 export const sq: Mapper<number> = x => x * x;

@@ -1,4 +1,4 @@
-const {sort} = require('../../lib/index-cjs.js');
+const { qsort } = require('../../lib/index.js');
 
 const arr0 = [];
 const arr1 = [];
@@ -25,41 +25,38 @@ function swap(i, j) {
   arr1[j] = v;
 }
 
-describe('Sort', () => {
+describe(
+  'Sort',
+  () => {
+    beforeIteration(copyArr);
 
-  beforeIteration(copyArr);
+    describe('with comparator', () => {
+      test('Array.sort', measure => {
+        measure(() => arr.sort());
+      });
 
-  describe('with comparator', () => {
+      test('sort', measure => {
+        measure(() => qsort(arr));
+      });
 
-    test('Array.sort', (measure) => {
-      measure(() => arr.sort());
+      test('sort + swap', measure => {
+        measure(() => qsort(arr, swap));
+      });
     });
 
-    test('sort', (measure) => {
-      measure(() => sort(arr));
+    describe('without comparator', () => {
+      test('Array.sort', measure => {
+        measure(() => arr.sort(comparator));
+      });
 
+      test('sort', measure => {
+        measure(() => qsort(arr, undefined, comparator));
+      });
+
+      test('sort + swap', measure => {
+        measure(() => qsort(arr, swap, comparator));
+      });
     });
-
-    test('sort + swap', (measure) => {
-      measure(() => sort(arr, swap));
-    });
-
-  });
-
-  describe('without comparator', () => {
-
-    test('Array.sort', (measure) => {
-      measure(() => arr.sort(comparator));
-    });
-
-    test('sort', (measure) => {
-      measure(() => sort(arr, undefined, comparator));
-    });
-
-    test('sort + swap', (measure) => {
-      measure(() => sort(arr, swap, comparator));
-    });
-
-  });
-
-}, {targetRme: 0.002});
+  },
+  { targetRme: 0.002 }
+);

@@ -1,9 +1,9 @@
 import { log10 } from './utils';
 
 /**
- * Returns the logarithm of `x` with base `base`.
+ * Returns the logarithm of {@link x} with base {@link base}.
  *
- * ```ts
+ * @example
  * logx(64, 2);
  * // ⮕ 6
  *
@@ -15,11 +15,10 @@ import { log10 } from './utils';
  *
  * logx(0.01, 10);
  * // ⮕ -2
- * ```
  *
  * @param x The number.
  * @param base The base.
- * @group Math
+ * @group Algebra
  */
 export function logx(x: number, base: number): number {
   return log10(x) / log10(base);

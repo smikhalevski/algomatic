@@ -1,18 +1,17 @@
-import { Mapper } from './types';
+import { ArrayLike, Mapper } from './types';
 import { abs } from './utils';
 import { nan } from './nan';
 
 /**
- * Returns the closest value to `x` from `xs`.
+ * Returns the closest value to `x` from {@link xs}.
  *
- * If `arr` is empty then `x` is returned as is.
+ * If {@link xs} is empty then `x` is returned as is.
  *
- * ```ts
+ * @example
  * closest([0, 3, 6])(1.8);
  * // ⮕ 3
- * ```
  *
- * @group Math
+ * @group Algebra
  */
 export function closest(xs: ArrayLike<number>): Mapper<number> {
   const n = xs.length;

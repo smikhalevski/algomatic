@@ -1,4 +1,4 @@
-import { Mapper } from './types';
+import { ArrayLike, Mapper } from './types';
 import { binarySearch } from './binarySearch';
 import { min } from './utils';
 import { nan } from './nan';
@@ -6,13 +6,12 @@ import { nan } from './nan';
 /**
  * Returns a linear interpolation function for given pivot points.
  *
- * **Notes:** Don't mutate `xs` and `ys` arrays after creating this function since data from these arrays is read during
- * interpolation.
+ * **Notes:** Don't mutate {@link xs} and {@link ys} arrays after creating this function since data from these arrays
+ * is read during interpolation.
  *
- * ```ts
- * const fn = lerp(xs, ys);
- * const y = fn(x);
- * ```
+ * @example
+ * const f = lerp(xs, ys);
+ * const y = f(x);
  *
  * @param xs The array of X coordinates of pivot points in ascending order.
  * @param ys The array of corresponding Y coordinates of pivot points.

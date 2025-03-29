@@ -1,17 +1,16 @@
 /**
- * Creates an array of length `n` and fills it with evenly distributed numbers in range [`a`, `b`].
+ * Creates an array of length {@link n} and fills it with evenly distributed numbers in range [{@link a}, {@link b}].
  *
- * ```ts
+ * @example
  * seq(3);
  * // ⮕ [0, 0.5, 1]
  *
  * seq(4, -10, 2);
  * // ⮕ [-10, -6, -2, 2]
- * ```
  *
  * @param n The array length.
- * @param a The minimum sequence value,
- * @param b The maximum sequence value,
+ * @param a The minimum sequence value.
+ * @param b The maximum sequence value.
  * @returns The array of numbers.
  * @group Distributions
  */

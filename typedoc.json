@@ -16,5 +16,6 @@
   "compilerOptions": {
     "skipLibCheck": true
   },
-  "groupOrder": []
+  "groupOrder": [],
+  "plugin": ["typedoc-plugin-mdn-links"]
 }

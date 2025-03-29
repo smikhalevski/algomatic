@@ -4,6 +4,6 @@ import { PI } from './utils';
 /**
  * Converts radians to degrees.
  *
- * @group Math
+ * @group Algebra
  */
 export const rad: Mapper<number> = x => (x * PI) / 180;

@@ -78,9 +78,9 @@ test('sorts an array of 4 with swap callback', () => {
 
   expect(qsort(arr, swapMock)).toEqual([1, 2, 3, 4]);
   expect(swapMock.mock.calls).toEqual([
-    [0, 3], // → [1, 4, 2, 3]
-    [1, 2], // → [1, 2, 4, 3]
-    [2, 3], // → [1, 2, 3, 4]
+    [0, 3], // ⮕ [1, 4, 2, 3]
+    [1, 2], // ⮕ [1, 2, 4, 3]
+    [2, 3], // ⮕ [1, 2, 3, 4]
   ]);
 });
 
@@ -124,9 +124,9 @@ test('uses both swap callback and comparator to sort', () => {
 
   expect(qsort(arr, swapMock, comparatorMock)).toEqual([1, 2, 3, 4]);
   expect(swapMock.mock.calls).toEqual([
-    [0, 3], // → [1, 4, 2, 3]
-    [1, 2], // → [1, 2, 4, 3]
-    [2, 3], // → [1, 2, 3, 4]
+    [0, 3], // ⮕ [1, 4, 2, 3]
+    [1, 2], // ⮕ [1, 2, 4, 3]
+    [2, 3], // ⮕ [1, 2, 3, 4]
   ]);
   expect(comparatorMock.mock.calls).toEqual([
     [1, 3],

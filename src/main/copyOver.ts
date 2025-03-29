@@ -1,4 +1,4 @@
-import { ArrayValue, MutableArrayLike } from './types';
+import { ArrayLike, ArrayValue } from './types';
 
 /**
  * Copies an array from the specified source array, beginning at the specified position, to the specified position of
@@ -13,7 +13,7 @@ import { ArrayValue, MutableArrayLike } from './types';
  * @template T The destination array.
  * @group Arrays
  */
-export function copyOver<T extends MutableArrayLike<any>>(
+export function copyOver<T extends ArrayLike<any>>(
   src: ArrayLike<ArrayValue<T>>,
   dest: T,
   srcIndex = 0,

@@ -4,7 +4,10 @@ import { exp } from './utils';
 /**
  * Maps `x` ∈ [0, 1] exponentially to [0, 1].
  *
- * @param stiffness Greater values produce more bent curve, `easeExp(0)(x) = x`.
+ * @example
+ * easeExp(0)(x) === x;
+ *
+ * @param stiffness Greater values produce more bent curve.
  * @group Easing
  */
 export function easeExp(stiffness = 1): Mapper<number> {

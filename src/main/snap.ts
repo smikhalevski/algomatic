@@ -3,21 +3,21 @@ import { abs } from './utils';
 import { sign } from './sign';
 
 /**
- * Rounds `x` to the closest value that is divided by `n` without any remainder.
+ * Rounds `x` to the closest value that is divided by {@link divisor} without any remainder.
  *
- * ```ts
+ * @example
  * snap(10)(17);
  * // ⮕ 20
  *
  * snap(3)(-10);
  * // ⮕ -9
- * ```
  *
- * @group Math
+ * @param divisor The divisor.
+ * @group Algebra
  */
-export function snap(n: number): Mapper<number> {
+export function snap(divisor: number): Mapper<number> {
   return x => {
-    const d = x % n;
-    return abs(d) < n / 2 ? x - d : x - d + n * sign(x);
+    const d = x % divisor;
+    return abs(d) < divisor / 2 ? x - d : x - d + divisor * sign(x);
   };
 }
