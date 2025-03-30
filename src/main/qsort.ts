@@ -6,12 +6,12 @@ let globalStack: number[] | null = [];
 /**
  * Sorts the array in-place using an optional comparator and invokes a callback after a pair of elements was swapped.
  *
- * {@link swap} or {@link comparator} callbacks are guaranteed to be called after the elements of {@link arr} are
+ * {@link swap} or {@link compare} callbacks are guaranteed to be called after the elements of {@link arr} are
  * swapped.
  *
  * @param arr The mutable array-like data structure that is sorted in-place.
  * @param swap The callback that is invoked with indices that were swapped.
- * @param comparator The callback that defines the sort order. If omitted, the array elements are compared using
+ * @param compare The callback that defines the sort order. If omitted, the array elements are compared using
  * comparison operators.
  * @returns The input array.
  * @template T The input array.
@@ -20,14 +20,11 @@ let globalStack: number[] | null = [];
 export function qsort<T extends ArrayLike<any>>(
   arr: T,
   swap?: (i: number, j: number) => void,
-  comparator?: Comparator<ArrayValue<T>>
+  compare?: Comparator<ArrayValue<T>>
 ): T {
-  let i, t, r, l, x, y, pivotValue, ar, ax, ay, pristine;
+  let i, t, r, l, x, y, pivotValue, ar, ax, ay, isPristine;
 
   const n = arr.length;
-
-  const isComparing = comparator !== undefined;
-  const isSwapping = swap !== undefined;
 
   if (n < 2) {
     return arr;
@@ -37,11 +34,11 @@ export function qsort<T extends ArrayLike<any>>(
     ax = arr[0];
     ay = arr[1];
 
-    if (isComparing ? comparator(ax, ay) > 0 : ax > ay) {
+    if (compare !== undefined ? compare(ax, ay) > 0 : ax > ay) {
       arr[0] = ay;
       arr[1] = ax;
 
-      if (isSwapping) {
+      if (swap !== undefined) {
         swap(0, 1);
       }
     }
@@ -76,14 +73,14 @@ export function qsort<T extends ArrayLike<any>>(
     ay = arr[y];
 
     // true if no swaps were made during the loop
-    pristine = true;
+    isPristine = true;
 
     while (true) {
-      if (isComparing) {
-        while (x <= y && !(comparator(ax, pivotValue) >= 0)) {
+      if (compare !== undefined) {
+        while (x <= y && !(compare(ax, pivotValue) >= 0)) {
           ax = arr[++x];
         }
-        while (x < y && comparator(ay, pivotValue) >= 0) {
+        while (x < y && compare(ay, pivotValue) >= 0) {
           ay = arr[--y];
         }
       } else {
@@ -99,12 +96,12 @@ export function qsort<T extends ArrayLike<any>>(
         break;
       }
 
-      if (pristine) {
-        pristine = false;
+      if (isPristine) {
+        isPristine = false;
         arr[l] = ar;
         arr[r] = pivotValue;
 
-        if (isSwapping) {
+        if (swap !== undefined) {
           swap(l, r);
         }
       }
@@ -113,7 +110,7 @@ export function qsort<T extends ArrayLike<any>>(
       ax = arr[x] = ay;
       ay = arr[y] = t;
 
-      if (isSwapping) {
+      if (swap !== undefined) {
         swap(x, y);
       }
     }
@@ -122,11 +119,11 @@ export function qsort<T extends ArrayLike<any>>(
     stack[i++] = r;
 
     if (x !== l) {
-      if (pristine) {
+      if (isPristine) {
         arr[l] = ar;
         arr[r] = pivotValue;
 
-        if (isSwapping) {
+        if (swap !== undefined) {
           swap(l, r);
         }
       }
@@ -135,7 +132,7 @@ export function qsort<T extends ArrayLike<any>>(
         arr[r] = ax;
         arr[x] = pivotValue;
 
-        if (isSwapping) {
+        if (swap !== undefined) {
           swap(x, r);
         }
       }
